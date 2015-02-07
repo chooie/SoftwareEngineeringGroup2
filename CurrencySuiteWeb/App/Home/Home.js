@@ -38,10 +38,7 @@
      */
     var convertValue = function (value) {
         if (typeof value !== "number") {
-            app.showNotification("Error", "One of the values is not a number.");
-            // @Max&Thomas, Not sure how we should handle exceptions yet. I'll
-            // look into it.
-            throw new Error("convertValue(): parameter [0] is not a number type");
+            return value;
         }
         // Later on use the real conversion rate
         return value * 2;
