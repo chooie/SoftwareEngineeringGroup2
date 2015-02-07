@@ -1,2 +1,14 @@
-﻿/* Page-specific styling */
-
+﻿.getCur{
+    width: 100%;
+}
+.curOptions{
+    width: 95%;
+    min-width: 100px;
+    display: inline;
+}
+.button{
+    margin-right: auto;
+    margin-left: auto;
+    width: 95%;
+    min-width: 100px;
+}
