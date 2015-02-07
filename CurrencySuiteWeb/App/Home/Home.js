@@ -38,6 +38,7 @@
      */
     var convertValue = function (value) {
         if (typeof value !== "number") {
+            //If it isn't type then value is NaN, we could also just use isNaN here but number covers everything
             return value;
         }
         // Later on use the real conversion rate
