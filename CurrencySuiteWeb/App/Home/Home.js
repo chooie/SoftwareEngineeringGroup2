@@ -3,6 +3,9 @@
 (function () {
     "use strict";
 
+    var original,
+    errorOccurred = false;
+
     // Handler that is executed when the app is loaded
     Office.initialize = function () {
         $(document).ready(function () {
@@ -52,6 +55,7 @@
             return value * exchangeRate;
         } catch (error) {
             console.log(error.message);
+            errorOccurred = true;
             app.showNotification("Warning", "Some data could not be converted as it " +
                 "was not a valid number.");
         }
@@ -60,7 +64,6 @@
     /**
      * Convert?
      */
-    var original;
     var convert = function () {
         // Retrieves values from excel
         Office.context.document.getSelectedDataAsync(Office.CoercionType.Matrix,
@@ -76,6 +79,7 @@
               if (asyncResult.value.length === 1 && asyncResult.value[0][0] === original) {
                   app.showNotification("Whoops", "You gave us the same value as last time. " +
                       "Try re-selecting the cell.");
+                  errorOccurred = true;
                   return;
               }
               original = asyncResult.value[0][0];
@@ -83,14 +87,14 @@
               if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
                   app.showNotification("Try Again", "Please re-select the data as it " + 
                       "has not been properly selected");
+                  errorOccurred = true;
                   return;
               }
               if (asyncResult.status == "failed") {
                   app.showNotification("Failed", asyncResult.error.message);
+                  errorOccurred = true;
                   return;
               }
-              // Hide error messages
-              $('#notification-message').hide();
 
               // Gets current date (currently unused for anything)
               //var currentDate = new Date();
@@ -127,9 +131,12 @@
                 // Inserts a (possible) 2d array of values back into excel
                 asyncResult.value
               );
-
-              app.showNotification("Success", "Your currencies have successfully " +
-                  "been converted!");
+              // Display success message if no errors have occurred
+              if (!errorOccurred) {
+                  app.showNotification("Success", "Your currencies have successfully " +
+                    "been converted!");
+              }
+              errorOccurred = false;
           } // end of callback
         );
     };
