@@ -1,4 +1,5 @@
 ﻿/// <reference path="../App.js" />
+/// <reference path="../Scrapper.js" />
 
 (function () {
     "use strict";
@@ -11,9 +12,52 @@
             $('#swap').click(swap);
             // Initialize the submit button click listener
             $('#submit').click(convert);
+            // Initialize Scrapper
+            scrapperInit();
+           
         });
     };
 
+
+    /**
+    * Initiates and creates listeners for the scrapper
+    */
+    var scrapperInit = function () {
+        currentExchangeRate = 1; //a nice safe value
+        scrapper.initialize(); //initalize the scrapper
+
+        //Unused but may be used later for reverting if scrapper fails
+        //oldFrom = $('#selectedFromCur option:selected').index() + 1;
+        //oldTo = $('#selectedToCur option:selected').index() + 1;
+        //$('#selectedFromCur').focus(function () {
+        //    oldFrom = $('#selectedFromCur').index() + 1;
+        //});
+        //$('#selectedToCur').focus(function () {
+        //    oldFrom = $('#selectedToCur').index() + 1;
+        //});
+        //update with the default rate
+        scrapper.updateRate(
+            $('#selectedFromCur').val(),
+            $('#selectedToCur').val(),
+            scrapper.getDate() //is going to have to be changed when the user can select a date
+        );
+        //adding listeners
+        $('#selectedFromCur').change(function () {
+            scrapper.updateRate(
+                $('#selectedFromCur').val(),
+                $('#selectedToCur').val(),
+                scrapper.getDate()
+            )
+        });
+        $('#selectedToCur').change(function () {
+            scrapper.updateRate(
+                $('#selectedFromCur').val(),
+                $('#selectedToCur').val(),
+                scrapper.getDate()
+            )
+        });
+
+    }
     /**
      * Swaps the selected value in the drop-down
      */
@@ -42,7 +86,7 @@
             return value;
         }
         // Later on use the real conversion rate
-        return value * 2;
+        return value * currentExchangeRate;
     };
 
     /**
