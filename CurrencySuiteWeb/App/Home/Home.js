@@ -4,6 +4,9 @@
 (function () {
     "use strict";
 
+    var original,
+    errorOccurred = false;
+
     // Handler that is executed when the app is loaded
     Office.initialize = function () {
         $(document).ready(function () {
@@ -56,7 +59,13 @@
                 scrapper.getDate()
             )
         });
-
+        $('#swap').click(function () {
+            scrapper.updateRate(
+                $('#selectedFromCur').val(),
+                $('#selectedToCur').val(),
+                scrapper.getDate()
+            )
+        });
     }
     /**
      * Swaps the selected value in the drop-down
@@ -81,12 +90,24 @@
      * @returns {number} The converted number
      */
     var convertValue = function (value) {
-        if (isNaN(value)) {
-           //if it isn't a number
-            return value;
+        try {
+            if (typeof value !== "number" || isNaN(value)) {
+                throw new Error("convertValue(): parameter [0] is not of the number type. " +
+                    typeof value + " given (" + value + ").");
         }
-        // Later on use the real conversion rate
-        return value * currentExchangeRate;
+
+            if (typeof currentExchangeRate !== "number" || isNaN(value)) {
+                throw new Error("convertValue(): currentExchangeRate is not of the number type. " +
+                    typeof currentExchangeRate + " given (" + currentExchangeRate + ").");
+            }
+            return value * currentExchangeRate;
+        } catch (error) {
+            console.log(error.message);
+            errorOccurred = true;
+            app.showNotification("Warning", "Some data could not be converted as it " +
+                "was not a valid number.");
+        }
+
     };
 
     /**
@@ -102,12 +123,27 @@
           },
           // The callback function
           function (asyncResult) {
-              if (asyncResult.status == "failed") {
-                  app.showNotification("Failed", asyncResult.error.message);
+              // Temporary way of better informing the user of when they need to re-select
+              // the data
+              if (asyncResult.value.length === 1 && asyncResult.value[0][0] === original) {
+                  app.showNotification("Whoops", "You gave us the same value as last time. " +
+                      "Try re-selecting the cell.");
+                  errorOccurred = true;
                   return;
               }
-              // Hide error messages
-              $('#notification-message').hide();
+              original = asyncResult.value[0][0];
+              // User is attempting to use convert whilst still inputting into the cell
+              if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
+                  app.showNotification("Try Again", "Please re-select the data as it " + 
+                      "has not been properly selected");
+                  errorOccurred = true;
+                  return;
+              }
+              if (asyncResult.status == "failed") {
+                  app.showNotification("Failed", asyncResult.error.message);
+                  errorOccurred = true;
+                  return;
+              }
 
               // Gets current date (currently unused for anything)
               //var currentDate = new Date();
@@ -125,7 +161,7 @@
               // If only one cell is given (for some s***** reason it changes to
               // a number type if only one cell is selected, screw consistency...)
               if (typeof asyncResult.value == "number") {
-                  asyncResult.value = convertValue(asyncResult.value);
+                  asyncResult.value = convertValue(parseFloat(asyncResult.value), 2);
               }
 
               for (var i = 0; i < asyncResult.value.length; i++) {
@@ -144,6 +180,12 @@
                 // Inserts a (possible) 2d array of values back into excel
                 asyncResult.value
               );
+              // Display success message if no errors have occurred
+              if (!errorOccurred) {
+                  app.showNotification("Success", "Your currencies have successfully " +
+                    "been converted!");
+              }
+              errorOccurred = false;
           } // end of callback
         );
     };

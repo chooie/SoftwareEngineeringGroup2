@@ -20,10 +20,13 @@ var scrapper = (function () {
         };
     };
     var getExchange = function (from, to, date) {
-        //just incase something bad happens
-        currentExchangeRate = 1;    
+        currentExchangeRate = 1;
+        if (from == to) {
+            return;
+        }
+        //just incase something bad happens 
         $('#submit').prop('disabled', true); //disable button
-        var url = "http://sdw.ecb.europa.eu/curConverter.do?sourceAmount=1.0&sourceCurrency=" + from + "&targetCurrency=" + to + "&inputDate=" + date + "&submitConvert.x=210&submitConvert.y=3";
+        var url = "http://sdw.ecb.europa.eu/curConverter.do?sourceAmount=1.0&sourceCurrency=" + to + "&targetCurrency=" + from + "&inputDate=" + date + "&submitConvert.x=210&submitConvert.y=3";
         if (url.match('^http')) {
             // assemble the YQL call
             $.getJSON("https://query.yahooapis.com/v1/public/yql?" +
@@ -34,9 +37,11 @@ var scrapper = (function () {
               function (data) {
                   if (data.results[0]) {
                       var object = $('<div/>').html(data.results).contents(); //converts string into jquery object containing html tags, etc
-                      var parsed = object.find('[rowspan="2"]'); //will find three results
-                      var val = parsed[2].innerText; //we want the 3rd result
-                      result = parseFloat(val.split(" ")[0], 10); //turn   "1.23 EUR"  into 1.23
+                      var parsed = object.find('[title="SDW - Quick View"]'); //will find three results
+                      var val = parsed[0].innerText; //we want the 3rd result
+                      val = val.split("=")[1]
+                      val = val.split(" ");
+                      result = parseFloat(val[1], 10); //turn   "1.23 EUR"  into 1.23
                       currentExchangeRate = result; //currently 
                   }
                   $('#submit').prop('disabled', false); //reenable button
