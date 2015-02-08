@@ -77,6 +77,17 @@
     };
 
     /**
+     * Determine the exchange rate between two currencies
+     * @param {string} fromCurrency the currency being changed from
+     * @param {string} toCurrency the currency being changed to
+     * @returns {number} The exchange rate based on the parameters
+     */
+    var getExchangeRate = function (fromCurrency, toCurrency) {
+        // TODO
+        return 10;
+    };
+
+    /**
      * Multiplies a number by some exchange rate value.
      * @param {number} value The initial number
      * @returns {number} The converted number
@@ -85,17 +96,31 @@
         try {
             //^\d = must start with digit, \d = one or more digits, \.? = zero or one decimal point, \d* = zero or more digits
             // \s+ = one or more spaces, \D{3} = 3 non-digits, \D{3}$ = 3 non-digits, $ means it must end with this
-            if (/^\d+\.?\d*\s+\D{3}\s+\D{3}$/.test(value)) {
+            if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s*$/.test(value)) {
                 var valueArray = value.split(" ");
-                // return will look something like;
-                // return valueArray[0] * getExchangeRate(value[1], value[2]);
                 //*NOTE* We're going to have to have a delay or something so the API/scrapper can get the exchange rates
-                return valueArray[0] * 10;
+                // need to make sure that input currencies are valid before conversion occurs
+                var optionsDOMFrom = $("option[value]");
+                var selectionFromValid = false;
+                var selectionToValid = false;
+                $(optionsDOMFrom).each(function (index, element) {
+                    if (element.value === valueArray[1].toUpperCase()) {
+                        selectionFromValid = true;
+                    }
+                    if (element.value === valueArray[2].toUpperCase()) {
+                        selectionToValid = true;
+                    }
+                });
+                if (selectionFromValid && selectionToValid) {
+                    return valueArray[0] * getExchangeRate(valueArray[1], valueArray[2]);
+                }
+                else {
+                    throw new Error("convertValue(): parameters are wrong. " +
+                        typeof value + " given (" + value + ").");
+                }
             }
-            else if ((/^\d+\.?\d*$/.test(value))) {
-                // return will look something like;
-                // return valueArray * getExchangeRate(dropDownSelectionOne, dropDownSelectionTwo);
-                return value * currentExchangeRate;
+            else if ((/^\d+\.?\d*\s*$/.test(value))) {
+                return value *  getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val());
             }
             else {
                throw new Error("convertValue(): parameters are wrong. " +
