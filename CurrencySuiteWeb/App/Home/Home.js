@@ -121,7 +121,8 @@
                 }
             }
             else if ((/^\d+\.?\d*\s*$/.test(value))) {
-                return value * getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val(), "today");
+                //return value * getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val(), "today");
+                return value * currentExchangeRate;
             }
             //same as above but takes a date in the format dd-mm-yyyy 
             else if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s+\d?\d-\d?\d-\d{4}\s*$/.test(value)) {
