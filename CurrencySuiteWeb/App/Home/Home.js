@@ -91,16 +91,30 @@
      */
     var convertValue = function (value) {
         try {
-            if (typeof value !== "number" || isNaN(value)) {
-                throw new Error("convertValue(): parameter [0] is not of the number type. " +
-                    typeof value + " given (" + value + ").");
-        }
-
-            if (typeof currentExchangeRate !== "number" || isNaN(value)) {
-                throw new Error("convertValue(): currentExchangeRate is not of the number type. " +
-                    typeof currentExchangeRate + " given (" + currentExchangeRate + ").");
+            if (/\d+\s+\D{3}\s+\D{3}/.test(value)) {
+                var valueArray = value.split(" ");
+                // return will look something like;
+                // return valueArray[0] * getExchangeRate(value[1], value[2]);
+                return valueArray[0] * 10;
             }
-            return value * currentExchangeRate;
+            else if ((/\d+/.test(value))) {
+                // return will look something like;
+                // return valueArray * getExchangeRate(dropDownSelectionOne, dropDownSelectionTwo);
+                return value * 2;
+            }
+            else {
+               throw new Error("convertValue(): parameters are wrong. " +
+                    typeof value + " given (" + value + ").");
+            }
+            //if (typeof value !== "number" || isNaN(value)) {
+            //   throw new Error("convertValue(): parameter [0] is not of the number type. " +
+            //        typeof value + " given (" + value + ").");
+            // }
+
+            //if (typeof currentExchangeRate !== "number" || isNaN(value)) {
+             //   throw new Error("convertValue(): currentExchangeRate is not of the number type. " +
+             //       typeof currentExchangeRate + " given (" + currentExchangeRate + ").");
+            //app.showNotification(value
         } catch (error) {
             console.log(error.message);
             errorOccurred = true;
@@ -124,7 +138,7 @@
           // The callback function
           function (asyncResult) {
               if (asyncResult.status == "failed") {
-                  app.showNotification("Whoops", asyncResult.error.message);
+                  app.showNotification("Whoops", asyncResult.value);
                   errorOccurred = true;
                   return;
               }
@@ -160,21 +174,16 @@
               //var toCur = parseFloat($('#selectedToCur').val());
 
               // If only one cell is given (for some s***** reason it changes to
-              // a number type if only one cell is selected, screw consistency...)
-              if (typeof asyncResult.value == "number") {
-                  asyncResult.value = convertValue(parseFloat(asyncResult.value), 2);
-              }
-
+              // a number type if only one cell is selected, screw consistency
+              
+             //if (typeof asyncResult.value == "number") {
+             //     asyncResult.value = convertValue(parseFloat(asyncResult.value), 2);
+             //}
+              // for each cell selected, calculate the new values
+              // and prepare the insertion array
               for (var i = 0; i < asyncResult.value.length; i++) {
-                  for (var j = 0; j < asyncResult.value[i].length; j++) {
-                      // Uses value of two currencies to get a result, returns NaN if
-                      // can't parse
-                      var cell = convertValue(parseFloat(asyncResult.value[i][j]));
-                      // NaN checks if a string isn't in a number format
-                      if (!isNaN(cell)) {
-                          // If it is a number then
-                          asyncResult.value[i][j] = cell;
-                      }
+                  for (var j = 0; j < asyncResult.value[i].length; j++)  {
+                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
                   }
               }
               Office.context.document.setSelectedDataAsync(
@@ -183,8 +192,8 @@
               );
               // Display success message if no errors have occurred
               if (!errorOccurred) {
-                  app.showNotification("Success", "Your currencies have successfully " +
-                    "been converted!");
+                  //app.showNotification("Success", "Your currencies have successfully " +
+                    //"been converted!");
               }
               errorOccurred = false;
           } // end of callback
