@@ -4,9 +4,10 @@ var scrapper = (function () {
 
 
     var scrapper = {};
-
+    var cache = {};
     // Common initialization function (to be called from each page)
     scrapper.initialize = function () {
+        
         // After initialization, expose a common notification function
         scrapper.getDate = function () {
             var currentdate = new Date(); //gets current date
@@ -22,6 +23,11 @@ var scrapper = (function () {
     var getExchange = function (from, to, date) {
         currentExchangeRate = 1;
         if (from == to) {
+            return;
+        }
+        var check = checkCache(from, to, date);
+        if (check != -1) {
+            currentExchangeRate = check;
             return;
         }
         //just incase something bad happens 
@@ -43,12 +49,19 @@ var scrapper = (function () {
                       val = val.split(" ");
                       result = parseFloat(val[1], 10); //turn   "1.23 EUR"  into 1.23
                       currentExchangeRate = result; //currently 
+                      cache[from + to + date] = result;
                   }
                   $('#submit').prop('disabled', false); //reenable button
               }
             );
 
         };
+    }
+    var checkCache = function (from, to, date){
+        if (cache[from + to + date] != null) {
+            return cache[from + to + date];
+        }
+        return -1;
     }
     var addZero = function (val) {
         if (val < 10) {
