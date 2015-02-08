@@ -80,9 +80,10 @@
      * Determine the exchange rate between two currencies
      * @param {string} fromCurrency the currency being changed from
      * @param {string} toCurrency the currency being changed to
+     * @param {string} date the date to get the rate for
      * @returns {number} The exchange rate based on the parameters
      */
-    var getExchangeRate = function (fromCurrency, toCurrency) {
+    var getExchangeRate = function (fromCurrency, toCurrency, date) {
         // TODO
         return 10;
     };
@@ -112,7 +113,7 @@
                     }
                 });
                 if (selectionFromValid && selectionToValid) {
-                    return valueArray[0] * getExchangeRate(valueArray[1], valueArray[2]);
+                    return valueArray[0] * getExchangeRate(valueArray[1], valueArray[2], "today");
                 }
                 else {
                     throw new Error("convertValue(): parameters are wrong. " +
@@ -120,11 +121,36 @@
                 }
             }
             else if ((/^\d+\.?\d*\s*$/.test(value))) {
-                return value *  getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val());
+                return value * getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val(), "today");
+            }
+            //same as above but takes a date in the format dd-mm-yyyy 
+            else if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s+\d?\d-\d?\d-\d{4}\s*$/.test(value)) {
+                var valueArray = value.split(" ");
+                // return will look something like;
+                // return valueArray[0] * getExchangeRate(value[1], value[2]);
+                //*NOTE* We're going to have to have a delay or something so the API/scrapper can get the exchange rates
+                var optionsDOMFrom = $("option[value]");
+                var selectionFromValid = false;
+                var selectionToValid = false;
+                $(optionsDOMFrom).each(function (index, element) {
+                    if (element.value === valueArray[1].toUpperCase()) {
+                        selectionFromValid = true;
+                    }
+                    if (element.value === valueArray[2].toUpperCase()) {
+                        selectionToValid = true;
+                    }
+                });
+                if (selectionFromValid && selectionToValid) {
+                    return valueArray[0] * getExchangeRate(valueArray[1], valueArray[2], valueArray[3]);
+                }
+                else {
+                    throw new Error("convertValue(): parameters are wrong. " +
+                        typeof value + " given (" + value + ").");
+                }
             }
             else {
-               throw new Error("convertValue(): parameters are wrong. " +
-                    typeof value + " given (" + value + ").");
+                throw new Error("convertValue(): parameters are wrong. " +
+                     typeof value + " given (" + value + ").");
             }
             
         } catch (error) {
