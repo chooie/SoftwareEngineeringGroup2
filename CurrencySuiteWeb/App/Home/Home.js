@@ -123,6 +123,11 @@
           },
           // The callback function
           function (asyncResult) {
+              if (asyncResult.status == "failed") {
+                  app.showNotification("Whoops", asyncResult.error.message);
+                  errorOccurred = true;
+                  return;
+              }
               // Temporary way of better informing the user of when they need to re-select
               // the data
               if (asyncResult.value.length === 1 && asyncResult.value[0][0] === original) {
@@ -139,11 +144,7 @@
                   errorOccurred = true;
                   return;
               }
-              if (asyncResult.status == "failed") {
-                  app.showNotification("Failed", asyncResult.error.message);
-                  errorOccurred = true;
-                  return;
-              }
+              
 
               // Gets current date (currently unused for anything)
               //var currentDate = new Date();
