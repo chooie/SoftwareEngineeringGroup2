@@ -72,6 +72,7 @@
     <Content Include="App\Home\Home.html" />
     <Content Include="App\Home\Home.js" />
     <Content Include="App\jquery.xdomainajax.js" />
+    <Content Include="App\junk.js" />
     <Content Include="App\Scrapper.js" />
     <Content Include="Content\Office.css" />
     <Content Include="Images\Close.png" />
