@@ -92,6 +92,14 @@
                 //*NOTE* We're going to have to have a delay or something so the API/scrapper can get the exchange rates
                 return valueArray[0] * 10;
             }
+            //same as above but takes a date in the format dd-mm-yyyy 
+            else if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s+\d?\d-\d?\d-\d{4}$/.test(value)) {
+                var valueArray = value.split(" ");
+                // return will look something like;
+                // return valueArray[0] * getExchangeRate(value[1], value[2]);
+                //*NOTE* We're going to have to have a delay or something so the API/scrapper can get the exchange rates
+                return valueArray[0] * 100;
+            }
             else if ((/^\d+\.?\d*$/.test(value))) {
                 // return will look something like;
                 // return valueArray * getExchangeRate(dropDownSelectionOne, dropDownSelectionTwo);
@@ -126,7 +134,7 @@
           // The callback function
           function (asyncResult) {
               if (asyncResult.status == "failed") {
-                  app.showNotification("Whoops", asyncResult.value);
+                  app.showNotification("Whoops", asyncResult.error.message);
                   errorOccurred = true;
                   return;
               }
