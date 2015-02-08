@@ -4,7 +4,6 @@ var scrapper = (function () {
 
 
     var scrapper = {};
-    var cache = {};
     // Common initialization function (to be called from each page)
     scrapper.initialize = function () {
         
@@ -20,48 +19,44 @@ var scrapper = (function () {
             getExchange(from, to, date);
         };
     };
+    var cache = {};
+    var getjson = null;
     var getExchange = function (from, to, date) {
+        if (getjson != null) {
+            getjson.abort(); //incase the user changes currency before the current request is complete
+        }
         currentExchangeRate = 1;
         if (from == to) {
             return;
         }
-        var check = checkCache(from, to, date);
-        if (check != -1) {
-            currentExchangeRate = check;
+        if (cache[from + to + date] != null) {
+            currentExchangeRate = cache[from + to + date];
             return;
         }
         //just incase something bad happens 
         $('#submit').prop('disabled', true); //disable button
         var url = "http://sdw.ecb.europa.eu/curConverter.do?sourceAmount=1.0&sourceCurrency=" + to + "&targetCurrency=" + from + "&inputDate=" + date + "&submitConvert.x=210&submitConvert.y=3";
-        if (url.match('^http')) {
+        
             // assemble the YQL call
-            $.getJSON("https://query.yahooapis.com/v1/public/yql?" +
-                      "q=select%20*%20from%20html%20where%20url%3D%22" +
-                      encodeURIComponent(url) +
-                      "%22&format=xml'&callback=?",
+        getjson = $.getJSON("https://query.yahooapis.com/v1/public/yql?" +
+                    "q=select%20*%20from%20html%20where%20url%3D%22" +
+                    encodeURIComponent(url) +
+                    "%22&format=xml'&callback=?",
 
-              function (data) {
-                  if (data.results[0]) {
-                      var object = $('<div/>').html(data.results).contents(); //converts string into jquery object containing html tags, etc
-                      var parsed = object.find('[title="SDW - Quick View"]'); //will find three results
-                      var val = parsed[0].innerText; //we want the 3rd result
-                      val = val.split("=")[1]
-                      val = val.split(" ");
-                      result = parseFloat(val[1], 10); //turn   "1.23 EUR"  into 1.23
-                      currentExchangeRate = result; //currently 
-                      cache[from + to + date] = result;
-                  }
-                  $('#submit').prop('disabled', false); //reenable button
-              }
-            );
-
-        };
-    }
-    var checkCache = function (from, to, date){
-        if (cache[from + to + date] != null) {
-            return cache[from + to + date];
-        }
-        return -1;
+            function (data) { //things in this function only happen after the ajax as been complete
+                if (data.results[0]) {
+                    var object = $('<div/>').html(data.results).contents(); //converts string into jquery object containing html tags, etc
+                    var parsed = object.find('[title="SDW - Quick View"]'); //will find three results
+                    var val = parsed[0].innerText; //we want the 3rd result
+                    val = val.split("=")[1]
+                    val = val.split(" ");
+                    result = parseFloat(val[1], 10); //turn   "1.23 EUR"  into 1.23
+                    currentExchangeRate = result; //currently 
+                    cache[from + to + date] = result;
+                }
+                $('#submit').prop('disabled', false); //reenable button
+            }
+        );
     }
     var addZero = function (val) {
         if (val < 10) {
