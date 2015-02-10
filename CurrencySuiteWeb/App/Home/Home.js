@@ -13,7 +13,7 @@
         $(document).ready(function () {
             app.initialize();
             $('#swap').click(swap);
-            $('#submit').click(convert);
+            $('#submit').click(executeCellConversions);
             scrapperInit();
             datepicker.initialize();
         });
@@ -195,60 +195,44 @@
     };
 
     /**
-     * Convert?
+     * executeCellConversions
+     * method takes in 2D array representing the selected cells to perform
+     * conversion operations on
      */
-    var convert = function () {
-        // Retrieves values from excel
-        Office.context.document.getSelectedDataAsync(Office.CoercionType.Matrix,
-          // Some optional parameters
-          {
-              valueFormat: Office.ValueFormat.Unformatted,
-              filterType: Office.FilterType.All
-          },
-          // The callback function
-          function (asyncResult) {
-              if (asyncResult.status == "failed") {
-                  app.showNotification("Whoops", asyncResult.value);
-                  errorOccurred = true;
-                  return;
-              }
-              // Temporary way of better informing the user of when they need to re-select
-              // the data
-              //disabled this if statement since it's annoying to debug with, uncomment it if you like
-              //if (asyncResult.value.length === 1 && asyncResult.value[0][0] === original) {
-              //    app.showNotification("Whoops", "You gave us the same value as last time. " +
-              //        "Try re-selecting the cell.");
-              //    errorOccurred = true;
-              //    return;
-              //}
-              original = asyncResult.value[0][0];
-              // User is attempting to use convert whilst still inputting into the cell
-              if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
-                  app.showNotification("Try Again", "Please re-select the data as it " + 
-                      "has not been properly selected");
-                  errorOccurred = true;
-                  return;
-              }
-
-             
-              // for each cell selected, calculate the new values
-              // and prepare the insertion array
-              for (var i = 0; i < asyncResult.value.length; i++) {
-                  for (var j = 0; j < asyncResult.value[i].length; j++)  {
-                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
-                  }
-              }
-              Office.context.document.setSelectedDataAsync(
-                // Inserts a (possible) 2d array of values back into excel
-                asyncResult.value
-              );
-              // Display success message if no errors have occurred
-              if (!errorOccurred) {
-                  //app.showNotification("Success", "Your currencies have successfully " +
-                    //"been converted!");
-              }
-              errorOccurred = false;
-          } // end of callback
+    var executeCellConversions = function () {
+      // Retrieves values from excel
+      Office.context.document.getSelectedDataAsync(Office.CoercionType.Matrix,
+      {
+        valueFormat: Office.ValueFormat.Unformatted,
+        filterType: Office.FilterType.All
+      },
+      // The callback function
+      function (asyncResult) {
+        if (asyncResult.status == "failed") {
+          app.showNotification("Whoops", asyncResult.value);
+          errorOccurred = true;
+          return;
+        }
+        original = asyncResult.value[0][0];
+        // User is attempting to use convert whilst still inputting into the cell
+        if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
+          app.showNotification("Try Again", "Please re-select the data as it " + 
+                               "has not been properly selected");
+          errorOccurred = true;
+          return;
+        }
+        // iterate over 2D array converting each cell             
+        for (var i = 0; i < asyncResult.value.length; i++) {
+          for (var j = 0; j < asyncResult.value[i].length; j++)  {
+            asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
+          }
+        }
+        errorOccurred = false;
+        // Return values to excel
+        Office.context.document.setSelectedDataAsync(
+          asyncResult.value
         );
-    };
+      } // end of callback
+    );
+  };
 })();

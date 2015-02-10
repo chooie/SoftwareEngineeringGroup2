@@ -2,6 +2,29 @@
 
 //-------------------------------------------------------------
 
+// Taken from executeCellConversion function
+// Display success message if no errors have occurred
+// if (!errorOccurred) {
+// app.showNotification("Success", "Your currencies have successfully " +
+// "been converted!");
+// }
+// errorOccurred = false;
+
+//-------------------------------------------------------------
+
+// Removed from executeCellConversion function
+// Temporary way of better informing the user of when they need to re-select
+// the data
+//disabled this if statement since it's annoying to debug with, uncomment it if you like
+//if (asyncResult.value.length === 1 && asyncResult.value[0][0] === original) {
+//    app.showNotification("Whoops", "You gave us the same value as last time. " +
+//        "Try re-selecting the cell.");
+//    errorOccurred = true;
+//    return;
+//}
+
+//-------------------------------------------------------------
+
 //Unused but may be used later for reverting if scrapper fails
 //oldFrom = $('#selectedFromCur option:selected').index() + 1;
 //oldTo = $('#selectedToCur option:selected').index() + 1;
