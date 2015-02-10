@@ -43,16 +43,41 @@ var scrapper = (function () {
                     encodeURIComponent(url) +
                     "%22&format=xml'&callback=?",
 
-            function (data) { //things in this function only happen after the ajax as been complete
+            function (data) { //things in this function only happen after the ajax as be
                 if (data.results[0]) {
                     var object = $('<div/>').html(data.results).contents(); //converts string into jquery object containing html tags, etc
-                    var parsed = object.find('[title="SDW - Quick View"]'); //will find three results
-                    var val = parsed[0].innerText; //we want the 3rd result
-                    val = val.split("=")[1]
-                    val = val.split(" ");
-                    result = parseFloat(val[1], 10); //turn   "1.23 EUR"  into 1.23
-                    currentExchangeRate = result; //currently 
-                    cache[from + to + date] = result;
+                    var div = object.find('div[id="contentlimiter"]');
+                    if (from != "EUR" && to != "EUR") {
+                        var valFrom = div.find('td:contains(' + from + ')')[2].innerText;
+                        valFrom = valFrom.split("=")[1];
+                        valFrom = valFrom.split(" ")[1];
+                        var resultFrom = parseFloat(valFrom, 10);
+                        var valTo = div.find('td:contains(' + to + ')')[2].innerText;
+                        valTo = valTo.split("=")[1];
+                        valTo = valTo.split(" ")[1];
+                        var resultTo = parseFloat(valTo, 10);
+                        currentExchangeRate = resultTo / resultFrom;
+                    }
+                    else {
+                        var notEur;
+                        if (from == "EUR") {
+                            notEur = to;
+                        }
+                        else {
+                            notEur = from;
+                        }
+                        var val = div.find('td:contains(' + notEur + ')')[2].innerText;
+                        val = val.split("=")[1];
+                        val = val.split(" ")[1];
+                        var result = parseFloat(val, 10);
+                        if (from == "EUR") {
+                            currentExchangeRate = result;
+                        }
+                        else {
+                            currentExchangeRate = 1 / result;
+                        }
+                    }
+                    cache[from + to + date] = currentExchangeRate;
                 }
                 $('#submit').prop('disabled', false); //reenable button
             }

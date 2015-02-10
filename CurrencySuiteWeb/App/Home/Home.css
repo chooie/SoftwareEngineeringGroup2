@@ -12,3 +12,10 @@
     width: 95%;
     min-width: 100px;
 }
+#date{
+    width: 55%;
+    float: right;
+}
+#datepicker{
+    width: 70px
+}

@@ -17,7 +17,7 @@
             $('#submit').click(convert);
             // Initialize Scrapper
             scrapperInit();
-           
+            datepicker.initialize();
         });
     };
 
@@ -41,21 +41,28 @@
             scrapper.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
-                scrapper.getDate()
+                datepicker.getSelectedDate()
             )
         });
         $('#selectedToCur').change(function () {
             scrapper.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
-                scrapper.getDate()
+                datepicker.getSelectedDate()
             )
         });
         $('#swap').click(function () {
             scrapper.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
-                scrapper.getDate()
+                datepicker.getSelectedDate()
+            )
+        });
+        $('#datepicker').change(function () {
+            scrapper.updateRate(
+                $('#selectedFromCur').val(),
+                $('#selectedToCur').val(),
+                datepicker.getSelectedDate()
             )
         });
     }
@@ -74,6 +81,7 @@
         //assign the new selections
         $("#selectedFromCur :nth-child(" + to + ")").prop('selected', true);
         $("#selectedToCur :nth-child(" + from + ")").prop('selected', true);
+   
     };
 
     /**
