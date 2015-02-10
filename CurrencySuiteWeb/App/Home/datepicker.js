@@ -12,6 +12,7 @@
         });
         $("#datepicker").datepicker("option", "maxDate", "0");
         $("#datepicker").datepicker("setDate", getToday());
+        $("#datepicker").datepicker( "option", "showButtonPanel", true );
 
         datepicker.getSelectedDate = function () {
             var date = $("#datepicker").datepicker("getDate");
