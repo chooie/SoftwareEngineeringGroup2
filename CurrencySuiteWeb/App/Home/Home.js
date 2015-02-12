@@ -14,8 +14,9 @@
             app.initialize();
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
-            scrapperInit();
             datepicker.initialize();
+
+            scrapperInit();
         });
     };
 
