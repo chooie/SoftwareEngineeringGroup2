@@ -15,7 +15,7 @@
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
-
+            graph.initialize();
             scrapperInit();
         });
     };

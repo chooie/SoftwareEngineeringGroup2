@@ -30,6 +30,9 @@
     <script src="../jquaryui/jquery-ui.min.js" type="text/javascript"></script>
     <script src="Datepicker.js" type="text/javascript"></script>
 
+    <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
+    <script src="../Graph/Graph.js" type="text/javascript"></script>
+    <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
 
     <link href="../App.css" rel="stylesheet" type="text/css" />
     <script src="../App.js" type="text/javascript"></script>
@@ -170,10 +173,27 @@
                 </select>
             </div>
             <input id="submit" type="button" value="Convert" class="button" />
-            <div id="date">
-                <label for="datepicker">Date</label>
-                <input type="text" id="datepicker">
+            <div id="date-wrapper">
+                <div id="date">
+                    <label for="datepicker">Date</label>
+                    <input type="text" id="datepicker">
+                </div>
             </div>
+            <!-- Graph HTML -->
+            <div id="graph-wrapper">
+                <div class="graph-info">
+                    <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
+                    <!--<a href="javascript:void(0)" class="returning"></a>-->
+
+    <!--                <a href="#" id="bars"><span></span></a>-->
+<!--                    <a href="#" id="lines" class="active"><span></span></a>-->
+                </div>
+
+                <div class="graph-container">
+                    <div id="graph-lines"></div>
+                </div>
+            </div>
+            <!-- end Graph HTML -->
         </div>
     </div>
 
