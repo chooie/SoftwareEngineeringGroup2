@@ -5,13 +5,23 @@
     var graphData;
     // Common initialization function (to be called from each page)
     graph.initialize = function () {
+        // add graph to home
         updateGraph();
         // Tooltip #################################################
         function showTooltip(x, y, contents) {
-            $('<div id="tooltip">' + contents + '</div>').css({
-                top: y - 16,
-                left: x + 20
-            }).appendTo('body').fadeIn();
+            var width = $('#graph-container').width();
+            if (width * 0.65 < x) {
+                $('<div id="tooltip">' + contents + '</div>').css({
+                    top: y - 16,
+                    left: x - (contents.length*7) - 20
+                }).appendTo('body').fadeIn();
+            }
+            else {
+                $('<div id="tooltip">' + contents + '</div>').css({
+                    top: y - 16,
+                    left: x + 20
+                }).appendTo('body').fadeIn();
+            }
         }
 
         var previousPoint = null;
@@ -23,13 +33,16 @@
                     $('#tooltip').remove();
                     var x = item.datapoint[0],
                         y = item.datapoint[1];
-                    showTooltip(item.pageX, item.pageY, y + ' at ' + x);
+                    var date = new Date(x);
+                    var dateString = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+                    showTooltip(item.pageX, item.pageY, y + ' at ' + dateString);
                 }
             } else {
                 $('#tooltip').remove();
                 previousPoint = null;
             }
         });
+        // Create public graph.update
         graph.update = function () {
             updateGraph();
         }
@@ -40,8 +53,8 @@
         $('#graph-label').text(fromCur +" to " + toCur);
         // Graph Data ##############################################
         var graphData = [{
-            // Visits
-            data: [[6, 1.23], [7, 1.21], [8, 1.15], [9, 1.17], [10, 1.19], [11, 1.15], [12, 1.27], [13, 1.25], [14, 1.23], [15, 1.20]],
+            // [Date, Value] 2010/08/17
+            data: [[new Date("2015/12/1"), 1.23], [new Date("2015/12/2"), 1.21], [new Date("2015/12/3"), 1.15], [new Date("2015/12/4"), 1.17], [new Date("2015/12/5"), 1.19], [new Date("2015/12/6"), 1.15], [new Date("2015/12/7"), 1.27], [new Date("2015/12/8"), 1.25], [new Date("2015/12/9"), 1.23], [new Date("2015/12/10"), 1.20]],
             color: '#71c73e'
         }];
         // Lines Graph #############################################
@@ -63,10 +76,11 @@
                 hoverable: true
             },
             xaxis: {
-                tickColor: 'transparent'
+                tickColor: 'transparent',
+                mode: "time",
             },
             yaxis: {
-                tickSize: 0.05
+                tickSize: 0.05 
             }
         });
     }
