@@ -91,6 +91,7 @@
     <Content Include="App\junk.js" />
     <Content Include="App\Scrapper.js" />
     <Content Include="Content\Office.css" />
+    <Content Include="Images\arrow.png" />
     <Content Include="Images\Close.png" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
