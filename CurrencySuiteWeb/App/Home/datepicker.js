@@ -4,18 +4,16 @@
     var datepicker = {};
     // Common initialization function (to be called from each page)
     datepicker.initialize = function () {
-        $("#datepicker").datepicker();
-        $("#datepicker").datepicker("option", "showAnim", "slideDown");
-        $("#datepicker").datepicker("option", "dateFormat", "dd-mm-yy");
-        $("#datepicker").datepicker({
-            showButtonPanel: true
-        });
-        $("#datepicker").datepicker("option", "maxDate", "0");
-        $("#datepicker").datepicker("setDate", getToday());
-        $("#datepicker").datepicker( "option", "showButtonPanel", true );
+        var dp = $("#datepicker");
+        dp.datepicker();
+        dp.datepicker("option", "showAnim", "slideDown");
+        dp.datepicker("option", "dateFormat", "dd-mm-yy");
+        dp.datepicker("option", "maxDate", "0");
+        dp.datepicker("setDate", getToday());
+        dp.datepicker("option", "showButtonPanel", true);
 
         datepicker.getSelectedDate = function () {
-            var date = $("#datepicker").datepicker("getDate");
+            var date = dp.datepicker("getDate");
             return correctFormat(date);
         }
     };
