@@ -2,13 +2,29 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title></title>
+  <title>Test ECB Data</title>
 </head>
 <body>
+  <h1>ECB Daily Data</h1>
   <div id="demo">Test</div>
+  <button
+    onclick="console.log(
+      CurrencyConverter.Currency.parser.getDailyCurrencyData()
+      )">
+    Get Data
+  </button>
+  <button
+    onclick="console.log(
+      CurrencyConverter.Currency.parser.get90DaysCurrencyData()
+      )">
+    Get 90 Day Data
+  </button>
+  <button
+    onclick="console.log(
+      CurrencyConverter.Currency.parser.getHistoricalCurrencyData()
+      )">
+    Get Historical Data
+  </button>
   <script src="App/Currency.js"></script>
-  <script>
-    console.log(CurrencyConverter.Currency.getDailyCurrencyData());
-  </script>
 </body>
 </html>
