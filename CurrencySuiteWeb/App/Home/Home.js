@@ -26,7 +26,6 @@
     *
     */
     var scrapperInit = function () {
-        currentExchangeRate = 1; // TODO Remove from final deploy version
         scrapper.initialize();
         scrapper.updateRate(
             $('#selectedFromCur').val(),
@@ -62,7 +61,7 @@
                 datepicker.getSelectedDate()
             )
         });
-    }
+    };
 
     /**
      * swap
@@ -95,31 +94,38 @@
 
     /**
      * validateCurrencyCodes
-     * Determine whether user entered currency codes are valid
-     * Used by the convertValue function to avoid code repitition
+     * Determine whether user-entered currency codes are valid.
+     * Used by the convertValue function to avoid code repetition. All values
+     * in options DOM are assumed to be uppercase.
      * 
      * @param {string} firstCode the from currency code from the user
      * @param {string} secondCode the to currency code from the user
      * @return {boolean} true if both codes valid
      *                   false if one code is not valid
      */
-     var validateCurrencyCodes = function(firstCode, secondCode) {
+    var validateCurrencyCodes = function(firstCode, secondCode) {
       var optionsDOM = $("option[value]"),
         fromSelectionIsValid = false,
         toSelectionIsValid = false;
+
+      firstCode = firstCode.toUpperCase();
+      secondCode = firstCode.toUpperCase();
+
       $(optionsDOM).each(function (index, element) {
-        if (element.value === firstCode) {
+        if (!fromSelectionIsValid &&
+          element.value === firstCode) {
           fromSelectionIsValid = true;
         }
-        if (element.value === secondCode) {
+        if (!toSelectionIsValid &&
+          element.value === secondCode) {
           toSelectionIsValid = true;
         }
+        if (fromSelectionIsValid && toSelectionIsValid) {
+          return true;
+        }
       });
-      if (fromSelectionIsValid && toSelectionIsValid) {
-        return true;
-      }
       return false;
-     };
+    };
 
     /**
      * convertValue
@@ -153,33 +159,39 @@
      * @returns {number} The exchanged value
      */
     var convertValue = function (value) {
+      var valuesArray;
+      // Remove whitespace at beginning and end of value
+      value = value.trim();
       try {
-        // Case 1
-        if (/^\d+\.?\d*\s*$/.test(value)) {
-          return value * getExchangeRate($('#selectedFromCur').val(), $('#selectedToCur').val(), "today");
+        // Case 1: Just a single value in the cell
+        if (/^\d+\.?\d*$/.test(value)) {
+          return value * getExchangeRate($('#selectedFromCur').val(),
+              $('#selectedToCur').val(), "today");
         }
-        // Case 2  
-        else if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s*$/.test(value)) {
-          var valuesArray = value.split(" ");
+        // Case 1: Cell value is in the 'special' format (e.g. 100 USD GBP)
+        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
+          valuesArray = value.split(" ");
           valuesArray[1] = valuesArray[1].toUpperCase();
           valuesArray[2] = valuesArray[2].toUpperCase();
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
-            return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], "today");
+            return valuesArray[0] * getExchangeRate(valuesArray[1],
+                valuesArray[2], "today");
           }
           else {
-            throw new Error("Error throw for Case 2 in convertValue function");
+            throw new Error("Error thrown for Case 2 in convertValue function");
           }
         }
         // Case 3
-        else if (/^\d+\.?\d*\s+\D{3}\s+\D{3}\s+\d?\d-\d?\d-\d{4}\s*$/.test(value)) {
-          var valuesArray = value.split(" ");
+        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/
+            .test(value)) {
+          valuesArray = value.split(" ");
           valuesArray[1] = valuesArray[1].toUpperCase();
           valuesArray[2] = valuesArray[2].toUpperCase();
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
             return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], valuesArray[3]);
           }
           else {
-            throw new Error("Error throw for Case 3 in convertValue function");
+            throw new Error("Error thrown for Case 3 in convertValue function");
           }
         }
         else {
@@ -189,8 +201,8 @@
       catch (error) {
         console.log(error.message);
         errorOccurred = true;
-        app.showNotification("Warning", "Some data could not be converted as it " +
-                             "was not a valid number.");
+        app.showNotification("Warning", "Some data could not be converted as " +
+        "it was not a valid number.");
         return value;
       }
     };
@@ -210,7 +222,7 @@
       // The callback function
       function (asyncResult) {
         if (asyncResult.status == "failed") {
-          app.showNotification("Whoops", asyncResult.value);
+          app.showNotification("Whoops", asyncResult.error.message);
           errorOccurred = true;
           return;
         }
@@ -228,11 +240,17 @@
             asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
           }
         }
-        errorOccurred = false;
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
           asyncResult.value
         );
+
+        // Display success message if no errors have occurred
+        if (!errorOccurred) {
+          app.showNotification("Success", "Your currencies have successfully " +
+          "been converted!");
+        }
+        errorOccurred = false;
       } // end of callback
     );
   };

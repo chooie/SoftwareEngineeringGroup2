@@ -37,18 +37,18 @@
     display: none; /* Hidden until invoked */
 }
 
-    #notification-message #notification-message-header {
-        font-size: medium;
-        margin-bottom: 10px;
-    }
+#notification-message #notification-message-header {
+    font-size: medium;
+    margin-bottom: 10px;
+}
 
-    #notification-message #notification-message-close {
-        background-image: url("../Images/Close.png");
-        background-repeat: no-repeat;
-        width: 24px;
-        height: 24px;
-        position: absolute;
-        right: 5px;
-        top: 5px;
-        cursor: pointer;
-    }
+#notification-message #notification-message-close {
+    background-image: url("../Images/Close.png");
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+}
