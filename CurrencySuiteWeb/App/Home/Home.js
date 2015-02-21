@@ -104,26 +104,24 @@
      *                   false if one code is not valid
      */
     var validateCurrencyCodes = function(firstCode, secondCode) {
-      var optionsDOM = $("option[value]"),
-        fromSelectionIsValid = false,
-        toSelectionIsValid = false;
-
+        var optionsDOM = $(".curOptions:first").children(),
+          fromSelectionIsValid = false,
+          toSelectionIsValid = false;
       firstCode = firstCode.toUpperCase();
       secondCode = firstCode.toUpperCase();
-
-      $(optionsDOM).each(function (index, element) {
-        if (!fromSelectionIsValid &&
-          element.value === firstCode) {
-          fromSelectionIsValid = true;
-        }
-        if (!toSelectionIsValid &&
-          element.value === secondCode) {
-          toSelectionIsValid = true;
-        }
-        if (fromSelectionIsValid && toSelectionIsValid) {
-          return true;
-        }
-      });
+      for (var i = 0; i<optionsDOM.length; i++){
+          if (!fromSelectionIsValid &&
+          optionsDOM[i].value === firstCode) {
+              fromSelectionIsValid = true;
+          }
+          if (!toSelectionIsValid &&
+            optionsDOM[i].value === secondCode) {
+              toSelectionIsValid = true;
+          }
+          if (fromSelectionIsValid && toSelectionIsValid) {
+              return true;
+          }
+      }
       return false;
     };
 
@@ -159,6 +157,10 @@
      * @returns {number} The exchanged value
      */
     var convertValue = function (value) {
+        if (typeof value == "number") {
+            return value * getExchangeRate($('#selectedFromCur').val(),
+              $('#selectedToCur').val(), "today");
+        }
       var valuesArray;
       // Remove whitespace at beginning and end of value
       value = value.trim();
@@ -234,11 +236,17 @@
           errorOccurred = true;
           return;
         }
-        // iterate over 2D array converting each cell             
-        for (var i = 0; i < asyncResult.value.length; i++) {
-          for (var j = 0; j < asyncResult.value[i].length; j++)  {
-            asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
-          }
+        //if (typeof asyncResult.value[0][0] == "number") {
+        //    asyncResult.value[0][0] *= getExchangeRate($('#selectedFromCur').val(),
+        //      $('#selectedToCur').val(), "today");
+        //}
+        else {
+            // iterate over 2D array converting each cell             
+            for (var i = 0; i < asyncResult.value.length; i++) {
+                for (var j = 0; j < asyncResult.value[i].length; j++) {
+                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
+                }
+            }
         }
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
