@@ -15,10 +15,11 @@
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
+
             scrapperInit();
         });
     };
-  
+
     /**
     * scrapperInit
     * Initiates and creates listeners for the scrapper
@@ -253,10 +254,10 @@
         );
 
         // Display success message if no errors have occurred
-        //if (!errorOccurred) {
-        //  app.showNotification("Success", "Your currencies have successfully " +
-        //  "been converted!");
-        //}
+        if (!errorOccurred) {
+          app.showNotification("Success", "Your currencies have successfully " +
+          "been converted!");
+        }
         errorOccurred = false;
       } // end of callback
     );
