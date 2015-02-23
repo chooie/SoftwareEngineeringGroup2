@@ -150,45 +150,36 @@
      *      - Case 3: "100 USD EUR "29-02-2004"
      *        -> Convert 100 US Dollars into Euros based on
      *           the passed date (29-02-2004 in this case)
-     * TODO discuss implementing "... 29-02" assumes this year
      * TODO discuss implementing "... 29/02/2004" (different delimeters)
      *
      * @param {string} value the user entered query
      * @returns {number} The exchanged value
      */
     var convertValue = function (value) {
-        if (typeof value == "number") {
-            return value * getExchangeRate($('#selectedFromCur').val(),
+      // Case 1: Just a single value in the cell
+      if (typeof value === "number") {
+          return value * getExchangeRate($('#selectedFromCur').val(),
               $('#selectedToCur').val(), "today");
-        }
+      }
       var valuesArray;
       // Remove whitespace at beginning and end of value
       value = value.trim();
       try {
-        // Case 1: Just a single value in the cell
-        if (/^\d+\.?\d*$/.test(value)) {
-          return value * getExchangeRate($('#selectedFromCur').val(),
-              $('#selectedToCur').val(), "today");
-        }
-        // Case 1: Cell value is in the 'special' format (e.g. 100 USD GBP)
-        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
-          valuesArray = value.split(" ");
-          valuesArray[1] = valuesArray[1].toUpperCase();
-          valuesArray[2] = valuesArray[2].toUpperCase();
+        valuesArray = value.split(" ");
+        valuesArray[1] = valuesArray[1].toUpperCase();
+        valuesArray[2] = valuesArray[2].toUpperCase();
+        // Case 2: Cell value is in the 'special' format (e.g. 100 USD GBP)
+        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
             return valuesArray[0] * getExchangeRate(valuesArray[1],
-                valuesArray[2], "today");
+              valuesArray[2], "today");
           }
           else {
             throw new Error("Error thrown for Case 2 in convertValue function");
           }
         }
-        // Case 3
-        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/
-            .test(value)) {
-          valuesArray = value.split(" ");
-          valuesArray[1] = valuesArray[1].toUpperCase();
-          valuesArray[2] = valuesArray[2].toUpperCase();
+        // Case 3: Cell value is in the 'special' format (e.g. 100 USD GBP 20-12-2001)
+        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/i.test(value)) {
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
             return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], valuesArray[3]);
           }
@@ -196,9 +187,6 @@
             throw new Error("Error thrown for Case 3 in convertValue function");
           }
         }
-        else {
-          throw new Error("Invalid query entered");
-        }  
       } 
       catch (error) {
         console.log(error.message);
