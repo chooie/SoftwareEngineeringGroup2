@@ -9,7 +9,8 @@
 */
 // TODO - when getExchangeRate is functional, implement tests
 describe("getExchangeRateTest", function() {
+	var home = new Home();
     it("tests if returned exchange rate is correct", function() {
-      expect(getExchangeRate("USD", "EUR", "today")).toEqual(10);
+      expect(home.getExchangeRate("USD", "EUR", "today")).toEqual(10);
     });
 });
