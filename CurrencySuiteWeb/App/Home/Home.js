@@ -1,6 +1,6 @@
 ﻿/// <reference path="../App.js" />
 /// <reference path="../Scrapper.js" />
-
+/// <reference path="../Database.js" />
 (function () {
     "use strict";
     var original,
@@ -12,6 +12,8 @@
     Office.initialize = function () {
         $(document).ready(function () {
             app.initialize();
+            //test.initialize();
+            //test.updateCurrencies();
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
@@ -26,36 +28,42 @@
     *
     */
     var scrapperInit = function () {
-        scrapper.initialize();
-        scrapper.updateRate(
+        currentExchangeRate = 1;
+        database.initialize();
+        database.updateRate(
             $('#selectedFromCur').val(),
             $('#selectedToCur').val(),
-            scrapper.getDate()
+            datepicker.getSelectedDate()
         );
         // adding listeners
         $('#selectedFromCur').change(function () {
-            scrapper.updateRate(
+            database.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
-            )
+            );
         });
         $('#selectedToCur').change(function () {
-            scrapper.updateRate(
+            database.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
             )
         });
         $('#swap').click(function () {
-            scrapper.updateRate(
+            database.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
             )
+            database.updateGraph(
+                $('#selectedFromCur').val(),
+                 $('#selectedToCur').val(), 
+                 datepicker.getSelectedDate()
+                 );
         });
         $('#datepicker').change(function () {
-            scrapper.updateRate(
+            database.updateRate(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
@@ -89,7 +97,7 @@
      */
     var getExchangeRate = function (fromCurrency, toCurrency, date) {
         // TODO make use of ECB xml docs
-        return 10;
+        return currentExchangeRate;
     };
 
     /**
@@ -159,7 +167,7 @@
     var convertValue = function (value) {
         if (typeof value == "number") {
             return value * getExchangeRate($('#selectedFromCur').val(),
-              $('#selectedToCur').val(), "today");
+              $('#selectedToCur').val(), datepicker.getSelectedDate());
         }
       var valuesArray;
       // Remove whitespace at beginning and end of value
@@ -168,7 +176,7 @@
         // Case 1: Just a single value in the cell
         if (/^\d+\.?\d*$/.test(value)) {
           return value * getExchangeRate($('#selectedFromCur').val(),
-              $('#selectedToCur').val(), "today");
+              $('#selectedToCur').val(), datepicker.getSelectedDate());
         }
         // Case 1: Cell value is in the 'special' format (e.g. 100 USD GBP)
         else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
@@ -177,7 +185,7 @@
           valuesArray[2] = valuesArray[2].toUpperCase();
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
             return valuesArray[0] * getExchangeRate(valuesArray[1],
-                valuesArray[2], "today");
+                valuesArray[2], datepicker.getSelectedDate());
           }
           else {
             throw new Error("Error thrown for Case 2 in convertValue function");
@@ -189,7 +197,7 @@
           valuesArray = value.split(" ");
           valuesArray[1] = valuesArray[1].toUpperCase();
           valuesArray[2] = valuesArray[2].toUpperCase();
-          if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
+          if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {//this is going to be broken, need to change date format into YYYY/MM/DD and convert that into a date object
             return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], valuesArray[3]);
           }
           else {
@@ -254,10 +262,10 @@
         );
 
         // Display success message if no errors have occurred
-        if (!errorOccurred) {
-          app.showNotification("Success", "Your currencies have successfully " +
-          "been converted!");
-        }
+        //if (!errorOccurred) {
+        //  app.showNotification("Success", "Your currencies have successfully " +
+        //  "been converted!");
+        //}
         errorOccurred = false;
       } // end of callback
     );
