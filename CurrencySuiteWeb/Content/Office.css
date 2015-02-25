@@ -25,7 +25,7 @@ body {
 
 h1 {
     font-family: "Segoe WP Light", "Segoe UI", "Arial", sans-serif;
-    font-size: 22px;
+    font-size: 32px;
     line-height: 26px;
     font-weight: 500;
 }
@@ -56,7 +56,11 @@ h4, h5, h6 {
 form, input, select, button, textarea {
     font-family: "Segoe WP", "Segoe UI", "Arial", sans-serif;
     font-size: 12px;
+    font-weight:bold;
     line-height: 16px;
+    background: #004500;
+    text-align:center;
+    vertical-align: middle;
 }
 
 /******************************************************************
@@ -109,6 +113,8 @@ input, textarea, select, button {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    text-align:center;
+    vertical-align: middle;
 }
 
     input[type="checkbox"], input[type="radio"] {
@@ -147,18 +153,49 @@ input, textarea, select, button {
     input[type="submit"], input[type="reset"] {
         padding-left: 10px;
         padding-right: 10px;
-        text-align: center;
+        text-align:center;
+        vertical-align: middle;        
+        background: #004500;
     }
 
         button:hover:enabled,
         input[type="button"]:hover:enabled,
         input[type="submit"]:hover:enabled,
         input[type="reset"]:hover:enabled {
-            border-color: #7eB4ea;
-            background-color: #e5f1fc;
+            border-color: #FFF;
+            background-color: #004500;
         }
 
         button:active:enabled,
+        input[type="button"]:active:enabled,
+        input[type="submit"]:active:enabled,
+        input[type="reset"]:active:enabled {
+            border-color: #569de5;
+            background-color: #cee5fc;
+        }
+       
+        
+        
+        /********************************/
+
+        infoButton, input[type="button"],
+    input[type="submit"], input[type="reset"] {
+        padding-left: 10px;
+        padding-right: 10px;
+        text-align:center;
+        vertical-align: middle;        
+        background: #004500;
+    }
+
+        infoButton:hover:enabled,
+        input[type="button"]:hover:enabled
+         {
+            border-color: #FFF;
+            border-width:medium;
+            background-color: #004500;
+        }
+
+        infoButton:active:enabled,
         input[type="button"]:active:enabled,
         input[type="submit"]:active:enabled,
         input[type="reset"]:active:enabled {

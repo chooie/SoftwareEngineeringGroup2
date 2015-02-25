@@ -1,21 +1,78 @@
 ﻿.getCur{
-    width: 100%;
+    width: 60%;
+}
+.image{
+    width: 5px;
+    height: 5px;
+    
 }
 .curOptions{
-    width: 95%;
+    width: 60%;
     min-width: 100px;
-    display: inline;
+    margin-right:30%;
+    margin-left: 50%;
+    margin-top: 0%;
+    border-width:medium;
+    border-color: #004500;
+
+
+
 }
 .button{
-    margin-right: auto;
-    margin-left: auto;
-    width: 95%;
-    min-width: 100px;
+    font-size: 18px;
+    color: #FFF;
+    margin-right:10% ;
+    margin-left: 33%;
+    width: 30%;
+    height: 30px;
+    margin-top: 10%;
+
+    
+
+}
+
+.infoButton{
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFF;
+    margin-left: 1%;
+    border-radius: 50%;
+	width: 25px;
+	height: 25px; 
+    border-width:thick;
+   
+    margin-top: 13%;
+    text-align:center;
+    vertical-align: middle;
+
+
+    
+
+}
+.swapButton{
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFF;
+    margin-left: 2%;
+    border-width:medium;
+    width: 15%;
+    height: 25px;
+    text-align:center;
+    vertical-align: middle;
+
+
+    
+
 }
 #date{
+    font-weight: bold;
     width: 55%;
-    float: right;
+    float:none ;
+    margin-left:65%;
+   margin-top:8%;
 }
 #datepicker{
-    width: 70px
+    width: 80px;
+    border-width:medium;
+    border-color: #004500;
 }
