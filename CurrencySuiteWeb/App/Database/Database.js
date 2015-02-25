@@ -5,7 +5,7 @@
     // Common initialization function (to be called from each page)
     database.initialize = function () {
         database.updateRate = function (from, to, date) {
-            updateRate(from, to, date);
+            return updateRate(from, to, date);
         }
         database.updateGraph = function (from, to, date) {
             getGraphRates(from, to, date);
@@ -18,15 +18,14 @@
         if (getjson != null) {
             getjson.abort(); //incase the user changes currency before the current request is complete
         }
-        currentExchangeRate = 1;
         if (from == to) {
-            return;
+            return 1;
         }
         var sqlDate = formatDate(date);
         if (cache[from + to + sqlDate] != null) {
-            currentExchangeRate = cache[from + to + sqlDate];
-            return;
+            return cache[from + to + sqlDate];
         }
+        $('#submit').prop('disabled', true); //disable button
         switch ("EUR") {
             case from:
                 retrieve(to, sqlDate, function (results) {
@@ -45,18 +44,17 @@
             default:
                 retrieve(from, sqlDate, function (fromResults) {
                     retrieve(to, date, function (toResults) {
-                        cache[from, to, sqlDate] = toResults[0].rate / fromResults[0].rate;
+                        cache[from + to + sqlDate] = toResults[0].rate / fromResults[0].rate;
                         app.showNotification("YAH!!", from + " to " + to + "is " + (toResults[0].rate / fromResults[0].rate));
                         $('#submit').prop('disabled', false); //enable button
                     });
                 });
                 break;
         }
-                
+        return null;
     };   
     var retrieve = function (cur, dateSQL, callback) {
         var rates = client.getTable('exchangeRates');
-        $('#submit').prop('disabled', true); //disable button
         rates.where(function (cur, date) {
             return this.currency == cur && this.time == date;
         }, cur, dateSQL).read().done(function (results) {
@@ -115,42 +113,53 @@
                 isTo = 1;
                 cur = from;
             case from:
-                retrieve(cur, sqlDate, function (results) {
-                    var resultsDate = sqlToJsDate(results[0].date);
-                    var upperLimit = new Date() - resultsDate;
+                retrieve(cur, sqlDate, function (resultsDate) {
+                    var upperLimit = dateDiffInDays(new Date(), resultsDate[0].time);
                     if (upperLimit > 9) {
                         upperLimit = 9;
                     }
-                    retrieveRange(formatDate(resultsDate - (18 - upperLimit)), formatDate(resultsDate + upperLimit), cur, function (results) {
+                    var low = new Date();
+                    var upper = new Date();
+                    low.setDate(date.getDate() - (18 - upperLimit));
+                    upper.setDate(date.getDate() + upperLimit);
+                    retrieveRange(formatDate(low), formatDate(upper), cur, function (results) {
                         var graphData = [];
                         for (var i = 0; i < results.length; i++) {
                             if (isTo == 0) {
-                                graphData[i] = [sqlToJsDate(results[i].date), results[i].rate];
+                                graphData[i] = [results[i].time, results[i].rate];
                             }
                             else if (isTo == 1) {
-                                graphData[i] = [sqlToJsDate(results[i].date), 1 / results[i].rate];
+                                graphData[i] = [results[i].time, 1 / results[i].rate];
                             }
                         }
-                        app.showNotification(graphData);
                         //update graph
                     });
                     
                 });
                 break;
             default:
-                var fromData = [];
-                retrieve(from, sqlDate, function (results) {
-                    var resultsDate = sqlToJsDate(results[0].time);
-                    var upperLimit = new Date() - resultsDate;
+                retrieve(from, sqlDate, function (resultsDate) {
+                    var upperLimit = dateDiffInDays(new Date(), resultsDate[0].time);
                     if (upperLimit > 9) {
                         upperLimit = 9;
                     }
-                    retrieveRange(formatDate(resultsDate - (18 - upperLimit)), formatDate(resultsDate + upperLimit), from, function (fromResults) {
-                        retrieveRange(formatDate(resultsDate - (18 - upperLimit)), formatDate(resultsDate + upperLimit), to, function (fromResults) {
-                            for (var i = 0; i < results.length; i++) {//I'm kind of lying here and asssuming they found the same dates, otherwise it gets very complicated
-                                graphData[i] = [sqlToJsDate(fromResults[i].date), toResults[i].rate / fromResults[i].rate];
+                    var low = new Date();
+                    var upper = new Date();
+                    low.setDate(date.getDate() - (18 - upperLimit));
+                    upper.setDate(date.getDate() + upperLimit);
+                    retrieveRange(formatDate(low), formatDate(upper), from, function (fromResults) {
+                        retrieveRange(formatDate(low), formatDate(upper), to, function (toResults) {
+                            var length = 0;
+                            if (fromResults.length < toResults.length) {
+                                length = fromResults.length;
                             }
-                            app.showNotification(graphData);
+                            else {
+                                length = toResults.length;
+                            }
+                            var graphData = [];
+                            for (var i = 0; i < length; i++) {//I'm kind of lying here and asssuming they found the same dates, otherwise it gets very complicated
+                                graphData[i] = [fromResults[i].time, toResults[i].rate / fromResults[i].rate];
+                            }
                             //update the graph here
                         });
                     });
@@ -162,10 +171,9 @@
 
     var retrieveRange = function (low, high, cur, callback) {
         var rates = client.getTable('exchangeRates');
-        $('#submit').prop('disabled', true); //disable button
-        rates.where(function (cur, date) {
+        rates.where(function (cur, low, high) {
             return this.currency == cur && this.time >= low && this.time <= high;
-        }, cur, dateSQL).read().done(function (results) {
+        }, cur, low, high).read().done(function (results) {
             //no currency rate found on given date range
             if (results.length == 0) {
                 //something went wrong
@@ -179,9 +187,16 @@
         });
     }
     //TODO
-    var sqlToJsDate = function (sqlDate) {
-        //Wed Feb 25 2015 00:00:00 GMT+0000 (GMT Standard Time)
-        
+   
+    
+    //handle daylight saving 
+    var dateDiffInDays = function (a, b) {
+        var _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+        var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+        var utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+        return Math.floor((utc2 - utc1) / _MS_PER_DAY);
     }
     return database;
 })();

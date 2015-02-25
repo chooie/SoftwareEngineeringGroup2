@@ -18,23 +18,17 @@
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
 
-            scrapperInit();
+            databaseInit();
         });
     };
 
     /**
-    * scrapperInit
-    * Initiates and creates listeners for the scrapper
+    * databaseInit
+    * Initiates and creates listeners for the database
     *
     */
-    var scrapperInit = function () {
-        currentExchangeRate = 1;
+    var databaseInit = function () {
         database.initialize();
-        database.updateRate(
-            $('#selectedFromCur').val(),
-            $('#selectedToCur').val(),
-            datepicker.getSelectedDate()
-        );
         // adding listeners
         $('#selectedFromCur').change(function () {
             database.updateRate(
@@ -42,6 +36,11 @@
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
             );
+            database.updateGraph(
+                $('#selectedFromCur').val(),
+                 $('#selectedToCur').val(),
+                 datepicker.getSelectedDate()
+                 );
         });
         $('#selectedToCur').change(function () {
             database.updateRate(
@@ -49,6 +48,11 @@
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
             )
+            database.updateGraph(
+                $('#selectedFromCur').val(),
+                 $('#selectedToCur').val(),
+                 datepicker.getSelectedDate()
+                 );
         });
         $('#swap').click(function () {
             database.updateRate(
@@ -68,6 +72,11 @@
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
             )
+            database.updateGraph(
+                $('#selectedFromCur').val(),
+                 $('#selectedToCur').val(),
+                 datepicker.getSelectedDate()
+                 );
         });
     };
 
@@ -96,8 +105,11 @@
      * @returns {number} The exchange rate based on the parameters
      */
     var getExchangeRate = function (fromCurrency, toCurrency, date) {
-        // TODO make use of ECB xml docs
-        return currentExchangeRate;
+        var rate = database.updateRate(fromCurrency, toCurrency, date);
+        if (rate != null) {
+            return rate;
+        }
+        return -1;
     };
 
     /**
@@ -197,8 +209,9 @@
           valuesArray = value.split(" ");
           valuesArray[1] = valuesArray[1].toUpperCase();
           valuesArray[2] = valuesArray[2].toUpperCase();
+          var dateDetails = valuesArray[3].split("-");
           if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {//this is going to be broken, need to change date format into YYYY/MM/DD and convert that into a date object
-            return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], valuesArray[3]);
+              return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], new Date(dateDetails[2] + "/" + dateDetails[1] + "/" + dateDetails[0]));
           }
           else {
             throw new Error("Error thrown for Case 3 in convertValue function");
