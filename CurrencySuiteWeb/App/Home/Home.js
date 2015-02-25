@@ -15,7 +15,8 @@
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
-            databaseInit();
+            graph.initialize();
+            scrapperInit();
         });
     };
 
@@ -29,14 +30,14 @@
         // adding listeners
         $('#selectedFromCur').change(function () {
             database.updateRate(
+            $('#selectedFromCur').val(),
+            $('#selectedToCur').val(),
+                datepicker.getSelectedDate()
+        );
+            database.updateGraph(
                 $('#selectedFromCur').val(),
                 $('#selectedToCur').val(),
                 datepicker.getSelectedDate()
-            );
-            database.updateGraph(
-                $('#selectedFromCur').val(),
-                 $('#selectedToCur').val(),
-                 datepicker.getSelectedDate()
                  );
         });
         $('#selectedToCur').change(function () {
@@ -120,27 +121,27 @@
      * @return {boolean} true if both codes valid
      *                   false if one code is not valid
      */
-    var validateCurrencyCodes = function(firstCode, secondCode) {
+     var validateCurrencyCodes = function(firstCode, secondCode) {
         var optionsDOM = $(".curOptions:first").children(),
-          fromSelectionIsValid = false,
-          toSelectionIsValid = false;
+        fromSelectionIsValid = false,
+        toSelectionIsValid = false;
       firstCode = firstCode.toUpperCase();
       secondCode = firstCode.toUpperCase();
       for (var i = 0; i<optionsDOM.length; i++){
           if (!fromSelectionIsValid &&
           optionsDOM[i].value === firstCode) {
-              fromSelectionIsValid = true;
-          }
+          fromSelectionIsValid = true;
+        }
           if (!toSelectionIsValid &&
             optionsDOM[i].value === secondCode) {
-              toSelectionIsValid = true;
-          }
-          if (fromSelectionIsValid && toSelectionIsValid) {
-              return true;
-          }
+          toSelectionIsValid = true;
+        }
+      if (fromSelectionIsValid && toSelectionIsValid) {
+        return true;
+      }
       }
       return false;
-    };
+     };
 
     /**
      * convertValue
@@ -259,12 +260,12 @@
         //      $('#selectedToCur').val(), "today");
         //}
         else {
-            // iterate over 2D array converting each cell             
-            for (var i = 0; i < asyncResult.value.length; i++) {
+        // iterate over 2D array converting each cell             
+        for (var i = 0; i < asyncResult.value.length; i++) {
                 for (var j = 0; j < asyncResult.value[i].length; j++) {
-                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
-                }
-            }
+            asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
+          }
+        }
         }
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
