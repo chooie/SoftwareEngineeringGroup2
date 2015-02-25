@@ -6,16 +6,16 @@
     margin-left: auto;
     padding-bottom: 10px;
     padding-top: 10px;
-    -webkit-appearance: none;
-    background:url("arrow.png");
+    
 }
 .curOptions{
     border-radius: 10px;
     width: 95%;
     min-width: 100px;
     display: inline;
-    -webkit-appearance: none;
-    background:url("arrow.png");
+    
+    background:url("../Images/arrow.png");
+
 }
 .button{
     
@@ -41,9 +41,9 @@
     font-family: 'Bodoni MT';
     font-size: 13px;
     font-weight: 700;
-    background-color: black;
-    color: #036208;
-    border-color: #036208;
+    background-color: #fff;
+    color: #467d3f;
+    border-color: #fff;
     vertical-align: middle;
 }
 #date{

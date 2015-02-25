@@ -1,8 +1,8 @@
 ﻿/* Common app styling */
 
 #content-header {
-    background: black;
-    color: #036208;
+    background: #467d3f;
+    color: #fff;
     position: absolute;
     top: 0;
     padding-bottom: 4px;
@@ -29,7 +29,7 @@
 }
 
 #content-footer{
-    background: black;
+    background: #467d3f;
     position: absolute;
     bottom: 0;
     width: 100%;

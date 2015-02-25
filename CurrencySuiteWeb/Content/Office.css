@@ -154,8 +154,8 @@ input, textarea, select, button {
         input[type="button"]:hover:enabled,
         input[type="submit"]:hover:enabled,
         input[type="reset"]:hover:enabled {
-            border-color: #7eB4ea;
-            background-color: #e5f1fc;
+            border-color: #138705;
+            background-color: #a1f788;
         }
 
         button:active:enabled,
@@ -171,7 +171,7 @@ Scrollbars
 ******************************************************************/
 body {
     scrollbar-base-color: white;
-    scrollbar-arrow-color: #ababab;
+    scrollbar-arrow-color: black;
     scrollbar-highlight-color: #ababab;
     scrollbar-darkshadow-color: white;
     scrollbar-track-color: white;
