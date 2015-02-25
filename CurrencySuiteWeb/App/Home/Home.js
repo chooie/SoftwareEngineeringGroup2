@@ -12,12 +12,9 @@
     Office.initialize = function () {
         $(document).ready(function () {
             app.initialize();
-            //test.initialize();
-            //test.updateCurrencies();
             $('#swap').click(swap);
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
-
             databaseInit();
         });
     };
@@ -101,7 +98,7 @@
      *
      * @param {string} fromCurrency the currency being changed from
      * @param {string} toCurrency the currency being changed to
-     * @param {string} date the date to get the rate for
+     * @param {Date} date the date to get the rate for
      * @returns {number} The exchange rate based on the parameters
      */
     var getExchangeRate = function (fromCurrency, toCurrency, date) {

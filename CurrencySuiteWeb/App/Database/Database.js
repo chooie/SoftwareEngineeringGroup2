@@ -4,20 +4,48 @@
     var database = {};
     // Common initialization function (to be called from each page)
     database.initialize = function () {
+        /**
+        * database.updateRate
+        * returns a rate if cached otherwise returns null and retrieves value
+        * and inserts into cache
+        *
+        * @param {string} from currency code
+        * @param {string} to currency code
+        * @param {Date} date
+        * @return {number || null} number if cached || null if not cached
+        *                   
+        */
         database.updateRate = function (from, to, date) {
             return updateRate(from, to, date);
         }
+       /**
+       * database.updateGraph
+       * retrieves a list of rates to use for the graph
+       *
+       * @param {string} from currency code
+       * @param {string} to currency code
+       * @param {Date} date
+       *                   
+       */
         database.updateGraph = function (from, to, date) {
             getGraphRates(from, to, date);
         }
     };
     var cache = {};
-    var getjson = null;
     var client = new WindowsAzure.MobileServiceClient("https://currencyconvertersuite.azure-mobile.net/", "acxNSVXsPtUkSIdIWzTdePGrigqsRW85");
+
+    /**
+    * updateRate
+    * returns a rate if cached otherwise returns null and retrieves value
+    * and inserts into cache
+    *
+    * @param {string} from currency code
+    * @param {string} to currency code
+    * @param {Date} date
+    * @return {number || null} number if cached || null if not cached
+    *                   
+    */
     var updateRate = function (from, to, date) {
-        if (getjson != null) {
-            getjson.abort(); //incase the user changes currency before the current request is complete
-        }
         if (from == to) {
             return 1;
         }
@@ -52,7 +80,16 @@
                 break;
         }
         return null;
-    };   
+    };
+    /**
+    * retrieve
+    * returns a rate if cached otherwise returns null and retrieves value
+    * and inserts into cache
+    *
+    * @param {string} currency code to look for
+    * @param {Date} date
+    * @param {function} a callback function used after a rate is found                  
+    */
     var retrieve = function (cur, dateSQL, callback) {
         var rates = client.getTable('exchangeRates');
         rates.where(function (cur, date) {
@@ -96,14 +133,27 @@
             app.showNotification("Error: " + err);
         });       
     }
-
+    /**
+    * formatDate
+    * formats string in the correct format
+    *
+    * @param {Date} date
+    * @return {string} 
+    */
     var formatDate = function (date) {
         //2015-02-20T00:00:00+00:00
         return date.getUTCFullYear() + '-' +
             ('00' + (date.getUTCMonth() + 1)).slice(-2) + '-' +
             ('00' + date.getUTCDate()).slice(-2) + 'T00:00:00+00:00';
     }
-
+    /**
+    * getGraphRates
+    * Interacts with the graph to update it with the currently select values
+    * currencies
+    * @param {string} for currency code to look for
+    * @param {string} to currency code to look for
+    * @param {Date} date
+    */
     var getGraphRates = function (from, to, date) {
         var sqlDate = formatDate(date);
         var isTo = 0;
@@ -168,7 +218,15 @@
         }
     };
 
-
+    /**
+    * retrieveRange
+    * Retieve a range of values from the database
+    * based upon date
+    * @param {string} the lowest date 
+    * @param {string} the highest date
+    * @param {string} the currency to look for 
+    * @param {function} function to go to after query is finished
+    */
     var retrieveRange = function (low, high, cur, callback) {
         var rates = client.getTable('exchangeRates');
         rates.where(function (cur, low, high) {
@@ -189,7 +247,15 @@
     //TODO
    
     
-    //handle daylight saving 
+    //handle daylight saving
+    /**
+    * dateDiffInDays
+    * Retieve a range of values from the database
+    * based upon date
+    * @param {date} the higher date 
+    * @param {date} the lower date
+    * @return {number} number of dates inbetween the two params
+    */
     var dateDiffInDays = function (a, b) {
         var _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
