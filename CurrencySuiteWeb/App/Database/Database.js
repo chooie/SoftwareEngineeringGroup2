@@ -57,23 +57,64 @@
             case from:
                 retrieve(to, sqlDate, function (results) {
                     cache[from + to + sqlDate] = results[0].rate;
+                    cache[to + from + sqlDate] = 1 / results[0].rate;
+
                     app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
                     $('#submit').prop('disabled', false); //enable button
+                    if (results[0].time.getDate() == 5) { //cache weekends and fridays
+                        var saturday = new Date();
+                        var sunday = new Date();
+                        saturday.setDate(results[0].time.getDate() + 1);
+                        sunday.setDate(results[0].time.getDate() + 2);
+                        cache[from + to + formatDate(results[0].time.getDate())] = results[0].rate;
+                        cache[to + from + formatDate(results[0].time.getDate())] = 1 / results[0].rate;
+                        cache[from + to + formatDate(saturday)] = results[0].rate;
+                        cache[to + from + formatDate(saturday)] = 1 / results[0].rate;
+                        cache[from + to + formatDate(sunday)] = results[0].rate;
+                        cache[to + from + formatDate(sunday)] = 1 / results[0].rate;
+                    }
                 });
                 break;
             case to:
                 retrieve(from, sqlDate, function (results) {
+                    cache[to + from + sqlDate] = results[0].rate;
                     cache[from + to + sqlDate] = 1 / results[0].rate;
+
                     app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
                     $('#submit').prop('disabled', false); //enable button
+                    if (results[0].time.getDate() == 5) {//cache weekends and fridays
+                        var saturday = new Date();
+                        var sunday = new Date();
+                        saturday.setDate(results[0].time.getDate() + 1);
+                        sunday.setDate(results[0].time.getDate() + 2);
+                        cache[from + to + formatDate(results[0].time.getDate())] = 1 / results[0].rate;
+                        cache[to + from + formatDate(results[0].time.getDate())] = results[0].rate;
+                        cache[from + to + formatDate(saturday)] = 1 / results[0].rate;
+                        cache[to + from + formatDate(saturday)] = results[0].rate;
+                        cache[from + to + formatDate(sunday)] = 1 / results[0].rate;
+                        cache[to + from + formatDate(sunday)] = results[0].rate;
+                    }
                 });
                 break;
             default:
                 retrieve(from, sqlDate, function (fromResults) {
                     retrieve(to, date, function (toResults) {
                         cache[from + to + sqlDate] = toResults[0].rate / fromResults[0].rate;
+                        cache[to + from + sqlDate] = fromResults[0].rate / toResults[0].rate;
                         app.showNotification("YAH!!", from + " to " + to + "is " + (toResults[0].rate / fromResults[0].rate));
                         $('#submit').prop('disabled', false); //enable button
+                        if (results[0].time.getDate() == 5) {//cache weekends and fridays
+                            var saturday = new Date();
+                            var sunday = new Date();
+                            saturday.setDate(results[0].time.getDate() + 1);
+                            sunday.setDate(results[0].time.getDate() + 2);
+                            cache[from + to + formatDate(results[0].time.getDate())] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(results[0].time.getDate())] = fromResults[0].rate / toResults[0].rate;
+                            cache[from + to + formatDate(saturday)] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(saturday)] = fromResults[0].rate / toResults[0].rate;
+                            cache[from + to + formatDate(sunday)] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(sunday)] = fromResults[0].rate / toResults[0].rate;
+                        }
                     });
                 });
                 break;
