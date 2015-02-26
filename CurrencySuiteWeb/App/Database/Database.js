@@ -33,7 +33,6 @@
     };
     var cache = {};
     var client = new WindowsAzure.MobileServiceClient("https://currencyconvertersuite.azure-mobile.net/", "acxNSVXsPtUkSIdIWzTdePGrigqsRW85");
-
     /**
     * updateRate
     * returns a rate if cached otherwise returns null and retrieves value
