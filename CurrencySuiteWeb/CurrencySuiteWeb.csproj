@@ -68,7 +68,14 @@
   <ItemGroup>
     <Content Include="App\App.css" />
     <Content Include="App\App.js" />
+    <Content Include="App\Database\Database.js" />
+    <Content Include="App\Graph\Graph.css" />
+    <Content Include="App\Graph\img\bars.png" />
+    <Content Include="App\Graph\img\lines.png" />
+    <Content Include="App\Graph\img\lines_active.png" />
+    <Content Include="App\Graph\jquery.flot.min.js" />
     <Content Include="App\Home\Datepicker.js" />
+    <Content Include="App\Graph\Graph.js" />
     <Content Include="App\Home\Home.css" />
     <Content Include="App\Home\Home.html" />
     <Content Include="App\Home\Home.js" />

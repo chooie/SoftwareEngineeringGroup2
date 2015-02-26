@@ -4,6 +4,7 @@
 .curOptions{
     width: 95%;
     min-width: 100px;
+    max-width: 300px;
     display: inline;
 }
 .button{
@@ -11,11 +12,26 @@
     margin-left: auto;
     width: 95%;
     min-width: 100px;
+    max-width: 300px;
+}
+#date-wrapper{
+    width: 95%;
+    min-width: 100px;
+    max-width: 300px;
 }
 #date{
-    width: 55%;
-    float: right;
+    margin-left: 55%;
 }
 #datepicker{
-    width: 70px
+    width: 75px;
+}
+@media screen and (max-width: 500px) {
+    #graph-wrapper{
+        /*display: none;*/
+    }
+}
+@media screen and (min-width: 500px) {
+    #graph-wrapper{
+        display: inline;
+    }
 }

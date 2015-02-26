@@ -13,8 +13,7 @@
         dp.datepicker("option", "showButtonPanel", true);
 
         datepicker.getSelectedDate = function () {
-            var date = dp.datepicker("getDate");
-            return correctFormat(date);
+            return dp.datepicker("getDate");
         }
     };
     var getToday = function () {

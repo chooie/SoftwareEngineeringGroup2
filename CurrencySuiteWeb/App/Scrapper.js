@@ -1,5 +1,7 @@
 ﻿/* Common app functionality */
-
+/**
+    Was created for testing purposes, currently unused
+*/
 var scrapper = (function () {
 
 
