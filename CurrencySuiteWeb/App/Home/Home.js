@@ -122,27 +122,27 @@
      * @return {boolean} true if both codes valid
      *                   false if one code is not valid
      */
-     var validateCurrencyCodes = function(firstCode, secondCode) {
+    var validateCurrencyCodes = function(firstCode, secondCode) {
         var optionsDOM = $(".curOptions:first").children(),
-        fromSelectionIsValid = false,
-        toSelectionIsValid = false;
+          fromSelectionIsValid = false,
+          toSelectionIsValid = false;
       firstCode = firstCode.toUpperCase();
       secondCode = firstCode.toUpperCase();
       for (var i = 0; i<optionsDOM.length; i++){
           if (!fromSelectionIsValid &&
           optionsDOM[i].value === firstCode) {
-          fromSelectionIsValid = true;
-        }
+              fromSelectionIsValid = true;
+          }
           if (!toSelectionIsValid &&
             optionsDOM[i].value === secondCode) {
-          toSelectionIsValid = true;
-        }
-      if (fromSelectionIsValid && toSelectionIsValid) {
-        return true;
-      }
+              toSelectionIsValid = true;
+          }
+          if (fromSelectionIsValid && toSelectionIsValid) {
+              return true;
+          }
       }
       return false;
-     };
+    };
 
     /**
      * convertValue
@@ -169,55 +169,47 @@
      *      - Case 3: "100 USD EUR "29-02-2004"
      *        -> Convert 100 US Dollars into Euros based on
      *           the passed date (29-02-2004 in this case)
-     * TODO discuss implementing "... 29-02" assumes this year
      * TODO discuss implementing "... 29/02/2004" (different delimeters)
      *
      * @param {string} value the user entered query
      * @returns {number} The exchanged value
      */
     var convertValue = function (value) {
-        if (typeof value == "number") {
+      // Case 1: Just a single value in the cell
+      if (typeof value === "number") {
             return value * getExchangeRate($('#selectedFromCur').val(),
               $('#selectedToCur').val(), datepicker.getSelectedDate());
         }
       var valuesArray;
       // Remove whitespace at beginning and end of value
       value = value.trim();
-      try {
-        // Case 1: Just a single value in the cell
-        if (/^\d+\.?\d*$/.test(value)) {
-          return value * getExchangeRate($('#selectedFromCur').val(),
-              $('#selectedToCur').val(), datepicker.getSelectedDate());
-        }
+        try {
+        valuesArray = value.split(" ");
+        valuesArray[1] = valuesArray[1].toUpperCase();
+        valuesArray[2] = valuesArray[2].toUpperCase();
         // Case 1: Cell value is in the 'special' format (e.g. 100 USD GBP)
-        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
-          valuesArray = value.split(" ");
-          valuesArray[1] = valuesArray[1].toUpperCase();
-          valuesArray[2] = valuesArray[2].toUpperCase();
-          if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
-            return valuesArray[0] * getExchangeRate(valuesArray[1],
-                valuesArray[2], datepicker.getSelectedDate());
-          }
-          else {
-            throw new Error("Error thrown for Case 2 in convertValue function");
-          }
+        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
+        // Case 2: Cell value is in the 'special' format (e.g. 100 USD GBP)
+            if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
+                if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
+                    return valuesArray[0] * getExchangeRate(valuesArray[1],
+                        valuesArray[2], datepicker.getSelectedDate());
+                }
+            }
+            else {
+                throw new Error("Error thrown for Case 2 in convertValue function");
+            }
         }
         // Case 3
         else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/
             .test(value)) {
-          valuesArray = value.split(" ");
-          valuesArray[1] = valuesArray[1].toUpperCase();
-          valuesArray[2] = valuesArray[2].toUpperCase();
-          var dateDetails = valuesArray[3].split("-");
-          if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {//this is going to be broken, need to change date format into YYYY/MM/DD and convert that into a date object
-              return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], new Date(dateDetails[2] + "/" + dateDetails[1] + "/" + dateDetails[0]));
-          }
-          else {
-            throw new Error("Error thrown for Case 3 in convertValue function");
-          }
+            var dateDetails = valuesArray[3].split("-");
+            if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {//this is going to be broken, need to change date format into YYYY/MM/DD and convert that into a date object
+                return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], new Date(dateDetails[2] + "/" + dateDetails[1] + "/" + dateDetails[0]));
+            }
         }
         else {
-          throw new Error("Invalid query entered");
+            throw new Error("Error thrown for Case 3 in convertValue function");
         }  
       } 
       catch (error) {
@@ -261,12 +253,12 @@
         //      $('#selectedToCur').val(), "today");
         //}
         else {
-        // iterate over 2D array converting each cell             
-        for (var i = 0; i < asyncResult.value.length; i++) {
+            // iterate over 2D array converting each cell             
+            for (var i = 0; i < asyncResult.value.length; i++) {
                 for (var j = 0; j < asyncResult.value[i].length; j++) {
-            asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
-          }
-        }
+                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
+                }
+            }
         }
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
