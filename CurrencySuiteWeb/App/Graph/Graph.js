@@ -43,22 +43,27 @@
             }
         });
         // Create public graph.update
-        graph.update = function () {
-            updateGraph();
+        graph.update = function (values) {
+            updateGraph(values);
         }
     };
-    updateGraph = function () {
+    var graphItem = null
+    updateGraph = function (values) {
+        //if (graphItem != null) {
+            //graphItem.setData(values);
+            //return;
+        //}
         var fromCur = $('#selectedFromCur').val();
         var toCur = $('#selectedToCur').val();
         $('#graph-label').text(fromCur +" to " + toCur);
         // Graph Data ##############################################
         var graphData = [{
             // [Date, Value] 2010/08/17
-            data: [[new Date("2015/12/1"), 1.23], [new Date("2015/12/2"), 1.21], [new Date("2015/12/3"), 1.15], [new Date("2015/12/4"), 1.17], [new Date("2015/12/5"), 1.19], [new Date("2015/12/6"), 1.15], [new Date("2015/12/7"), 1.27], [new Date("2015/12/8"), 1.25], [new Date("2015/12/9"), 1.23], [new Date("2015/12/10"), 1.20]],
+            data: values,
             color: '#71c73e'
         }];
         // Lines Graph #############################################
-        $.plot($('#graph-lines'), graphData, {
+        graphItem = $.plot($('#graph-lines'), graphData, {
             series: {
                 points: {
                     show: true,

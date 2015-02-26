@@ -16,7 +16,8 @@
             $('#submit').click(executeCellConversions);
             datepicker.initialize();
             graph.initialize();
-            scrapperInit();
+            graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], [new Date("2015/12/3"), 1], [new Date("2015/12/4"), 1], [new Date("2015/12/5"), 1], [new Date("2015/12/6"), 1], [new Date("2015/12/7"), 1], [new Date("2015/12/8"), 1], [new Date("2015/12/9"), 1], [new Date("2015/12/10"), 1]])
+            databaseInit();
         });
     };
 

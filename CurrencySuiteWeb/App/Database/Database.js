@@ -174,7 +174,7 @@
                     upper.setDate(date.getDate() + upperLimit);
                     retrieveRange(formatDate(low), formatDate(upper), cur, function (results) {
                         var graphData = [];
-                        for (var i = 0; i < results.length; i++) {
+                        for (var i = results.length-1; i >= 0; i--) {
                             if (isTo == 0) {
                                 graphData[i] = [results[i].time, results[i].rate];
                             }
@@ -182,7 +182,7 @@
                                 graphData[i] = [results[i].time, 1 / results[i].rate];
                             }
                         }
-                        //update graph
+                        graph.update(graphData);
                     });
                     
                 });
@@ -210,7 +210,7 @@
                             for (var i = 0; i < length; i++) {//I'm kind of lying here and asssuming they found the same dates, otherwise it gets very complicated
                                 graphData[i] = [fromResults[i].time, toResults[i].rate / fromResults[i].rate];
                             }
-                            //update the graph here
+                            graph.update(graphData);
                         });
                     });
                 });
