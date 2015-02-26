@@ -1,24 +1,16 @@
 ﻿.getCur{
-    width: 65%;
-    border-radius: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    width: 100%;
 }
 .curOptions{
-    border-radius: 10px;
     width: 95%;
     min-width: 100px;
     max-width: 300px;
     display: inline;
-
 }
 .button{
-    border-radius: 10px;
-    margin-right: 32.50%;
-    margin-left: 32.5%;
-    width: 35%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 95%;
     min-width: 100px;
     max-width: 300px;
 }
@@ -28,10 +20,7 @@
     max-width: 300px;
 }
 #date{
-    width: 55%;
-    padding-top: 70px;
-    padding-left: 200px;
-    *\margin-left: 55%;
+    margin-left: 55%;
 }
 #datepicker{
     width: 75px;
