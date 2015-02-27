@@ -105,10 +105,7 @@
      */
     var getExchangeRate = function (fromCurrency, toCurrency, date) {
         var rate = database.updateRate(fromCurrency, toCurrency, date);
-        if (rate != null) {
-            return rate;
-        }
-        return -1;
+        return rate;
     };
 
     /**
@@ -144,6 +141,8 @@
       return false;
     };
 
+
+    var noFinished = [];
     /**
      * convertValue
      * Get the exchanged value. Can take multiple forms of 
@@ -174,11 +173,16 @@
      * @param {string} value the user entered query
      * @returns {number} The exchanged value
      */
-    var convertValue = function (value) {
+    var convertValue = function (value, i, j) {
       // Case 1: Just a single value in the cell
-      if (typeof value === "number") {
-            return value * getExchangeRate($('#selectedFromCur').val(),
+        if (typeof value === "number") {
+            var rate = getExchangeRate($('#selectedFromCur').val(),
               $('#selectedToCur').val(), datepicker.getSelectedDate());
+            if (rate == null) {
+                noFinished.push([i,j]);
+                return value;
+            }
+            return value * rate;
         }
       var valuesArray;
       // Remove whitespace at beginning and end of value
@@ -192,8 +196,13 @@
         // Case 2: Cell value is in the 'special' format (e.g. 100 USD GBP)
             if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
                 if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
-                    return valuesArray[0] * getExchangeRate(valuesArray[1],
+                    var rate = getExchangeRate(valuesArray[1],
                         valuesArray[2], datepicker.getSelectedDate());
+                    if (rate == null) {
+                        noFinished.push([i, j]);
+                        return value;
+                    }
+                    return valuesArray[0] * rate;
                 }
             }
             else {
@@ -205,7 +214,12 @@
             .test(value)) {
             var dateDetails = valuesArray[3].split("-");
             if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {//this is going to be broken, need to change date format into YYYY/MM/DD and convert that into a date object
-                return valuesArray[0] * getExchangeRate(valuesArray[1], valuesArray[2], new Date(dateDetails[2] + "/" + dateDetails[1] + "/" + dateDetails[0]));
+                var rate = getExchangeRate(valuesArray[1], valuesArray[2], new Date(dateDetails[2] + "/" + dateDetails[1] + "/" + dateDetails[0]));
+                if (rate == null) {
+                    noFinished.push([i, j]);
+                    return value;
+                }
+                return valuesArray[0] * rate;
             }
         }
         else {
@@ -248,22 +262,20 @@
           errorOccurred = true;
           return;
         }
-        //if (typeof asyncResult.value[0][0] == "number") {
-        //    asyncResult.value[0][0] *= getExchangeRate($('#selectedFromCur').val(),
-        //      $('#selectedToCur').val(), "today");
-        //}
-        else {
-            // iterate over 2D array converting each cell             
-            for (var i = 0; i < asyncResult.value.length; i++) {
-                for (var j = 0; j < asyncResult.value[i].length; j++) {
-                    asyncResult.value[i][j] = convertValue(asyncResult.value[i][j]);
-                }
+        noFinished = [];
+        database.setQue(0);
+        // iterate over 2D array converting each cell             
+        for (var i = 0; i < asyncResult.value.length; i++) {
+            for (var j = 0; j < asyncResult.value[i].length; j++) {
+                asyncResult.value[i][j] = convertValue(asyncResult.value[i][j], i, j);
             }
         }
-        // Return values to excel
-        Office.context.document.setSelectedDataAsync(
-          asyncResult.value
-        );
+        waitForTrue(asyncResult);
+       
+        //// Return values to excel
+        //Office.context.document.setSelectedDataAsync(
+        //  asyncResult.value
+        //);
 
         // Display success message if no errors have occurred
         //if (!errorOccurred) {
@@ -273,5 +285,22 @@
         errorOccurred = false;
       } // end of callback
     );
-  };
+    };
+    var waitForTrue = function (array) {
+        var check = database.checkQueFinished();
+        if (database.checkQueFinished()) {
+            for (var i = 0; i < noFinished.length; i++) {
+                array.value[noFinished[i][0]][noFinished[i][1]] = convertValue(array.value[noFinished[i][0]][noFinished[i][1]], noFinished[i][0], noFinished[i][1]);
+            }
+            // Return values to excel
+            Office.context.document.setSelectedDataAsync(
+              array.value
+            );
+        }
+        else {
+            setTimeout(function () {
+                waitForTrue(array)
+            }, 250); // 1/4 second
+        }
+    }
 })();

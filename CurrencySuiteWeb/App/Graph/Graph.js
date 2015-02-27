@@ -83,9 +83,9 @@
             xaxis: {
                 tickColor: 'transparent',
                 mode: "time",
+                timeformat: "%d/%m"
             },
             yaxis: {
-                tickSize: 0.05 
             }
         });
     }
