@@ -270,7 +270,7 @@
                 asyncResult.value[i][j] = convertValue(asyncResult.value[i][j], i, j);
             }
         }
-        waitForTrue(asyncResult);
+        waitForQue(asyncResult);
        
         //// Return values to excel
         //Office.context.document.setSelectedDataAsync(
@@ -286,7 +286,7 @@
       } // end of callback
     );
     };
-    var waitForTrue = function (array) {
+    var waitForQue = function (array) {
         var check = database.checkQueFinished();
         if (database.checkQueFinished()) {
             for (var i = 0; i < noFinished.length; i++) {
@@ -299,7 +299,7 @@
         }
         else {
             setTimeout(function () {
-                waitForTrue(array)
+                waitForQue(array)
             }, 250); // 1/4 second
         }
     }
