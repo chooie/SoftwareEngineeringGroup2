@@ -239,8 +239,12 @@
                                 var sunday = new Date(results[i].time);
                                 saturday.setDate(results[i].time.getDate() + 1);
                                 sunday.setDate(results[i].time.getDate() + 2);
-                                graphData.push([saturday, results[i].rate]);
-                                graphData.push([sunday, results[i].rate]);
+                                if (saturday <= new Date()) {
+                                    graphData.push([saturday, results[i].rate]);
+                                    if (sunday <= new Date()) {
+                                        graphData.push([sunday, results[i].rate]);
+                                    }
+                                }
                             }
                         }
                         graph.update(graphData);
@@ -275,8 +279,12 @@
                                     var sunday = new Date(fromResults[i].time);
                                     saturday.setDate(fromResults[i].time.getDate() + 1);
                                     sunday.setDate(fromResults[i].time.getDate() + 2);
-                                    graphData.push([saturday, toResults[i].rate / fromResults[i].rate]);
-                                    graphData.push([sunday, toResults[i].rate / fromResults[i].rate]);
+                                    if (saturday <= new Date()) {
+                                        graphData.push([saturday, toResults[i].rate / fromResults[i].rate]);
+                                        if (sunday <= new Date()) {
+                                            graphData.push([sunday, toResults[i].rate / fromResults[i].rate]);
+                                        }
+                                    }
                                 }
                             }
                             graph.update(graphData);
