@@ -1,6 +1,6 @@
 ﻿/// <reference path="../App.js" />
 /// <reference path="../Scrapper.js" />
-/// <reference path="../Database.js" />
+/// <reference path="../Database/Database.js" />
 (function () {
     "use strict";
     var original,
