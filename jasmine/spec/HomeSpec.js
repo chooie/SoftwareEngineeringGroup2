@@ -9,8 +9,10 @@
  */
 // TODO - when getExchangeRate is functional, implement tests
 describe("getExchangeRateTest", function() {
-    it("tests if returned exchange rate is correct", function() {
-      expect(window.CurrencyConverter.home.getExchangeRate("USD", "EUR", "today")).toEqual(10);
+    it("tests if returned exchange rate is correct from US Dollars " + 
+        "to Australian Dollars on the 26th of Febuary 2015", function() {
+      console.log(window.CurrencyConverter.home.getExchangeRate("USD", "AUD", new Date()));
+      expect(window.CurrencyConverter.home.getExchangeRate("USD", "AUD", new Date())).toEqual(1.450);
     });
 });
 

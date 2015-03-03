@@ -17,18 +17,18 @@
             datepicker.initialize();
             graph.initialize();
             graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], [new Date("2015/12/3"), 1], [new Date("2015/12/4"), 1], [new Date("2015/12/5"), 1], [new Date("2015/12/6"), 1], [new Date("2015/12/7"), 1], [new Date("2015/12/8"), 1], [new Date("2015/12/9"), 1], [new Date("2015/12/10"), 1]])
-            databaseInit();
+            CurrencyConverter.home.databaseInit();
         });
     };
 
-window.CurrencyConverter = window.CurrencyConverter || {};
+    window.CurrencyConverter = window.CurrencyConverter || {};
 
-window.CurrencyConverter.home = {
+    window.CurrencyConverter.home = {
     /**
     * databaseInit
     * Initiates and creates listeners for the database
     */
-    var databaseInit = function () {
+    databaseInit: function () {
         database.initialize();
         // adding listeners
         $('#selectedFromCur').change(function () {
@@ -123,7 +123,7 @@ window.CurrencyConverter.home = {
      * @return {boolean} true if both codes valid
      *                   false if one code is not valid
      */
-    var validateCurrencyCodes = function(firstCode, secondCode) {
+    validateCurrencyCodes: function(firstCode, secondCode) {
         var optionsDOM = $(".curOptions:first").children(),
           fromSelectionIsValid = false,
           toSelectionIsValid = false;
