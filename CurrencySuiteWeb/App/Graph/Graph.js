@@ -1,8 +1,8 @@
-﻿var graph = (function () {
+﻿window.CurrencyConverter.graph = (function () {
 
 
-    var graph = {};
-    var graphData;
+    var graph = {},
+        graphData;
     // Common initialization function (to be called from each page)
     graph.initialize = function () {
         // add graph to home

@@ -1,5 +1,5 @@
 ﻿/// <reference path="../Scripts/MobileServices.Web-1.2.5.min.js" />
-var database = (function () {
+window.CurrencyConvert.database = (function () {
 
 
     var database = {};
@@ -342,5 +342,8 @@ var database = (function () {
 
         return Math.floor((utc2 - utc1) / _MS_PER_DAY);
     }
-    return database;
+   
+    return {
+        initialize: initialize
+    };
 })();
