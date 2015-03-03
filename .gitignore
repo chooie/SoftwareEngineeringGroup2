@@ -165,3 +165,4 @@ $RECYCLE.BIN/
 # =========================
 packages/
 CurrencySuiteWeb/Scripts/
+!CurrencySuiteWeb/Scripts/MobileServices.Web-1.2.5.min.js
