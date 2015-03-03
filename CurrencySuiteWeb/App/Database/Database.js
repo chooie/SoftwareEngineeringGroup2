@@ -1,5 +1,4 @@
-﻿/// <reference path="../Scripts/MobileServices.Web-1.2.5.min.js" />
-var database = (function () {
+﻿var database = (function () {
 
 
     var database = {};
