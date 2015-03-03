@@ -16,7 +16,10 @@
             $('#submit').click(CurrencyConverter.home.executeCellConversions);
             datepicker.initialize();
             graph.initialize();
-            graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], [new Date("2015/12/3"), 1], [new Date("2015/12/4"), 1], [new Date("2015/12/5"), 1], [new Date("2015/12/6"), 1], [new Date("2015/12/7"), 1], [new Date("2015/12/8"), 1], [new Date("2015/12/9"), 1], [new Date("2015/12/10"), 1]])
+            graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], 
+                [new Date("2015/12/3"), 1], [new Date("2015/12/4"), 1], [new Date("2015/12/5"), 1], 
+                [new Date("2015/12/6"), 1], [new Date("2015/12/7"), 1], [new Date("2015/12/8"), 1], 
+                [new Date("2015/12/9"), 1], [new Date("2015/12/10"), 1]])
             CurrencyConverter.home.databaseInit();
         });
     };
@@ -24,9 +27,10 @@
     window.CurrencyConverter = window.CurrencyConverter || {};
     window.CurrencyConverter.database = window.CurrencyConverter.database || {};
     var noFinished = [];
-    window.CurrencyConverter.home = {};
-    var home = window.CurrencyConverter.home;
 
+    /**
+     * Contains all methods used in the app
+     */
     window.CurrencyConverter.home = {
     /**
     * databaseInit
@@ -109,8 +113,8 @@
      * @returns {number} The exchange rate based on the parameters
      */
     getExchangeRate: function (fromCurrency, toCurrency, date) {
-        var rate = database.updateRate(fromCurrency, toCurrency, date);
-        return rate;
+        return database.updateRate(fromCurrency, toCurrency, date);
+        // return rate;
     },
 
     /**
@@ -176,8 +180,8 @@
      */
     convertValue: function (value, i, j) {
         var valuesArray,
-            rate;
-      // Case 1: Just a single value in the cell
+          rate;
+        // Case 1: Just a single value in the cell
         if (typeof value === "number") {
             rate = window.CurrencyConverter.home.getExchangeRate($('#selectedFromCur').val(),
                     $('#selectedToCur').val(), datepicker.getSelectedDate());
@@ -283,7 +287,9 @@
       var check = database.checkQueFinished();
       if (database.checkQueFinished()) {
           for (var i = 0; i < noFinished.length; i++) {
-              array.value[noFinished[i][0]][noFinished[i][1]] = window.CurrencyConverter.home.convertValue(array.value[noFinished[i][0]][noFinished[i][1]], noFinished[i][0], noFinished[i][1]);
+              array.value[noFinished[i][0]][noFinished[i][1]] = 
+                window.CurrencyConverter.home.convertValue(array.value[noFinished[i][0]][noFinished[i][1]], 
+                noFinished[i][0], noFinished[i][1]);
           }
           // Return values to excel
           Office.context.document.setSelectedDataAsync(
