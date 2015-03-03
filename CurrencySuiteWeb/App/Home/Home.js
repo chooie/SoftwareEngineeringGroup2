@@ -3,26 +3,28 @@
 /// <reference path="../Database.js" />
 (function () {
     "use strict";
-    var noFinished,
-        datepicker = window.CurrencyConverter.datepicker,
-        database = window.CurrencyConverter.database,
-        graph = window.CurrencyConverter.graph;
 
     // Ensure Currency Converter is defined
     window.CurrencyConverter = window.CurrencyConverter || {};
+
+    var noFinished,
+        cc = window.CurrencyConverter,
+        datepicker = cc.datepicker,
+        database = cc.database,
+        graph = cc.graph;
+
     noFinished = [];
 
     /**
      * Contains all methods used in the app
      */
-    window.CurrencyConverter.home = {
+    cc.home = {
 
         /**
         * databaseInit
         * Initiates and creates listeners for the database
         */
         databaseInit: function () {
-            database.initialize();
 
             // Adding listeners
             $('#selectedFromCur').change(function () {
@@ -98,6 +100,7 @@
             $("#selectedToCur :nth-child(" + from + ")")
                 .prop('selected', true);
         },
+
         /**
          * getExchangeRate
          * Determine the exchange rate between two currencies for 
@@ -182,7 +185,7 @@
             var valuesArray,
                 rate,
                 dateDetails;
-          // Case 1: Just a single value in the cell
+            // Case 1: Just a single value in the cell
             if (typeof value === "number") {
                 rate = this.getExchangeRate($('#selectedFromCur').val(),
                         $('#selectedToCur').val(),
@@ -249,8 +252,6 @@
          * conversion operations on
          */
         executeCellConversions: function () {
-            var that = this;
-
             // Retrieves values from excel
             Office.context.document.getSelectedDataAsync(
                 Office.CoercionType.Matrix,
@@ -278,18 +279,19 @@
                         return;
                     }
                     noFinished = [];
-                    database.setQue(0);
+                    database.setQueue(0);
                     // iterate over 2D array converting each cell             
                     for (i = 0; i < asyncResult.value.length; i++) {
                         for (j = 0; j < asyncResult.value[i].length; j++) {
-                            asyncResult.value[i][j] = that.convertValue(
-                                asyncResult.value[i][j],
-                                i,
-                                j
+                            asyncResult.value[i][j] =
+                                cc.home.convertValue(
+                                    asyncResult.value[i][j],
+                                    i,
+                                    j
                             );
                         }
                     }
-                    window.CurrencyConverter.home.waitForQue(asyncResult);
+                    cc.home.waitForQueue(asyncResult);
              
                     // Return values to excel
                     //Office.context.document.setSelectedDataAsync(
@@ -305,10 +307,9 @@
             );
         },
 
-        waitForQue: function (array) {
-            var check = database.checkQueFinished(),
-                i,
-                that = this;
+        waitForQueue: function (array) {
+            var check = database.checkQueueFinished(),
+                i;
           if (check) {
               for (i = 0; i < noFinished.length; i++) {
                   array.value[noFinished[i][0]][noFinished[i][1]] = 
@@ -324,7 +325,7 @@
           }
           else {
               setTimeout(function () {
-                  that.waitForQue(array);
+                  cc.home.waitForQueue(array);
               }, 250); // 1/4 second
           }
         }
@@ -337,8 +338,8 @@
     Office.initialize = function () {
         $(document).ready(function () {
             app.initialize();
-            $('#swap').click(CurrencyConverter.home.swap);
-            $('#submit').click(CurrencyConverter.home.executeCellConversions);
+            $('#swap').click(cc.home.swap);
+            $('#submit').click(cc.home.executeCellConversions);
             datepicker.initialize();
             graph.initialize();
             graph.update([[new Date("2015/12/1"), 1],
@@ -351,7 +352,7 @@
                 [new Date("2015/12/8"), 1],
                 [new Date("2015/12/9"), 1],
                 [new Date("2015/12/10"), 1]]);
-            CurrencyConverter.home.databaseInit();
+            cc.home.databaseInit();
         });
     };
 }());

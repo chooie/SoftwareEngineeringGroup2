@@ -1,4 +1,5 @@
-﻿window.CurrencyConverter.datepicker = (function () {
+﻿window.CurrencyConverter = window.CurrencyConverter || {};
+window.CurrencyConverter.datepicker = (function () {
 
     // Private Methods
     var addZero,
@@ -34,14 +35,12 @@
         dp.datepicker("option", "maxDate", "0");
         dp.datepicker("setDate", getToday());
         dp.datepicker("option", "showButtonPanel", true);
-
-        // TODO - Is there a better way of doing this?
-        window.Currency.datepicker.getSelectedDate = function () {
-            return dp.datepicker("getDate");
-        };
     };
 
     return {
-        initialize: initialize
+        initialize: initialize,
+        getSelectedDate: function () {
+            return $("#datepicker").datepicker("getDate");
+        }
     };
 }());
