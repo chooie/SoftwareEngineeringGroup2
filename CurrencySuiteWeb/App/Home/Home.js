@@ -16,8 +16,8 @@
             $('#submit').click(CurrencyConverter.home.executeCellConversions);
             datepicker.initialize();
             graph.initialize();
-            graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], [new Date("2015/12/3"), 1], [new Date("2015/12/4"), 1], [new Date("2015/12/5"), 1], [new Date("2015/12/6"), 1], [new Date("2015/12/7"), 1], [new Date("2015/12/8"), 1], [new Date("2015/12/9"), 1], [new Date("2015/12/10"), 1]])
-            CurrencyConverter.home.databaseInit();
+            graph.update([[new Date("2015/12/1"), 1], [new Date("2015/12/2"), 1], [new Date("2015/12/3"), 1]])
+            databaseInit();
         });
     };
 
@@ -106,10 +106,7 @@
      */
     getExchangeRate: function (fromCurrency, toCurrency, date) {
         var rate = database.updateRate(fromCurrency, toCurrency, date);
-        if (rate != null) {
-            return rate;
-        }
-        return -1;
+        return rate;
     },
 
     /**
@@ -141,42 +138,49 @@
             }
         }
         return false;
-    },
+    }
 
-   /**
-    * convertValue
-    * Get the exchanged value. Can take multiple forms of 
-    * input from the user.
-    *
-    *    Valid Inputs;
-    *
-    *      *****NOTES: 
-    *        Numerical value can contain or omit decimal digits
-    *        Trailing spaces are allowed
-    *        Trailing spaces between values are not allowed
-    *        Leading spaces shouldn't be allowed, need to check
-    *     ******END NOTES
-    *
-    *      - Case 1: "100"
-    *        -> Convert 100 of whatever currency is selected
-    *           in the top drop down bar into whatever
-    *           currency is in the bottom drop down bar based
-    *           on the current date(today)
-    *      - Case 2: "100 USD EUR"
-    *        -> Convert 100 US Dollars into Euros based on
-    *           the current date (today)
-    *      - Case 3: "100 USD EUR "29-02-2004"
-    *        -> Convert 100 US Dollars into Euros based on
-    *           the passed date (29-02-2004 in this case)
-    *
-    * @param {string} value the user entered query
-    * @returns {number} The exchanged value
-    */
-    convertValue: function (value) {
-        // Case 1: Just a single value in the cell
+    var noFinished = [];
+    /**
+     * convertValue
+     * Get the exchanged value. Can take multiple forms of 
+     * input from the user.
+     *
+     *    Valid Inputs;
+     *
+     *      *****NOTES: 
+     *        Numerical value can contain or omit decimal digits
+     *        Trailing spaces are allowed
+     *        Trailing spaces between values are not allowed
+     *        Leading spaces shouldn't be allowed, need to check
+     *     ******END NOTES
+     *
+     *      - Case 1: "100"
+     *        -> Convert 100 of whatever currency is selected
+     *           in the top drop down bar into whatever
+     *           currency is in the bottom drop down bar based
+     *           on the current date(today)
+     *      - Case 2: "100 USD EUR"
+     *        -> Convert 100 US Dollars into Euros based on
+     *           the current date (today)
+     *      - Case 3: "100 USD EUR "29-02-2004"
+     *        -> Convert 100 US Dollars into Euros based on
+     *           the passed date (29-02-2004 in this case)
+     * TODO discuss implementing "... 29/02/2004" (different delimeters)
+     *
+     * @param {string} value the user entered query
+     * @returns {number} The exchanged value
+     */
+    var convertValue = function (value, i, j) {
+      // Case 1: Just a single value in the cell
         if (typeof value === "number") {
-            return value * window.CurrencyConverter.home.getExchangeRate($('#selectedFromCur').val(),
-                $('#selectedToCur').val(), "today");
+            var rate = getExchangeRate($('#selectedFromCur').val(),
+              $('#selectedToCur').val(), datepicker.getSelectedDate());
+            if (rate == null) {
+                noFinished.push([i,j]);
+                return value;
+            }
+            return value * rate;
         }
         var valuesArray;
         // Remove whitespace at beginning and end of value
@@ -187,12 +191,14 @@
             valuesArray[2] = valuesArray[2].toUpperCase();
             // Case 2: Cell value is in the 'special' format (e.g. 100 USD GBP)
             if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
-                if (window.CurrencyConverter.home.validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
-                    return valuesArray[0] * window.CurrencyConverter.home.getExchangeRate(valuesArray[1],
-                      valuesArray[2], "today");
-                }
-                else {
-                    throw new Error("Error thrown for Case 2 in convertValue function");
+                if (validateCurrencyCodes(valuesArray[1], valuesArray[2])) {
+                    var rate = getExchangeRate(valuesArray[1],
+                        valuesArray[2], datepicker.getSelectedDate());
+                    if (rate == null) {
+                        noFinished.push([i, j]);
+                        return value;
+                    }
+                    return valuesArray[0] * rate;
                 }
             }
                 // Case 3: Cell value is in the 'special' format (e.g. 100 USD GBP 20-12-2001)
@@ -213,13 +219,13 @@
             "it was not a valid number.");
             return value;
         }
-    },
+    }
     /**
      * executeCellConversions
      * method takes in 2D array representing the selected cells to perform
      * conversion operations on
      */
-    executeCellConversions: function () {
+    var executeCellConversions = function () {
       // Retrieves values from excel
       Office.context.document.getSelectedDataAsync(Office.CoercionType.Matrix,
       {
@@ -228,40 +234,58 @@
       },
       // The callback function
       function (asyncResult) {
-          if (asyncResult.status == "failed") {
-              app.showNotification("Whoops", asyncResult.error.message);
-              errorOccurred = true;
-              return;
-          }
-          original = asyncResult.value[0][0];
-          // User is attempting to use convert whilst still inputting into the cell
-          if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
-              app.showNotification("Try Again", "Please re-select the data as it " + 
-                                   "has not been properly selected");
-              errorOccurred = true;
-              return;
-          }
-          else {
-              // iterate over 2D array converting each cell             
-              for (var i = 0; i < asyncResult.value.length; i++) {
-                  for (var j = 0; j < asyncResult.value[i].length; j++) {
-                      asyncResult.value[i][j] = window.CurrencyConverter.home.convertValue(asyncResult.value[i][j]);
-                  }
-              }
-          }
-          // Return values to excel
-          Office.context.document.setSelectedDataAsync(
-              asyncResult.value
-          );
+        if (asyncResult.status == "failed") {
+          app.showNotification("Whoops", asyncResult.error.message);
+          errorOccurred = true;
+          return;
+        }
+        original = asyncResult.value[0][0];
+        // User is attempting to use convert whilst still inputting into the cell
+        if (asyncResult.value.length === 1 && asyncResult.value[0][0] === "") {
+          app.showNotification("Try Again", "Please re-select the data as it " + 
+                               "has not been properly selected");
+          errorOccurred = true;
+          return;
+        }
+        noFinished = [];
+        database.setQue(0);
+        // iterate over 2D array converting each cell             
+        for (var i = 0; i < asyncResult.value.length; i++) {
+            for (var j = 0; j < asyncResult.value[i].length; j++) {
+                asyncResult.value[i][j] = convertValue(asyncResult.value[i][j], i, j);
+            }
+        }
+        waitForQue(asyncResult);
+       
+        //// Return values to excel
+        //Office.context.document.setSelectedDataAsync(
+        //  asyncResult.value
+        //);
 
-          // Display success message if no errors have occurred
-          //if (!errorOccurred) {
-          //  app.showNotification("Success", "Your currencies have successfully " +
-          //  "been converted!");
-          //}
-          errorOccurred = false;
-        } // end of callback
-      );
+        // Display success message if no errors have occurred
+        //if (!errorOccurred) {
+        //  app.showNotification("Success", "Your currencies have successfully " +
+        //  "been converted!");
+        //}
+        errorOccurred = false;
+      } // end of callback
+    );
+    };
+    var waitForQue = function (array) {
+        var check = database.checkQueFinished();
+        if (database.checkQueFinished()) {
+            for (var i = 0; i < noFinished.length; i++) {
+                array.value[noFinished[i][0]][noFinished[i][1]] = convertValue(array.value[noFinished[i][0]][noFinished[i][1]], noFinished[i][0], noFinished[i][1]);
+            }
+            // Return values to excel
+            Office.context.document.setSelectedDataAsync(
+              array.value
+            );
+        }
+        else {
+            setTimeout(function () {
+                waitForQue(array)
+            }, 250); // 1/4 second
+        }
     }
-  };
 })();

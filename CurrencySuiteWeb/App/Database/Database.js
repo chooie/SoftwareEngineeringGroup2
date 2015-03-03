@@ -1,4 +1,5 @@
-﻿var database = (function () {
+﻿/// <reference path="../Scripts/MobileServices.Web-1.2.5.min.js" />
+var database = (function () {
 
 
     var database = {};
@@ -30,9 +31,19 @@
         database.updateGraph = function (from, to, date) {
             getGraphRates(from, to, date);
         }
+        database.checkQueFinished = function () {
+            return que === 0;
+        }
+        database.getQue = function () {
+            return que;    
+        }
+        database.setQue = function (val) {
+            que = val;    
+        }
     };
     var cache = {};
     var client = new WindowsAzure.MobileServiceClient("https://currencyconvertersuite.azure-mobile.net/", "acxNSVXsPtUkSIdIWzTdePGrigqsRW85");
+    var que = 0;
     /**
     * updateRate
     * returns a rate if cached otherwise returns null and retrieves value
@@ -52,28 +63,73 @@
         if (cache[from + to + sqlDate] != null) {
             return cache[from + to + sqlDate];
         }
+        que += 1;
         $('#submit').prop('disabled', true); //disable button
         switch ("EUR") {
             case from:
                 retrieve(to, sqlDate, function (results) {
                     cache[from + to + sqlDate] = results[0].rate;
-                    app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
+                    cache[to + from + sqlDate] = 1 / results[0].rate;
+
+                    //app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
                     $('#submit').prop('disabled', false); //enable button
+                    if (results[0].time.getDay() === 5) { //cache weekends and fridays
+                        var saturday = new Date(results[0].time);
+                        var sunday = new Date(results[0].time);
+                        saturday.setDate(results[0].time.getDate() + 1);
+                        sunday.setDate(results[0].time.getDate() + 2);
+                        cache[from + to + formatDate(results[0].time)] = results[0].rate;
+                        cache[to + from + formatDate(results[0].time)] = 1 / results[0].rate;
+                        cache[from + to + formatDate(saturday)] = results[0].rate;
+                        cache[to + from + formatDate(saturday)] = 1 / results[0].rate;
+                        cache[from + to + formatDate(sunday)] = results[0].rate;
+                        cache[to + from + formatDate(sunday)] = 1 / results[0].rate;
+                    }
+                    que -= 1;
                 });
                 break;
             case to:
                 retrieve(from, sqlDate, function (results) {
+                    cache[to + from + sqlDate] = results[0].rate;
                     cache[from + to + sqlDate] = 1 / results[0].rate;
-                    app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
+
+                    //app.showNotification("YAH!!", results[0].currency + ": " + results[0].rate + " at " + results[0].time);
                     $('#submit').prop('disabled', false); //enable button
+                    if (results[0].time.getDay() === 5) {//cache weekends and fridays
+                        var saturday = new Date(results[0].time);
+                        var sunday = new Date(results[0].time);
+                        saturday.setDate(results[0].time.getDate() + 1);
+                        sunday.setDate(results[0].time.getDate() + 2);
+                        cache[from + to + formatDate(results[0].time)] = 1 / results[0].rate;
+                        cache[to + from + formatDate(results[0].time)] = results[0].rate;
+                        cache[from + to + formatDate(saturday)] = 1 / results[0].rate;
+                        cache[to + from + formatDate(saturday)] = results[0].rate;
+                        cache[from + to + formatDate(sunday)] = 1 / results[0].rate;
+                        cache[to + from + formatDate(sunday)] = results[0].rate;
+                    }
+                    que -= 1;
                 });
                 break;
             default:
                 retrieve(from, sqlDate, function (fromResults) {
                     retrieve(to, date, function (toResults) {
                         cache[from + to + sqlDate] = toResults[0].rate / fromResults[0].rate;
-                        app.showNotification("YAH!!", from + " to " + to + "is " + (toResults[0].rate / fromResults[0].rate));
+                        cache[to + from + sqlDate] = fromResults[0].rate / toResults[0].rate;
+                        //app.showNotification("YAH!!", from + " to " + to + "is " + (toResults[0].rate / fromResults[0].rate));
                         $('#submit').prop('disabled', false); //enable button
+                        if (toResults[0].time.getDay() === 5) {//cache weekends and fridays
+                            var saturday = new Date(toResults[0].time);
+                            var sunday = new Date(toResults[0].time);
+                            saturday.setDate(toResults[0].time.getDate() + 1);
+                            sunday.setDate(toResults[0].time.getDate() + 2);
+                            cache[from + to + formatDate(toResults[0].time)] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(fromResults[0].time)] = fromResults[0].rate / toResults[0].rate;
+                            cache[from + to + formatDate(saturday)] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(saturday)] = fromResults[0].rate / toResults[0].rate;
+                            cache[from + to + formatDate(sunday)] = toResults[0].rate / fromResults[0].rate;
+                            cache[to + from + formatDate(sunday)] = fromResults[0].rate / toResults[0].rate;
+                        }
+                        que -= 1;
                     });
                 });
                 break;
@@ -154,6 +210,7 @@
     * @param {Date} date
     */
     var getGraphRates = function (from, to, date) {
+        var range = 14;
         var sqlDate = formatDate(date);
         var isTo = 0;
         var cur = to;
@@ -164,21 +221,31 @@
             case from:
                 retrieve(cur, sqlDate, function (resultsDate) {
                     var upperLimit = dateDiffInDays(new Date(), resultsDate[0].time);
-                    if (upperLimit > 9) {
-                        upperLimit = 9;
+                    if (upperLimit > range/2) {
+                        upperLimit = range/2;
                     }
                     var low = new Date();
                     var upper = new Date();
-                    low.setDate(date.getDate() - (18 - upperLimit));
+                    low.setDate(date.getDate() - (range - upperLimit));
                     upper.setDate(date.getDate() + upperLimit);
                     retrieveRange(formatDate(low), formatDate(upper), cur, function (results) {
                         var graphData = [];
-                        for (var i = results.length-1; i >= 0; i--) {
-                            if (isTo == 0) {
-                                graphData[i] = [results[i].time, results[i].rate];
+                        for (var i = 0; i < results.length; i++) {
+                            if (isTo == 1) {
+                                results[i].rate = 1/results[i].rate;
                             }
-                            else if (isTo == 1) {
-                                graphData[i] = [results[i].time, 1 / results[i].rate];
+                            graphData.push([results[i].time, results[i].rate]);
+                            if (results[i].time.getDay() === 5) {
+                                var saturday = new Date(results[i].time);
+                                var sunday = new Date(results[i].time);
+                                saturday.setDate(results[i].time.getDate() + 1);
+                                sunday.setDate(results[i].time.getDate() + 2);
+                                if (saturday <= new Date()) {
+                                    graphData.push([saturday, results[i].rate]);
+                                    if (sunday <= new Date()) {
+                                        graphData.push([sunday, results[i].rate]);
+                                    }
+                                }
                             }
                         }
                         graph.update(graphData);
@@ -189,12 +256,12 @@
             default:
                 retrieve(from, sqlDate, function (resultsDate) {
                     var upperLimit = dateDiffInDays(new Date(), resultsDate[0].time);
-                    if (upperLimit > 9) {
-                        upperLimit = 9;
+                    if (upperLimit > range/2) {
+                        upperLimit = range/2;
                     }
                     var low = new Date();
                     var upper = new Date();
-                    low.setDate(date.getDate() - (18 - upperLimit));
+                    low.setDate(date.getDate() - (range - upperLimit));
                     upper.setDate(date.getDate() + upperLimit);
                     retrieveRange(formatDate(low), formatDate(upper), from, function (fromResults) {
                         retrieveRange(formatDate(low), formatDate(upper), to, function (toResults) {
@@ -207,7 +274,19 @@
                             }
                             var graphData = [];
                             for (var i = 0; i < length; i++) {//I'm kind of lying here and asssuming they found the same dates, otherwise it gets very complicated
-                                graphData[i] = [fromResults[i].time, toResults[i].rate / fromResults[i].rate];
+                                graphData.push([fromResults[i].time, toResults[i].rate / fromResults[i].rate]);
+                                if (fromResults[i].time.getDay() == 5) {
+                                    var saturday = new Date(fromResults[i].time);
+                                    var sunday = new Date(fromResults[i].time);
+                                    saturday.setDate(fromResults[i].time.getDate() + 1);
+                                    sunday.setDate(fromResults[i].time.getDate() + 2);
+                                    if (saturday <= new Date()) {
+                                        graphData.push([saturday, toResults[i].rate / fromResults[i].rate]);
+                                        if (sunday <= new Date()) {
+                                            graphData.push([sunday, toResults[i].rate / fromResults[i].rate]);
+                                        }
+                                    }
+                                }
                             }
                             graph.update(graphData);
                         });
@@ -230,7 +309,7 @@
         var rates = client.getTable('exchangeRates');
         rates.where(function (cur, low, high) {
             return this.currency == cur && this.time >= low && this.time <= high;
-        }, cur, low, high).read().done(function (results) {
+        }, cur, low, high).orderBy("time").read().done(function (results) {
             //no currency rate found on given date range
             if (results.length == 0) {
                 //something went wrong

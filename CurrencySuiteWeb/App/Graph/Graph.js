@@ -35,7 +35,7 @@
                         y = item.datapoint[1];
                     var date = new Date(x);
                     var dateString = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
-                    showTooltip(item.pageX, item.pageY, y + ' at ' + dateString);
+                    showTooltip(item.pageX, item.pageY, y.toFixed(3) + ' at ' + dateString);
                 }
             } else {
                 $('#tooltip').remove();
@@ -83,9 +83,9 @@
             xaxis: {
                 tickColor: 'transparent',
                 mode: "time",
+                timeformat: "%d/%m"
             },
             yaxis: {
-                tickSize: 0.05 
             }
         });
     }
