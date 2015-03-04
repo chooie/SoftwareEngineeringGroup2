@@ -108,7 +108,7 @@ window.CurrencyConverter.database = (function () {
             return 1;
         }
         var sqlDate = formatDate(date);
-        if (cache[from + to + sqlDate] !== null) {
+        if (typeof cache[from + to + sqlDate] === "number") {
             return cache[from + to + sqlDate];
         }
         queue += 1;
