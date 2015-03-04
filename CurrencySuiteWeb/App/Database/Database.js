@@ -207,7 +207,9 @@ window.CurrencyConverter.database = (function() {
       retrieve(from, sqlDate, function(fromResults) {
         retrieve(to, date, function (toResults) {
           var toRate = toResults[0].rate,
-            fromRate = fromResults[0].rate;
+            fromRate = fromResults[0].rate,
+            saturday,
+            sunday;
           cache[from + to + sqlDate] =
             toRate / fromRate;
           cache[to + from + sqlDate] =
@@ -217,8 +219,8 @@ window.CurrencyConverter.database = (function() {
           $('#submit').prop('disabled', false); //enable button
           // Cache weekends and fridays
           if (toResults[0].time.getDay() === 5) {
-            var saturday = new Date(toResults[0].time),
-              sunday = new Date(toResults[0].time);
+            saturday = new Date(toResults[0].time);
+            sunday = new Date(toResults[0].time);
 
             saturday.setDate(toResults[0].time.getDate() + 1);
             sunday.setDate(toResults[0].time.getDate() + 2);
