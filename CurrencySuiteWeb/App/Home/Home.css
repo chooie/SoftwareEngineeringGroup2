@@ -1,48 +1,60 @@
-﻿.getCur{
-    width: 65%;
-    border-radius: 10px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-bottom: 10px;
-    padding-top: 10px;
-}
-.curOptions{
-    border-radius: 10px;
-    width: 95%;
-    min-width: 100px;
-    max-width: 300px;
-    display: inline;
+﻿/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
 
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
 }
-.button{
-    border-radius: 10px;
-    margin-right: 32.50%;
-    margin-left: 32.5%;
-    width: 35%;
-    min-width: 100px;
-    max-width: 300px;
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
 }
-#date-wrapper{
-    width: 95%;
-    min-width: 100px;
-    max-width: 300px;
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
 }
-#date{
-    width: 55%;
-    padding-top: 70px;
-    padding-left: 200px;
-    *\margin-left: 55%;
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
 }
-#datepicker{
-    width: 75px;
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Default Stuff */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
-@media screen and (max-width: 500px) {
-    #graph-wrapper{
-        /*display: none;*/
-    }
+
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
-@media screen and (min-width: 500px) {
-    #graph-wrapper{
-        display: inline;
-    }
-}
+
+
