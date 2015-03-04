@@ -64,7 +64,7 @@
      * swap
      * Swaps the selected value in the drop-down
      */
-    swap: function () {
+    swap: function() {
       var from = $("#from-currency option:selected").index() + 1,
         to = $("#to-currency option:selected").index() + 1;
 
@@ -79,6 +79,19 @@
 
       $("#to-currency :nth-child(" + from + ")")
         .prop('selected', true);
+    },
+
+    /**
+     * more
+     * Handler for when you click the 'More...' link. Hides or reveals
+     * elements depending on whether or not they have a 'hidden' class.
+     */
+    more: function() {
+      $("#graph-section, #date-wrapper, #more-link")
+        .each(function() {
+          $(this).toggleClass("hidden");
+      });
+
     },
 
     /**
@@ -318,6 +331,7 @@
       app.initialize();
       $('#swap-button').click(cc.home.swap);
       $('#convert-button').click(cc.home.executeCellConversions);
+      $('#more-link').click(cc.home.more);
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();

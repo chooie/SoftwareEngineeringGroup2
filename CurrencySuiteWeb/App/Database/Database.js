@@ -78,7 +78,6 @@ window.CurrencyConverter.database = (function() {
               .done(this.handelLessThan, this.displayError);
         }
         else {
-          console.log(callback);
           // results[0].date is the given date
           callback(results);
         }
