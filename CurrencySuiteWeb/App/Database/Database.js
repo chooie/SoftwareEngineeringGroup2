@@ -17,21 +17,6 @@ window.CurrencyConverter.database = (function() {
     retrieveRange,
     getGraphRates;
 
-  /* retrieve method helpers */
-  helpers = {
-    getMatchingCurrencyAtDate: function(cur, date) {
-      return this.currency === cur && this.time === date;
-    },
-    getMatchingCurrencyLessThanDate: function (cur, date) {
-      return this.currency === cur && this.time < date;
-    },
-    getMatchingCurrencyGreaterThanDate: function (cur, date) {
-      return this.currency === cur && this.time > date;
-    },
-    displayError: function(err) {
-      app.showNotification("Error: " + err);
-    }
-  }
   /**
    * retrieve
    * Returns a rate if cached otherwise returns null and retrieves value
@@ -41,45 +26,72 @@ window.CurrencyConverter.database = (function() {
    * @param {Date} date
    * @param {function} a callback function used after a rate is found
    */
-  retrieve = function(cur, dateSQL, callback) {
+  retrieve = function (cur, dateSQL, callback) {
     var rates = client.getTable('exchangeRates');
-    rates.where(helpers.getMatchingCurrencyAtDate, cur, dateSQL).read()
-      .done(function (results) {
-      // No currency rate found on given date
-      if (results.length === 0) {
-        rates.where(helpers.getMatchingCurrencyLessThanDate,
-          cur,
-          dateSQL)
-          .orderByDescending("time").read().done(function(results) {
-            // Couldn't find currency data before given date
-            if (results.length === 0) {
-              // Check after given date
-              rates.where(helpers.getMatchingCurrencyGreaterThanDate,
-                cur,
-                dateSQL)
-                .orderBy("time").read().done(function(results) {
-                  if (results.length === 0) {
-                    // Couldn't find currency in database
-                    console.log("No Currency of that type in DB");
-                  }
-                  else {
-                    // results[0].date is the closest date above
-                    // result
-                    callback(results);
-                  }
-                }, helpers.displayError);
-            }
-            else {
-              // results[0].date is the closest date before given date
-              callback(results);
-            }
-          }, helpers.displayError);
-      }
-      else {
-        // results[0].date is the given date
+
+    /* retrieve method helpers */
+    helpers = {
+      getMatchingCurrencyAtDate: function (cur, date) {
+        return this.currency === cur && this.time === date;
+      },
+
+      getMatchingCurrencyLessThanDate: function (cur, date) {
+        return this.currency === cur && this.time < date;
+      },
+
+      getMatchingCurrencyGreaterThanDate: function (cur, date) {
+        return this.currency === cur && this.time > date;
+      },
+
+      handleGreaterThan: function (results) {
+        if (results.length === 0) {
+          // Couldn't find currency in database
+          throw new Error("retrieve(): Could not find a matching currency in " +
+            "the database");
+        }
+        // results[0].date is the closest date above
+        // result
         callback(results);
+      },
+
+      handleLessThan: function (results) {
+        // Couldn't find currency data before given date
+        if (results.length === 0) {
+          // Check after given date
+          rates.where(this.getMatchingCurrencyGreaterThanDate,
+            cur,
+            dateSQL)
+            .orderBy("time").read()
+            .done(this.handleGreaterThan, this.displayError);
+        }
+        else {
+          // results[0].date is the closest date before given date
+          callback(results);
+        }
+      },
+
+      handleCurrencyAtDate: function (results) {
+        // No currency rate found on given date
+        if (results.length === 0) {
+          rates.where(this.getMatchingCurrencyLessThanDate, cur, dateSQL)
+            .orderByDescending("time").read()
+              .done(this.handelLessThan, this.displayError);
+        }
+        else {
+          console.log(callback);
+          // results[0].date is the given date
+          callback(results);
+        }
+      },
+
+      displayError: function (err) {
+        app.showNotification("Error: " + err);
       }
-    }, helpers.displayError);
+    };
+
+    // Where the magic happens
+    rates.where(helpers.getMatchingCurrencyAtDate, cur, dateSQL).read()
+      .done(helpers.handleCurrencyAtDate, helpers.displayError);
   };
 
   /**
