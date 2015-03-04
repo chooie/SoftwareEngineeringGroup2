@@ -57,4 +57,13 @@ hr {
   text-align: center;
 }
 
+/* Top Header */
+#content-header .container h1 {
+  line-height: 2;
+}
+
+#content-main {
+  padding-top: 1em;
+}
+
 
