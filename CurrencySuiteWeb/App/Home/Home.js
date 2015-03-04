@@ -308,26 +308,25 @@
         },
 
         waitForQueue: function (array) {
-            var check = database.checkQueueFinished(),
-                i;
-          if (check) {
-              for (i = 0; i < noFinished.length; i++) {
-                  array.value[noFinished[i][0]][noFinished[i][1]] = 
-                    this.convertValue(
-                      array.value[noFinished[i][0]][noFinished[i][1]],
-                      noFinished[i][0], noFinished[i][1]
-                    );
-              }
-              // Return values to excel
-              Office.context.document.setSelectedDataAsync(
-                array.value
-              );
-          }
-          else {
-              setTimeout(function () {
-                  cc.home.waitForQueue(array);
-              }, 250); // 1/4 second
-          }
+            var i;
+            if (database.checkQueueFinished()) {
+                for (i = 0; i < noFinished.length; i++) {
+                    array.value[noFinished[i][0]][noFinished[i][1]] =
+                        this.convertValue(
+                            array.value[noFinished[i][0]][noFinished[i][1]],
+                            noFinished[i][0], noFinished[i][1]
+                        );
+                }
+                // Return values to excel
+                Office.context.document.setSelectedDataAsync(
+                    array.value
+                );
+            }
+            else {
+                setTimeout(function () {
+                    cc.home.waitForQueue(array);
+                }, 250); // 1/4 second
+            }
         }
     }; // end of window.CurrencyConverter.home assignment
 
