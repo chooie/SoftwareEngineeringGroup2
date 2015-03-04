@@ -4,36 +4,28 @@
   <meta charset="UTF-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
   <title>Main</title>
-  <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
 
-  <link href="../../Content/Office.css" rel="stylesheet" type="text/css"/>
+  <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+  <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
+  <link href="../App.css" rel="stylesheet" type="text/css" />
+  <link href="Home.css" rel="stylesheet" type="text/css" />
+
+
+  <!-- SCRIPTS (Dependencies) -->
   <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"
           type="text/javascript"></script>
-  <script src="../../Scripts/MobileServices.Web-1.2.5.min.js"
-          type="text/javascript"></script>
   <!-- To enable offline debugging using a local reference to Office.js,
-       use: -->
-  <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+     use: -->
+  <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" 
+    type="text/javascript"></script>  -->
   <!-- <script src="../../Scripts/Office/1.1/office.js"
                type="text/javascript"></script>  -->
-
-  <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-
-  <!--jqueryui contains jquery for the datepicker, datapicker ui is used to
-    initalize the datapicker-->
+  <script src="../../Scripts/MobileServices.Web-1.2.5.min.js"
+          type="text/javascript"></script>
+  <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
-  <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
-  <script src="../Graph/Graph.js" type="text/javascript"></script>
-  <link href="../Graph/Graph.css" rel="stylesheet" type="text/css"/>
-  <script src="../Database/Database.js" type="text/javascript"></script>
-
-  <link href="../App.css" rel="stylesheet" type="text/css"/>
-  <script src="../App.js" type="text/javascript"></script>
-
-  <link href="Home.css" rel="stylesheet" type="text/css"/>
-  <script src="Home.js" type="text/javascript"></script>
-
 </head>
 <body>
   <section id="content-header">
@@ -124,7 +116,7 @@
 
         <span class="more">More...</span>
 
-        <div id="date-wrapper" class="form-group hidden">
+        <div id="date-wrapper" class="form-group">
           <div id="date">
             <label for="datepicker">Date</label>
             <input type="text" id="datepicker">
@@ -138,7 +130,7 @@
       </section>
 
       <!-- Graph HTML -->
-      <section class="graph hidden">
+      <section class="graph">
         <div id="graph-wrapper">
           <div class="graph-info">
             <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
@@ -155,6 +147,11 @@
       </section>
     </div>
   </section>
-
+  <!-- Scripts executed once the DOM has initialized -->
+  <script src="Datepicker.js" type="text/javascript"></script>
+  <script src="../Database/Database.js" type="text/javascript"></script>
+  <script src="../Graph/Graph.js" type="text/javascript"></script>
+  <script src="../App.js" type="text/javascript"></script>
+  <script src="Home.js" type="text/javascript"></script>
 </body>
 </html>

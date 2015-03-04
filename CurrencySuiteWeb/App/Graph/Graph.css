@@ -3,114 +3,125 @@
 .graph-container div,
 .graph-container a,
 .graph-container span {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Gradinet and Rounded Corners */
 .graph-container, #tooltip, .graph-info a {
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  #ffffff 0%, #f9f9f9 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9f9f9));
-	background: -webkit-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
-	background: -o-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
-	background: -ms-linear-gradient(top,  #ffffff 0%,#f9f9f9 100%);
-	background: linear-gradient(to bottom,  #ffffff 0%,#f9f9f9 100%);
-
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #ffffff 0%, #f9f9f9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#f9f9f9));
+  background: -webkit-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+  background: -o-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%,#f9f9f9 100%);
+  background: linear-gradient(to bottom, #ffffff 0%,#f9f9f9 100%);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
 }
 
-.graph-container > div {
-	position: absolute;
-	width: inherit;
-	height: inherit;
-	top: 0px;
-	left: 15px;
-}
+  .graph-container > div {
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    top: 0px;
+    left: 15px;
+    /* TODO - For testing only */
+    box-shadow: 0px 1px 2px rgba(255,0,0,1);
+  }
 /* Text Styles */
 #tooltip, .graph-info a {
-	height: 20px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 20px;
-	color: #646464;
+  height: 20px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  color: #646464;
 }
 
 .tickLabel {
-	font-weight: bold;
-	font-size: 12px;
-	color: #666;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  color: #666;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* Tooltip */
 #tooltip {
-	position: absolute;
-	display: none;
-	padding: 5px 10px;
-	border: 1px solid #e1e1e1;
+  position: absolute;
+  display: none;
+  padding: 5px 10px;
+  border: 1px solid #e1e1e1;
 }
 
 /* Links */
 .graph-info a {
-	position: relative;
-	display: inline-block;
-	float: left;
-	padding: 7px 10px 0px 30px;
-	margin-right: 10px;
-	text-decoration: none;
-	cursor: default;
+  position: relative;
+  display: inline-block;
+  float: left;
+  padding: 7px 10px 0px 30px;
+  margin-right: 10px;
+  text-decoration: none;
+  cursor: default;
 }
 
-/* Color Circle for Links */
-.graph-info a:before {
-	position: absolute;
-	display: block;
-	content: '';
-	width: 8px;
-	height: 8px;
-	top: 13px;
-	left: 13px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-}
+  /* Color Circle for Links */
+  .graph-info a:before {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 8px;
+    height: 8px;
+    top: 13px;
+    left: 13px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
 
 /* Colors For each Link */
-.graph-info .visitors { border-bottom: 2px solid #71c73e; }
+.graph-info .visitors {
+  border-bottom: 2px solid #71c73e;
+  /* Space out bottom a bit */
+  padding-bottom: 20px;
+}
 
-.graph-info .visitors:before { background: #71c73e; }
+  .graph-info .visitors:before {
+    background: #71c73e;
+  }
 
 /* Lines & Bars Buttons */
 
 /* Hide the First and Last Y Label */
 .yAxis .tickLabel:first-child,
-.yAxis .tickLabel:last-child { display: none; }
+.yAxis .tickLabel:last-child {
+  display: none;
+}
 
 /* Clear Floats */
 .graph-info:before, .graph-info:after,
 .graph-container:before, .graph-container:after {
-	content: '';
-	display: block;
-	clear: both;
+  content: '';
+  display: block;
+  clear: both;
 }
+
 .graph-container {
-	position: relative;
-	width: 270px;
-	height: 180px;
-	padding: 0px;
-	
-	-webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
-	-moz-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
-	box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+  position: relative;
+  width: 270px;
+  height: 180px;
+  padding: 0px;
+  -webkit-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+  -moz-box-shadow: 0px 1px 2px rgba(0,0,0,.1);
+  box-shadow: 0px 1px 2px rgba(0,0,0,.1);
 }
+
 .graph-info {
-    margin-left: 5px;
-	margin-bottom: 0px;
+  margin-left: 5px;
+  margin-bottom: 0px;
 }
-#graph-wrapper{
-    margin-left: -15px;
+
+#graph-wrapper {
+  margin-left: -15px;
 }

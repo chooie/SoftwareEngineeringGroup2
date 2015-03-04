@@ -27,54 +27,54 @@
     databaseInit: function() {
 
       // Adding listeners
-      $('#selectedFromCur').change(function() {
+      $('#from-currency').change(function() {
         database.updateRate(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
         database.updateGraph(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
       });
 
-      $('#selectedToCur').change(function() {
+      $('#to-currency').change(function() {
         database.updateRate(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
         database.updateGraph(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
       });
 
       $('#swap').click(function() {
         database.updateRate(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
         database.updateGraph(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
       });
 
       $('#datepicker').change(function() {
         database.updateRate(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
         database.updateGraph(
-          $('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+          $('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate()
         );
       });
@@ -85,19 +85,19 @@
      * Swaps the selected value in the drop-down
      */
     swap: function() {
-      var from = $("#selectedFromCur option:selected").index() + 1,
-        to = $("#selectedToCur option:selected").index() + 1;
+      var from = $("#from-currency option:selected").index() + 1,
+        to = $("#to-currency option:selected").index() + 1;
 
-      $("#selectedToCur :nth-child(" + to + ")")
+      $("#to-currency :nth-child(" + to + ")")
         .removeAttr('selected');
 
-      $("#selectedFromCur:nth-child(" + from + ")")
+      $("#from-currency:nth-child(" + from + ")")
         .removeAttr('selected');
 
-      $("#selectedFromCur :nth-child(" + to + ")")
+      $("#from-currency :nth-child(" + to + ")")
         .prop('selected', true);
 
-      $("#selectedToCur :nth-child(" + from + ")")
+      $("#to-currency :nth-child(" + from + ")")
         .prop('selected', true);
     },
 
@@ -128,7 +128,7 @@
      *                   false if one code is not valid
      */
     validateCurrencyCodes: function(firstCode, secondCode) {
-      var optionsDOM = $(".curOptions:first").children(),
+      var optionsDOM = $(".currency-selections:first").children(),
         fromSelectionIsValid = false,
         toSelectionIsValid = false,
         i;
@@ -187,8 +187,8 @@
         dateDetails;
       // Case 1: Just a single value in the cell
       if (typeof value === "number") {
-        rate = this.getExchangeRate($('#selectedFromCur').val(),
-          $('#selectedToCur').val(),
+        rate = this.getExchangeRate($('#from-currency').val(),
+          $('#to-currency').val(),
           datepicker.getSelectedDate());
         if (rate === null) {
           noFinished.push([i, j]);
@@ -340,8 +340,10 @@
       $('#swap').click(cc.home.swap);
       $('#submit').click(cc.home.executeCellConversions);
       datepicker.initialize();
+      cc.home.databaseInit();
       graph.initialize();
-      graph.update([[new Date("2015/12/1"), 1],
+      graph.update([
+        [new Date("2015/12/1"), 1],
         [new Date("2015/12/2"), 1],
         [new Date("2015/12/3"), 1],
         [new Date("2015/12/4"), 1],
@@ -351,7 +353,6 @@
         [new Date("2015/12/8"), 1],
         [new Date("2015/12/9"), 1],
         [new Date("2015/12/10"), 1]]);
-      cc.home.databaseInit();
     });
   };
 }());

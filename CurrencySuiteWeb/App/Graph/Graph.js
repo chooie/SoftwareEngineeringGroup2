@@ -10,9 +10,11 @@ window.CurrencyConverter.graph = (function () {
     //graphItem.setData(values);
     //return;
     //}
-    var fromCur = $('#selectedFromCur').val(),
-      toCur = $('#selectedToCur').val(),
+    var fromCur = $('#from-currency').val(),
+      toCur = $('#to-currency').val(),
       graphData;
+
+    console.log($('#from-currency').val());
 
     $('#graph-label').text(fromCur + " to " + toCur);
     // Graph Data ##############################################
