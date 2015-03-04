@@ -51,7 +51,7 @@
         refresh();
       });
 
-      $('#swap').click(function() {
+      $('#swap-button').click(function() {
         refresh();
       });
 
@@ -64,7 +64,7 @@
      * swap
      * Swaps the selected value in the drop-down
      */
-    swap: function() {
+    swap: function () {
       var from = $("#from-currency option:selected").index() + 1,
         to = $("#to-currency option:selected").index() + 1;
 

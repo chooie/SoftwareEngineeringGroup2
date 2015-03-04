@@ -82,6 +82,8 @@ hr {
   font-weight: bold;
   font-style: inherit;
   font-size: 1.2em;
+  border-bottom: 1px solid #EF6C00;
+  margin-bottom: 5px;
 }
 
 .button {
@@ -117,6 +119,8 @@ hr {
   color: #fff;
   vertical-align: middle;
   font-size: 2em;
+  margin-top: 25px;
+  margin-bottom: 20px;
 }
 
 #convert-button:hover {
