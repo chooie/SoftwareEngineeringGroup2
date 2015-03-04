@@ -80,9 +80,9 @@
 }
 
 /* Colors For each Link */
-.graph-info .visitors { border-bottom: 2px solid #467d3f; }
+.graph-info .visitors { border-bottom: 2px solid #71c73e; }
 
-.graph-info .visitors:before { background: #467d3f; }
+.graph-info .visitors:before { background: #71c73e; }
 
 /* Lines & Bars Buttons */
 

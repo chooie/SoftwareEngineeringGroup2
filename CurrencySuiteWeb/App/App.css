@@ -1,23 +1,20 @@
 ﻿/* Common app styling */
 
 #content-header {
-    background: #467d3f;
+    background: #2a8dd4;
     color: #fff;
     position: absolute;
     top: 0;
-    padding-bottom: 4px;
     left: 0;
     width: 100%;
-    font-size: 7px;
-    text-align: center;
-    height: 50px; /* Fixed header height */
+    height: 80px; /* Fixed header height */
     overflow: hidden; /* Disable scrollbars for header */
 }
 
 #content-main {
     background: #fff;
     position: fixed;
-    top: 120px; /* Same value as #content-header's height */
+    top: 80px; /* Same value as #content-header's height */
     left: 0;
     right: 0;
     bottom: 0;
