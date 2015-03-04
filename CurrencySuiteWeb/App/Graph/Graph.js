@@ -92,13 +92,10 @@
                 }
             }
         );
-        // Create public graph.update
-        window.CurrencyConverter.graph.update = function (values) {
-            updateGraph(values);
-        };
     };
    
     return {
-        initialize: initialize
+        initialize: initialize,
+        update: updateGraph
     };
 }());
