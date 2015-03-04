@@ -104,8 +104,8 @@ window.CurrencyConverter.database = (function() {
   formatDate = function (date) {
     try {
       if (typeof date !== "object" || !date) {
-        throw new TypeError("formatDate(): Passed parameter was not of String " +
-          "type.");
+        throw new TypeError("formatDate(): Passed parameter was not of  " +
+          "String type.");
       }
     } catch (e) {
       console.log("Invalid date object given. Assuming date today.");
@@ -129,115 +129,116 @@ window.CurrencyConverter.database = (function() {
    *
    */
   updateRate = function(from, to, date) {
+    var sqlDate,
+      handleRetrieve;
+
     if (from === to) {
       return 1;
     }
-    var sqlDate = formatDate(date);
+
+    sqlDate = formatDate(date);
     if (typeof cache[from + to + sqlDate] === "number") {
       return cache[from + to + sqlDate];
     }
+    // Add job to the queue
     queue += 1;
-    $('#submit').prop('disabled', true); //disable button
+
+    // Disable button
+    $('#submit').prop('disabled', true);
+
     // TODO - Can we have a session where we go through this?
-    switch("EUR") {
-      case from:
-        retrieve(to, sqlDate, function(results) {
-          cache[from + to + sqlDate] = results[0].rate;
-          cache[to + from + sqlDate] = 1 / results[0].rate;
+    
+    // Handler for retrieve
+    handleRetrieve = function(results) {
+      var firstBranch = false,
+        rate = results[0].rate,
+        time = results[0].time,
+        saturday,
+        sunday;
+  
+      if (from === "EUR") {
+        cache[from + to + sqlDate] = rate;
+        cache[to + from + sqlDate] = 1 / rate;
+        firstBranch = true;
+      } else if (to === "EUR") {
+        cache[to + from + sqlDate] = rate;
+        cache[from + to + sqlDate] = 1 / rate;
+      }
+  
+      $('#submit').prop('disabled', false); //enable button
+      // Cache weekends and fridays
+      if (time.getDay() === 5) {
+        saturday = new Date(time);
+        sunday = new Date(time);
+        saturday.setDate(time.getDate() + 1);
+        sunday.setDate(time.getDate() + 2);
+    
+        // Cache both currency rates at some time
+        cache[from + to + formatDate(time)] =
+          firstBranch ? rate : 1 / rate;
+      
+        cache[to + from + formatDate(time)] =
+          firstBranch ? 1 / rate : rate ;
+    
+        // Cache both currency rates on the Saturday after that time  
+        cache[from + to + formatDate(saturday)] =
+          firstBranch ? rate : 1 / rate;
+      
+        cache[to + from + formatDate(saturday)] =
+          firstBranch ? 1 / rate : rate ;
+    
+        // Cache both currency rates on the Sunday after that time  
+        cache[from + to + formatDate(sunday)] =
+          firstBranch ? rate : 1 / rate;
+      
+        cache[to + from + formatDate(sunday)] =
+          firstBranch ? 1 / rate : rate ;
+      }
+      queue -= 1;
+    };
 
-          // app.showNotification("YAH!!", results[0].currency +
-          // ": " + results[0].rate + " at " + results[0].time);
+    if (from === "EUR") {
+      retrieve(to, sqlDate, handleRetrieve);
+
+    } else if (to === "EUR") {
+      retrieve(from, sqlDate, handleRetrieve);
+
+    } else {
+      // Neither currency is EUR
+      retrieve(from, sqlDate, function(fromResults) {
+        retrieve(to, date, function (toResults) {
+          var toRate = toResults[0].rate,
+            fromRate = fromResults[0].rate;
+          cache[from + to + sqlDate] =
+            toRate / fromRate;
+          cache[to + from + sqlDate] =
+            fromRate / toRate;
+          // app.showNotification("YAH!!", from + " to " + to +
+          // "is " + (toRate / fromRate));
           $('#submit').prop('disabled', false); //enable button
           // Cache weekends and fridays
-          if (results[0].time.getDay() === 5) {
-            var saturday = new Date(results[0].time),
-              sunday = new Date(results[0].time);
-            saturday.setDate(results[0].time.getDate() + 1);
-            sunday.setDate(results[0].time.getDate() + 2);
-            cache[from + to + formatDate(results[0].time)] =
-              results[0].rate;
-            cache[to + from + formatDate(results[0].time)] =
-              1 / results[0].rate;
-            cache[from + to + formatDate(saturday)] =
-              results[0].rate;
-            cache[to + from + formatDate(saturday)] =
-              1 / results[0].rate;
-            cache[from + to + formatDate(sunday)] =
-              results[0].rate;
-            cache[to + from + formatDate(sunday)] =
-              1 / results[0].rate;
+          if (toResults[0].time.getDay() === 5) {
+            var saturday = new Date(toResults[0].time),
+              sunday = new Date(toResults[0].time);
+
+            saturday.setDate(toResults[0].time.getDate() + 1);
+            sunday.setDate(toResults[0].time.getDate() + 2);
+            cache[from + to + formatDate(toResults[0].time)] =
+              toRate / fromRate;
+            cache[to + from + formatDate(fromResults[0].time)] =
+              fromRate / toRate;
+            cache[from + to + formatDate(saturday)] = toRate / fromRate;
+            cache[to + from + formatDate(saturday)] = fromRate / toRate;
+            cache[from + to + formatDate(sunday)] = toRate / fromRate;
+            cache[to + from + formatDate(sunday)] = fromRate / toRate;
           }
           queue -= 1;
         });
-        break;
-      case to:
-        retrieve(from, sqlDate, function(results) {
-          cache[to + from + sqlDate] = results[0].rate;
-          cache[from + to + sqlDate] = 1 / results[0].rate;
-
-          // app.showNotification("YAH!!", results[0].currency + ": "
-          // + results[0].rate + " at " + results[0].time);
-          $('#submit').prop('disabled', false); //enable button
-          // Cache weekends and fridays
-          if (results[0].time.getDay() === 5) {
-            var saturday = new Date(results[0].time),
-              sunday = new Date(results[0].time);
-            saturday.setDate(results[0].time.getDate() + 1);
-            sunday.setDate(results[0].time.getDate() + 2);
-            cache[from + to + formatDate(results[0].time)] =
-              1 / results[0].rate;
-            cache[to + from + formatDate(results[0].time)] =
-              results[0].rate;
-            cache[from + to + formatDate(saturday)] =
-              1 / results[0].rate;
-            cache[to + from + formatDate(saturday)] =
-              results[0].rate;
-            cache[from + to + formatDate(sunday)] =
-              1 / results[0].rate;
-            cache[to + from + formatDate(sunday)] =
-              results[0].rate;
-          }
-          queue -= 1;
-        });
-        break;
-      default:
-        retrieve(from, sqlDate, function(fromResults) {
-          retrieve(to, date, function(toResults) {
-            cache[from + to + sqlDate] =
-              toResults[0].rate / fromResults[0].rate;
-            cache[to + from + sqlDate] =
-              fromResults[0].rate / toResults[0].rate;
-            // app.showNotification("YAH!!", from + " to " + to +
-            // "is " + (toResults[0].rate / fromResults[0].rate));
-            $('#submit').prop('disabled', false); //enable button
-            // Cache weekends and fridays
-            if (toResults[0].time.getDay() === 5) {
-              var saturday = new Date(toResults[0].time),
-                sunday = new Date(toResults[0].time);
-              saturday.setDate(toResults[0].time.getDate() + 1);
-              sunday.setDate(toResults[0].time.getDate() + 2);
-              cache[from + to + formatDate(toResults[0].time)] =
-                toResults[0].rate / fromResults[0].rate;
-              cache[to + from + formatDate(fromResults[0].time)] =
-                fromResults[0].rate / toResults[0].rate;
-              cache[from + to + formatDate(saturday)] =
-                toResults[0].rate / fromResults[0].rate;
-              cache[to + from + formatDate(saturday)] =
-                fromResults[0].rate / toResults[0].rate;
-              cache[from + to + formatDate(sunday)] =
-                toResults[0].rate / fromResults[0].rate;
-              cache[to + from + formatDate(sunday)] =
-                fromResults[0].rate / toResults[0].rate;
-            }
-            queue -= 1;
-          });
-        });
-        break;
+      });
     }
-    return null;
   };
 
-  //handle daylight saving
+  // Handle daylight saving
   /**
    * dateDiffInDays
    * Retieve a range of values from the database
