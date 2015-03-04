@@ -245,8 +245,7 @@
             j;
 
           if (asyncResult.status === "failed") {
-            app.showNotification("Whoops",
-              asyncResult.error.message);
+            app.showNotification("Whoops",asyncResult.error.message);
             return;
           }
           // User is attempting to use convert whilst still inputting
@@ -317,8 +316,8 @@
   Office.initialize = function() {
     $(document).ready(function() {
       app.initialize();
-      $('#swap').click(cc.home.swap);
-      $('#submit').click(cc.home.executeCellConversions);
+      $('#swap-button').click(cc.home.swap);
+      $('#convert-button').click(cc.home.executeCellConversions);
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();
