@@ -14,8 +14,6 @@ window.CurrencyConverter.graph = (function () {
       toCur = $('#to-currency').val(),
       graphData;
 
-    console.log($('#from-currency').val());
-
     $('#graph-label').text(fromCur + " to " + toCur);
     // Graph Data ##############################################
     graphData = [{

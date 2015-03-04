@@ -84,7 +84,16 @@ window.CurrencyConverter.database = (function() {
    * @param {Date} date
    * @return {string}
    */
-  formatDate = function(date) {
+  formatDate = function (date) {
+    try {
+      if (typeof date !== "object" || !date) {
+        throw new TypeError("formatDate(): Passed parameter was not of String " +
+          "type.");
+      }
+    } catch (e) {
+      console.log("Invalid date object given. Assuming date today.");
+      date = new Date();
+    }
     //2015-02-20T00:00:00+00:00
     return date.getUTCFullYear() + '-' +
       ('00' + (date.getUTCMonth() + 1)).slice(-2) + '-' +
