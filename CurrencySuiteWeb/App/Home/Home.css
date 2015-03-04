@@ -66,4 +66,75 @@ hr {
   padding-top: 1em;
 }
 
+.form-group {
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* All elements of the currency-form take up their own line*/
+.form-group * {
+  display: block;
+}
+
+.form-group label {
+  text-align: left;
+  font-weight: bold;
+  font-style: inherit;
+  font-size: 1.2em;
+}
+
+.button {
+  margin-top: 10px;
+}
+
+.more,
+.more:focus,
+.more:active {
+  /* Remove all decorations to look like normal text */
+  background: none;
+  border: none;
+  display: inline;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  outline-offset: 0;
+  /* Additional styles to look like a link */
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1.2em;
+}
+
+.currency-form .primary {
+  width: 200px;
+  height: 50px;
+  background-color: #EF6C00;
+  color: #fff;
+  vertical-align: middle;
+  font-size: 2em;
+}
+
+#convert-button:hover {
+  background-color: #2a8dd4;
+}
+
+select, #datepicker {
+  width: 200px;
+}
+
+.graph {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#graph-wrapper {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
 
