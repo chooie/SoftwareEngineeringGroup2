@@ -11,7 +11,23 @@
     cc = window.CurrencyConverter,
     datepicker = cc.datepicker,
     database = cc.database,
-    graph = cc.graph;
+    graph = cc.graph,
+    refresh;
+
+  refresh = function () {
+    var from = $('#from-currency'),
+      to = $('#to-currency');
+    database.updateRate(
+      from.val(),
+      to.val(),
+      datepicker.getSelectedDate()
+    );
+    database.updateGraph(
+      from.val(),
+      to.val(),
+      datepicker.getSelectedDate()
+    );
+  };
 
   noFinished = [];
 
@@ -28,55 +44,19 @@
 
       // Adding listeners
       $('#from-currency').change(function() {
-        database.updateRate(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
-        database.updateGraph(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
+        refresh();
       });
 
       $('#to-currency').change(function() {
-        database.updateRate(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
-        database.updateGraph(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
+        refresh();
       });
 
       $('#swap').click(function() {
-        database.updateRate(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
-        database.updateGraph(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
+        refresh();
       });
 
       $('#datepicker').change(function() {
-        database.updateRate(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
-        database.updateGraph(
-          $('#from-currency').val(),
-          $('#to-currency').val(),
-          datepicker.getSelectedDate()
-        );
+        refresh();
       });
     },
 
@@ -342,17 +322,8 @@
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();
-      graph.update([
-        [new Date("2015/12/1"), 1],
-        [new Date("2015/12/2"), 1],
-        [new Date("2015/12/3"), 1],
-        [new Date("2015/12/4"), 1],
-        [new Date("2015/12/5"), 1],
-        [new Date("2015/12/6"), 1],
-        [new Date("2015/12/7"), 1],
-        [new Date("2015/12/8"), 1],
-        [new Date("2015/12/9"), 1],
-        [new Date("2015/12/10"), 1]]);
+      // Update the rates and graph for the first time
+      refresh();
     });
   };
 }());
