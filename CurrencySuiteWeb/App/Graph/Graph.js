@@ -1,4 +1,5 @@
-﻿window.CurrencyConverter.graph = (function() {
+﻿window.CurrencyConverter = window.CurrencyConverter || {};
+window.CurrencyConverter.graph = (function () {
   // Private
   var updateGraph,
   // Public
