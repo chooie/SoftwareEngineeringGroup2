@@ -9,6 +9,7 @@ window.CurrencyConverter.database = (function() {
       "acxNSVXsPtUkSIdIWzTdePGrigqsRW85"),
     queue = 0,
   // Private Methods
+    helpers,
     retrieve,
     formatDate,
     updateRate,
@@ -16,6 +17,21 @@ window.CurrencyConverter.database = (function() {
     retrieveRange,
     getGraphRates;
 
+  /* retrieve method helpers */
+  helpers = {
+    getMatchingCurrencyAtDate: function(cur, date) {
+      return this.currency === cur && this.time === date;
+    },
+    getMatchingCurrencyLessThanDate: function (cur, date) {
+      return this.currency === cur && this.time < date;
+    },
+    getMatchingCurrencyGreaterThanDate: function (cur, date) {
+      return this.currency === cur && this.time > date;
+    },
+    displayError: function(err) {
+      app.showNotification("Error: " + err);
+    }
+  }
   /**
    * retrieve
    * Returns a rate if cached otherwise returns null and retrieves value
@@ -27,23 +43,18 @@ window.CurrencyConverter.database = (function() {
    */
   retrieve = function(cur, dateSQL, callback) {
     var rates = client.getTable('exchangeRates');
-    rates.where(function(cur, date) {
-      return this.currency === cur && this.time === date;
-    }, cur, dateSQL).read().done(function(results) {
+    rates.where(helpers.getMatchingCurrencyAtDate, cur, dateSQL).read()
+      .done(function (results) {
       // No currency rate found on given date
       if (results.length === 0) {
-        rates.where(function(cur, date) {
-            return this.currency === cur && this.time < date;
-          },
+        rates.where(helpers.getMatchingCurrencyLessThanDate,
           cur,
           dateSQL)
           .orderByDescending("time").read().done(function(results) {
             // Couldn't find currency data before given date
             if (results.length === 0) {
               // Check after given date
-              rates.where(function(cur, date) {
-                  return this.currency === cur && this.time > date;
-                },
+              rates.where(helpers.getMatchingCurrencyGreaterThanDate,
                 cur,
                 dateSQL)
                 .orderBy("time").read().done(function(results) {
@@ -56,25 +67,19 @@ window.CurrencyConverter.database = (function() {
                     // result
                     callback(results);
                   }
-                }, function(err) {
-                  app.showNotification("Error: " + err);
-                });
+                }, helpers.displayError);
             }
             else {
               // results[0].date is the closest date before given date
               callback(results);
             }
-          }, function(err) {
-            app.showNotification("Error: " + err);
-          });
+          }, helpers.displayError);
       }
       else {
         // results[0].date is the given date
         callback(results);
       }
-    }, function(err) {
-      app.showNotification("Error: " + err);
-    });
+    }, helpers.displayError);
   };
 
   /**
@@ -92,7 +97,7 @@ window.CurrencyConverter.database = (function() {
       }
     } catch (e) {
       console.log("Invalid date object given. Assuming date today.");
-      date = new Date();
+      //date = new Date();
     }
     //2015-02-20T00:00:00+00:00
     return date.getUTCFullYear() + '-' +
