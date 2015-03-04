@@ -19,7 +19,7 @@ window.CurrencyConverter = window.CurrencyConverter || {};
     handleResponseDaily: function(results) {
       // Simply populate a div for the time being
       var demo = document.getElementById('demo'),
-        //currencies = results["query"]["results"]["Envelope"]["Cube"]["Cube"],
+      //currencies = results["query"]["results"]["Envelope"]["Cube"]["Cube"],
         jsonCurrencies = JSON.stringify(results);
 
       $.parser.currencyDataDaily = jsonCurrencies;
