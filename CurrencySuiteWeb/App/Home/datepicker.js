@@ -41,6 +41,7 @@ window.CurrencyConverter.datepicker = (function() {
     initialize: initialize,
     getSelectedDate: function() {
       return $("#datepicker").datepicker("getDate");
-    }
+    },
+    correctFormat: correctFormat
   };
 }());

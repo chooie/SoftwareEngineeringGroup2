@@ -1,9 +1,10 @@
 ﻿window.CurrencyConverter = window.CurrencyConverter || {};
 window.CurrencyConverter.graph = (function () {
-  // Private
   var updateGraph,
-  // Public
-    initialize;
+    initialize,
+    highlightDataPoint,
+    graph,
+    numberOfTries = 10;
 
   updateGraph = function(values) {
     //if (graphItem != null) {
@@ -22,7 +23,7 @@ window.CurrencyConverter.graph = (function () {
       color: '#71c73e'
     }];
     // Lines Graph #############################################
-    $.plot($('#graph-lines'), graphData, {
+    graph = $.plot($('#graph-lines'), graphData, {
       series: {
         points: {
           show: true,
@@ -83,6 +84,7 @@ window.CurrencyConverter.graph = (function () {
               dateString = date.getDate() + "/" +
                 (date.getMonth() + 1) + "/" +
                 date.getFullYear();
+
             showTooltip(item.pageX, item.pageY, y.toFixed(3) +
             ' at ' + dateString);
           }
@@ -94,8 +96,39 @@ window.CurrencyConverter.graph = (function () {
     );
   };
 
+  highlightDataPoint = function () {
+    // TODO
+    var selectedDate = "03-03-2015",//$("#datepicker").val(),
+      correctFormat = window.CurrencyConverter.datepicker.correctFormat;
+    setTimeout(function () {
+      try {
+        if (!Array.isArray(graph.getData()[0].data[0])) {
+          throw new Error("Data didn't load in time");
+        }
+
+        graph.getData()[0].data.forEach(function (dataPoint) {
+          if (correctFormat(new Date(dataPoint[0])) === selectedDate) {
+            // DO SOMETHING TO THE DATA POINT THAT MATCHES THE SELECTED DATE
+            // i.e. give it a different colour
+            console.log("Found it");
+          }
+        });
+        numberOfTries = 10;
+      } catch (e) {
+        console.log(e);
+        numberOfTries -= 1;
+        if (numberOfTries <= 0) {
+          throw new Error("Couldn't get graph data after a number of tries.");
+        }
+        highlightDataPoint();
+      }
+    }, 5000);
+
+  };
+
   return {
     initialize: initialize,
-    update: updateGraph
+    update: updateGraph,
+    highlightDataPoint: highlightDataPoint
   };
 }());

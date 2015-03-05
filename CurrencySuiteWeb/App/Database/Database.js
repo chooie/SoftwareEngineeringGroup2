@@ -102,13 +102,13 @@ window.CurrencyConverter.database = (function() {
    */
   formatDate = function (date) {
     try {
-      if (typeof date !== "object" || !date) {
-        throw new TypeError("formatDate(): Passed parameter was not of  " +
-          "String type.");
+      if (!(date instanceof Date)) {
+        throw new TypeError("formatDate(): Passed parameter was not an  " +
+          "object instance of Date.");
       }
     } catch (e) {
       console.log("Invalid date object given. Assuming date today.");
-      //date = new Date();
+      date = new Date();
     }
     //2015-02-20T00:00:00+00:00
     return date.getUTCFullYear() + '-' +

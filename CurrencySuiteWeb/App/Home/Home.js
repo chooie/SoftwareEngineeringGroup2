@@ -27,6 +27,8 @@
       to.val(),
       datepicker.getSelectedDate()
     );
+    // TODO 
+    // graph.highlightDataPoint();
   };
 
   noFinished = [];
