@@ -305,12 +305,14 @@ window.CurrencyConverter.database = (function() {
       case to:
         isTo = 1;
         cur = from;
-      // TODO: Deliberate fall through?
+        // TODO: Deliberate fall through? Yes, just is used to swap currency and 
+        // it's isTo or not.
       case from:
         retrieve(cur, sqlDate, function(resultsDate) {
           var upperLimit = dateDiffInDays(
-              new Date(),
-              resultsDate[0].time),
+              resultsDate[0].time,
+              new Date()
+              ),
             low,
             upper,
             saturday,
@@ -319,8 +321,8 @@ window.CurrencyConverter.database = (function() {
           if (upperLimit > range / 2) {
             upperLimit = range / 2;
           }
-          low = new Date();
-          upper = new Date();
+          low = new Date(date);
+          upper = new Date(date);
           low.setDate(date.getDate() - (range - upperLimit));
           upper.setDate(date.getDate() + upperLimit);
           retrieveRange(formatDate(low),
@@ -356,11 +358,11 @@ window.CurrencyConverter.database = (function() {
       default:
         retrieve(from, sqlDate, function(resultsDate) {
           var upperLimit = dateDiffInDays(
-              new Date(),
-              resultsDate[0].time
+              resultsDate[0].time,
+              new Date()
             ),
-            low = new Date(),
-            upper = new Date();
+            low = new Date(date),
+            upper = new Date(date);
 
           if (upperLimit > range / 2) {
             upperLimit = range / 2;

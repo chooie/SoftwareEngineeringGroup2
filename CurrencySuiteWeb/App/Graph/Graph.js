@@ -72,7 +72,7 @@ window.CurrencyConverter.graph = (function () {
 
     var previousPoint = null;
 
-    $('#graph-lines, #graph-bars').bind('plothover',
+    $('#graph-lines').bind('plothover',
       function(event, pos, item) {
         if (item) {
           if (previousPoint !== item.dataIndex) {
