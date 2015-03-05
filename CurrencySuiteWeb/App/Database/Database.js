@@ -75,7 +75,7 @@ window.CurrencyConverter.database = (function() {
         if (results.length === 0) {
           rates.where(this.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-              .done(this.handelLessThan, this.displayError);
+              .done(this.handleLessThan, this.displayError);
         }
         else {
           // results[0].date is the given date
