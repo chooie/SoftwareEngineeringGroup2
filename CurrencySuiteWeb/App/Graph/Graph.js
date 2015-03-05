@@ -11,6 +11,17 @@ window.CurrencyConverter.graph = (function () {
     //graphItem.setData(values);
     //return;
     //}
+    if (values == null) {
+      return;
+    }
+    var date = window.CurrencyConverter.datepicker.getSelectedDate();
+    var day = [];
+    for (var i = 0; i < values.length; i++) {
+      if (date.valueOf() === values[i][0].valueOf()) {
+        day.push(values[i]);
+      }
+
+    }
     var fromCur = $('#from-currency').val(),
       toCur = $('#to-currency').val(),
       graphData;
@@ -21,6 +32,10 @@ window.CurrencyConverter.graph = (function () {
       // [Date, Value] 2010/08/17
       data: values,
       color: '#71c73e'
+    },
+    {
+      data: day,
+      color: '#2a8dd4'
     }];
     // Lines Graph #############################################
     graph = $.plot($('#graph-lines'), graphData, {
@@ -47,6 +62,7 @@ window.CurrencyConverter.graph = (function () {
       },
       yaxis: {}
     });
+    
   };
 
   // Common initialization function (to be called from each page)
