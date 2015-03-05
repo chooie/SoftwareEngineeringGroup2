@@ -1,163 +1,158 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <title>Main</title>
-    <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+  <title>Main</title>
 
-    <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
-    <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"
-            type="text/javascript"></script>
-    <script src="../../Scripts/MobileServices.Web-1.2.5.min.js" type="text/javascript"></script>
-    <!-- To enable offline debugging using a local reference to Office.js,
-         use: -->
-    <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
-    <!-- <script src="../../Scripts/Office/1.1/office.js"
-                 type="text/javascript"></script>  -->
+  <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
+  <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
+  <link href="../App.css" rel="stylesheet" type="text/css" />
+  <link href="Home.css" rel="stylesheet" type="text/css" />
 
-    <link href="../jquaryui/jquery-ui.min.css" rel="stylesheet" type="text/css" />
 
-    <!--<script src="../jquery.xdomainajax.js" type="text/javascript"></script>--> 
-    <!--<script src="../Scrapper.js" type="text/javascript"></script>-->
-
-    <!--jquaryui contains jquary for the datepicker, datapicker ui is used to initalize the datapicker-->
-    <script src="../jquaryui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="Datepicker.js" type="text/javascript"></script>
-    <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
-    <script src="../Graph/Graph.js" type="text/javascript"></script>
-    <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
-    <script src="../Database/Database.js" type="text/javascript"></script>
-
-    <link href="../App.css" rel="stylesheet" type="text/css" />
-    <script src="../App.js" type="text/javascript"></script>
-
-    <link href="Home.css" rel="stylesheet" type="text/css" />
-    <script src="Home.js" type="text/javascript"></script>
-
+  <!-- SCRIPTS (Dependencies) -->
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"
+          type="text/javascript"></script>
+  <!-- To enable offline debugging using a local reference to Office.js,
+     use: -->
+  <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" 
+    type="text/javascript"></script>  -->
+  <!-- <script src="../../Scripts/Office/1.1/office.js"
+               type="text/javascript"></script>  -->
+  <script src="../../Scripts/MobileServices.Web-1.2.5.min.js"
+          type="text/javascript"></script>
+  <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
+  <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
+  <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
 </head>
 <body>
-    <div id="content-header">
-        <div class="padding">
-            <h1>Convert</h1>
-        </div>
+  <section id="content-header">
+    <div class="container">
+      <h1>Currency Converter</h1>
     </div>
-    <div id="content-main">
-        <div class="padding">
-            <div class="getCur">
-                <select id="selectedFromCur" class="curOptions">
-                    <option value="AUD">Australian Dollar - AUD</option>
-                    <option value="BRL">Brazilian Real - BRL</option>
-                    <option value="BGN">Bulgarian Lev - BGN</option>
-                    <option value="CAD">Canadian Dollar - CAD</option>
-                    <option value="CNY">Chinese Yuan Renminbi - CNY</option>
-                    <option value="HRK">Croatian Kuna - HRK</option>
-                    <option value="CYP">Cyprus Pound - CYP</option>
-                    <option value="CZK">Czech Koruna - CZK</option>
-                    <option value="DKK">Danish Krone - DKK</option>
-                    <option value="EEK">Estonian Kroon - EEK</option>
-                    <option value="EUR" selected>Euro - EUR</option>
-                    <option value="HKD">Hong Kong Dollar - HKD</option>
-                    <option value="HUF">Hungarian Forint - HUF</option>
-                    <option value="ISK">Iceland Krona - ISK</option>
-                    <option value="INR">Indian Rupee - INR</option>
-                    <option value="IDR">Indonesian Rupiah - IDR</option>
-                    <option value="ILS">Israeli Shekel - ILS</option>
-                    <option value="JPY">Japanese Yen - JPY</option>
-                    <option value="KRW">Korean Won (Republic) - KRW</option>
-                    <option value="LVL">Latvian Lats - LVL</option>
-                    <option value="LTL">Lithuanian Litas - LTL</option>
-                    <option value="MYR">Malaysian Ringgit - MYR</option>
-                    <option value="MTL">Maltese Lira - MTL</option>
-                    <option value="MXN">Mexican Peso - MXN</option>
-                    <option value="NZD">New Zealand Dollar - NZD</option>
-                    <option value="NOK">Norwegian Krone - NOK</option>
-                    <option value="PHP">Philippine Peso - PHP</option>
-                    <option value="PLN">Polish Zloty - PLN</option>
-                    <option value="RON">Romanian Leu - RON</option>
-                    <option value="RUB">Rouble - RUB</option>
-                    <option value="SGD">Singapore Dollar - SGD</option>
-                    <option value="SKK">Slovak Koruna - SKK</option>
-                    <option value="SIT">Slovenian Tolar - SIT</option>
-                    <option value="ZAR">South African Rand - ZAR</option>
-                    <option value="SEK">Swedish Krona - SEK</option>
-                    <option value="CHF">Swiss Franc - CHF</option>
-                    <option value="THB">Thai Bhat - THB</option>
-                    <option value="TRY">Turkish Lira - TRY</option>
-                    <option value="GBP">UK Pound Sterling - GBP</option>
-                    <option value="USD">US Dollar - USD</option>                </select>
-            </div>
-
-            <input id="swap" type="button" value="Swap" class="button" />
-
-            <div class="getCur">
-                <select id="selectedToCur" class="curOptions">
-                    <option value="AUD">Australian Dollar - AUD</option>
-                    <option value="BRL">Brazilian Real - BRL</option>
-                    <option value="BGN">Bulgarian Lev - BGN</option>
-                    <option value="CAD">Canadian Dollar - CAD</option>
-                    <option value="CNY">Chinese Yuan Renminbi - CNY</option>
-                    <option value="HRK">Croatian Kuna - HRK</option>
-                    <option value="CYP">Cyprus Pound - CYP</option>
-                    <option value="CZK">Czech Koruna - CZK</option>
-                    <option value="DKK">Danish Krone - DKK</option>
-                    <option value="EEK">Estonian Kroon - EEK</option>
-                    <option value="EUR" selected>Euro - EUR</option>
-                    <option value="HKD">Hong Kong Dollar - HKD</option>
-                    <option value="HUF">Hungarian Forint - HUF</option>
-                    <option value="ISK">Iceland Krona - ISK</option>
-                    <option value="INR">Indian Rupee - INR</option>
-                    <option value="IDR">Indonesian Rupiah - IDR</option>
-                    <option value="ILS">Israeli Shekel - ILS</option>
-                    <option value="JPY">Japanese Yen - JPY</option>
-                    <option value="KRW">Korean Won (Republic) - KRW</option>
-                    <option value="LVL">Latvian Lats - LVL</option>
-                    <option value="LTL">Lithuanian Litas - LTL</option>
-                    <option value="MYR">Malaysian Ringgit - MYR</option>
-                    <option value="MTL">Maltese Lira - MTL</option>
-                    <option value="MXN">Mexican Peso - MXN</option>
-                    <option value="NZD">New Zealand Dollar - NZD</option>
-                    <option value="NOK">Norwegian Krone - NOK</option>
-                    <option value="PHP">Philippine Peso - PHP</option>
-                    <option value="PLN">Polish Zloty - PLN</option>
-                    <option value="RON">Romanian Leu - RON</option>
-                    <option value="RUB">Rouble - RUB</option>
-                    <option value="SGD">Singapore Dollar - SGD</option>
-                    <option value="SKK">Slovak Koruna - SKK</option>
-                    <option value="SIT">Slovenian Tolar - SIT</option>
-                    <option value="ZAR">South African Rand - ZAR</option>
-                    <option value="SEK">Swedish Krona - SEK</option>
-                    <option value="CHF">Swiss Franc - CHF</option>
-                    <option value="THB">Thai Bhat - THB</option>
-                    <option value="TRY">Turkish Lira - TRY</option>
-                    <option value="GBP">UK Pound Sterling - GBP</option>
-                    <option value="USD">US Dollar - USD</option>                
-                </select>
-            </div>
-            <input id="submit" type="button" value="Convert" class="button" />
-            <div id="date-wrapper">
-            <div id="date">
-                <label for="datepicker">Date</label>
-                <input type="text" id="datepicker">
-            </div>
-            </div>
-            <!-- Graph HTML -->
-            <div id="graph-wrapper">
-                <div class="graph-info">
-                    <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
-                    <!--<a href="javascript:void(0)" class="returning"></a>-->
-
-    <!--                <a href="#" id="bars"><span></span></a>-->
-<!--                    <a href="#" id="lines" class="active"><span></span></a>-->
-                </div>
-
-                <div class="graph-container" id="graph-container">
-                    <div id="graph-lines"></div>
-                </div>
-            </div>
-            <!-- end Graph HTML -->
+  </section>
+  <section id="content-main">
+    <div class="container">
+      <section class="currency-form">
+        <div class="form-group">
+          <label for="from-currency">From</label>
+          <select id="from-currency" class="currency-selections">
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CHF">CHF - Swiss Franc</option>
+            <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="DKK">DKK - Danish Krone</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP" selected>GBP - UK Pound Sterling</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="IDR">IDR - Indonesian Rupiah</option>
+            <option value="ILS">ILS - Israeli Shekel</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="KRW">KRW - Korean Won (Republic)</option>
+            <option value="LVL">LVL - Latvian Lats</option>
+            <option value="MXN">MXN - Mexican Peso</option>
+            <option value="MYR">MYR - Malaysian Ringgit</option>
+            <option value="NOK">NOK - Norwegian Krone</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="PHP">PHP - Philippine Peso</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
+            <option value="RUB">RUB - Rouble</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+            <option value="SEK">SEK - Swedish Krona</option>
+            <option value="THB">THB - Thai Bhat</option>
+            <option value="TRY">TRY - Turkish Lira</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+          </select>
         </div>
-    </div>
 
+        <input id="swap-button" type="button" value="Swap" class="button" />
+
+        <div class="form-group">
+          <label for="to-currency">To</label>
+          <select id="to-currency" class="currency-selections">
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CHF">CHF - Swiss Franc</option>
+            <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="DKK">DKK - Danish Krone</option>
+            <option value="EUR" selected>EUR - Euro</option>
+            <option value="GBP">GBP - UK Pound Sterling</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="IDR">IDR - Indonesian Rupiah</option>
+            <option value="ILS">ILS - Israeli Shekel</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="KRW">KRW - Korean Won (Republic)</option>
+            <option value="LVL">LVL - Latvian Lats</option>
+            <option value="MXN">MXN - Mexican Peso</option>
+            <option value="MYR">MYR - Malaysian Ringgit</option>
+            <option value="NOK">NOK - Norwegian Krone</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="PHP">PHP - Philippine Peso</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
+            <option value="RUB">RUB - Rouble</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+            <option value="SEK">SEK - Swedish Krona</option>
+            <option value="THB">THB - Thai Bhat</option>
+            <option value="TRY">TRY - Turkish Lira</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+          </select>
+        </div>
+
+        <span id="more-link" class="more">More...</span>
+
+        <div id="date-wrapper" class="form-group hidden">
+          <div id="date">
+            <label for="datepicker">Date</label>
+            <input type="text" id="datepicker">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <input id="convert-button" type="button" value="Convert"
+                 class="button primary" />
+        </div>
+      </section>
+
+      <!-- Graph HTML -->
+      <section id="graph-section" class="graph hidden">
+        <div id="graph-wrapper">
+          <hr />
+          <div class="graph-info">
+            <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
+            <!--<a href="javascript:void(0)" class="returning"></a>-->
+            <!--<a href="#" id="bars"><span></span></a>-->
+            <!--<a href="#" id="lines"class="active"><span></span></a>-->
+          </div>
+
+          <div class="graph-container" id="graph-container">
+            <div id="graph-lines"></div>
+          </div>
+        </div>
+        <!-- end Graph HTML -->
+      </section>
+    </div>
+  </section>
+  <!-- Scripts executed once the DOM has initialized -->
+  <script src="Datepicker.js" type="text/javascript"></script>
+  <script src="../Database/Database.js" type="text/javascript"></script>
+  <script src="../Graph/Graph.js" type="text/javascript"></script>
+  <script src="../App.js" type="text/javascript"></script>
+  <script src="Home.js" type="text/javascript"></script>
 </body>
 </html>

@@ -1,37 +1,147 @@
-﻿.getCur{
-    width: 100%;
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
 }
-.curOptions{
-    width: 95%;
-    min-width: 100px;
-    max-width: 300px;
-    display: inline;
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
 }
-.button{
-    margin-right: auto;
-    margin-left: auto;
-    width: 95%;
-    min-width: 100px;
-    max-width: 300px;
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
 }
-#date-wrapper{
-    width: 95%;
-    min-width: 100px;
-    max-width: 300px;
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
 }
-#date{
-    margin-left: 55%;
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+/* Default Stuff */
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
-#datepicker{
-    width: 75px;
+
+.container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
-@media screen and (max-width: 500px) {
-    #graph-wrapper{
-        /*display: none;*/
-    }
+
+/* Top Header */
+#content-header .container h1 {
+  line-height: 2;
 }
-@media screen and (min-width: 500px) {
-    #graph-wrapper{
-        display: inline;
-    }
+
+#content-main {
+  padding-top: 1em;
 }
+
+.form-group {
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* All elements of the currency-form take up their own line*/
+.form-group * {
+  display: block;
+}
+
+.form-group label {
+  text-align: left;
+  font-weight: bold;
+  font-style: inherit;
+  font-size: 1.2em;
+  border-bottom: 1px solid #EF6C00;
+  margin-bottom: 5px;
+}
+
+.button {
+  margin-top: 10px;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.more,
+.more:focus,
+.more:active {
+  /* Remove all decorations to look like normal text */
+  background: none;
+  border: none;
+  display: inline;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  outline-offset: 0;
+  /* Additional styles to look like a link */
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1.2em;
+}
+
+.currency-form .primary {
+  width: 200px;
+  height: 50px;
+  background-color: #EF6C00;
+  color: #fff;
+  vertical-align: middle;
+  font-size: 2em;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+#convert-button:hover {
+  background-color: #2a8dd4;
+}
+
+select, #datepicker {
+  width: 200px;
+}
+
+.graph {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#graph-wrapper {
+  display: inline-block;
+}
+
+.hidden {
+  display: none;
+}
+
+
