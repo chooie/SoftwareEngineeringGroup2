@@ -143,7 +143,7 @@ window.CurrencyConverter.database = (function() {
     queue += 1;
 
     // Disable button
-    $('#submit').prop('disabled', true);
+    $("#convert-button").prop("disabled", true);
 
     // TODO - Can we have a session where we go through this?
     
@@ -164,7 +164,7 @@ window.CurrencyConverter.database = (function() {
         cache[from + to + sqlDate] = 1 / rate;
       }
   
-      $('#submit').prop('disabled', false); //enable button
+      $("#convert-button").prop("disabled", false); //enable button
       // Cache weekends and fridays
       if (time.getDay() === 5) {
         saturday = new Date(time);
@@ -216,7 +216,7 @@ window.CurrencyConverter.database = (function() {
             fromRate / toRate;
           // app.showNotification("YAH!!", from + " to " + to +
           // "is " + (toRate / fromRate));
-          $('#submit').prop('disabled', false); //enable button
+          $('#convert-button').prop('disabled', false); //enable button
           // Cache weekends and fridays
           if (toResults[0].time.getDay() === 5) {
             saturday = new Date(toResults[0].time);
@@ -275,7 +275,7 @@ window.CurrencyConverter.database = (function() {
       //no currency rate found on given date range
       if (results.length === 0) {
         // Something went wrong
-        console.log("Something went wrong.");
+        throw new Error("retrieveRange(): No Currency found for that date.");
       }
       else {
         //results[0].date is the given date
@@ -305,7 +305,7 @@ window.CurrencyConverter.database = (function() {
       case to:
         isTo = 1;
         cur = from;
-        // TODO: Deliberate fall through? Yes, just is used to swap currency and 
+        // TODO: Deliberate fall through? Yes, just is used to swap currency and
         // it's isTo or not.
       case from:
         retrieve(cur, sqlDate, function(resultsDate) {

@@ -127,6 +127,10 @@ hr {
   background-color: #2a8dd4;
 }
 
+#convert-button[disabled] {
+  background-color: grey;
+}
+
 select, #datepicker {
   width: 200px;
 }
