@@ -58,11 +58,11 @@ window.CurrencyConverter.database = (function() {
         // Couldn't find currency data before given date
         if (results.length === 0) {
           // Check after given date
-          rates.where(this.getMatchingCurrencyGreaterThanDate,
+          rates.where(helpers.getMatchingCurrencyGreaterThanDate,
             cur,
             dateSQL)
             .orderBy("time").read()
-            .done(this.handleGreaterThan, this.displayError);
+            .done(helpers.handleGreaterThan, helpers.displayError);
         }
         else {
           // results[0].date is the closest date before given date
@@ -73,9 +73,9 @@ window.CurrencyConverter.database = (function() {
       handleCurrencyAtDate: function (results) {
         // No currency rate found on given date
         if (results.length === 0) {
-          rates.where(this.getMatchingCurrencyLessThanDate, cur, dateSQL)
+          rates.where(helpers.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-              .done(this.handleLessThan, this.displayError);
+            .done(helpers.handleLessThan, helpers.displayError);
         }
         else {
           // results[0].date is the given date
@@ -85,6 +85,7 @@ window.CurrencyConverter.database = (function() {
 
       displayError: function (err) {
         app.showNotification("Error: " + err);
+        que -= 1;
       }
     };
 
@@ -197,15 +198,19 @@ window.CurrencyConverter.database = (function() {
     };
 
     if (from === "EUR") {
-      retrieve(to, sqlDate, handleRetrieve);
+      retrieve(to, sqlDate, function (results) {
+        handleRetrieve(results);
+      });
 
     } else if (to === "EUR") {
-      retrieve(from, sqlDate, handleRetrieve);
+      retrieve(from, sqlDate, function (results) {
+        handleRetrieve(results);
+      });
 
     } else {
       // Neither currency is EUR
       retrieve(from, sqlDate, function(fromResults) {
-        retrieve(to, date, function (toResults) {
+        retrieve(to, sqlDate, function (toResults) {
           var toRate = toResults[0].rate,
             fromRate = fromResults[0].rate,
             saturday,

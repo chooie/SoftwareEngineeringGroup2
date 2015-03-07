@@ -9,6 +9,7 @@ window.CurrencyConverter.graph = (function () {
       toCur = $('#to-currency').val(),
       graphData,
       date = window.CurrencyConverter.datepicker.getSelectedDate(),
+      dateAtOne = new Date(date),
       day = [],
       i;
     try {
@@ -16,9 +17,10 @@ window.CurrencyConverter.graph = (function () {
         throw new Error("updateGraph(): Paramater [0] must be an instance of " +
           "Array.");
       }
-    
+      dateAtOne.setHours(dateAtOne.getHours() + 1);
       for (i = 0; i < values.length; i++) {
-        if (date.valueOf() === values[i][0].valueOf()) {
+        if (date.valueOf() === values[i][0].valueOf() ||
+            dateAtOne.valueOf() === values[i][0].valueOf()) {
           day.push(values[i]);
         }
       }
