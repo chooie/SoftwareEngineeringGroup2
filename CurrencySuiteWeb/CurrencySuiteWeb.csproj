@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\currencyConvert - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -98,6 +99,8 @@
     <Content Include="App\junk.js" />
     <Content Include="App\Scrapper.js" />
     <Content Include="Content\Office.css" />
+    <Content Include="Images\1425852912_Money-Graph-32.png" />
+    <Content Include="Images\1425852918_Money-Graph-64.png" />
     <Content Include="Images\Close.png" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />

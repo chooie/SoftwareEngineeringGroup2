@@ -191,7 +191,7 @@
               valuesArray[2])) {
             rate = this.getExchangeRate(valuesArray[1],
               valuesArray[2], datepicker.getSelectedDate());
-            if (rate === null) {
+            if (typeof rate !== "number") {
               noFinished.push([i, j]);
               return value;
             }
@@ -213,7 +213,7 @@
               dateDetails[1] + "/" +
               dateDetails[0])
             );
-            if (rate === null) {
+            if (typeof rate !== "number") {
               noFinished.push([i, j]);
               return value;
             }
@@ -261,7 +261,6 @@
             return;
           }
           noFinished = [];
-          database.setQueue(0);
           // iterate over 2D array converting each cell
           for (i = 0; i < asyncResult.value.length; i++) {
             for (j = 0; j < asyncResult.value[i].length; j++) {
