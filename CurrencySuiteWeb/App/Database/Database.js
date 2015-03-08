@@ -43,7 +43,7 @@ window.CurrencyConverter.database = (function() {
         return this.currency === cur && this.time > date;
       },
 
-      handleGreaterThan: function (results, callback) {
+      handleGreaterThan: function (results) {
         if (results.length === 0) {
           // Couldn't find currency in database
           throw new Error("retrieve(): Could not find a matching currency in " +
@@ -54,7 +54,7 @@ window.CurrencyConverter.database = (function() {
         callback(results);
       },
 
-      handleLessThan: function (results, callback) {
+      handleLessThan: function (results) {
         // Couldn't find currency data before given date
         if (results.length === 0) {
           // Check after given date
@@ -62,9 +62,7 @@ window.CurrencyConverter.database = (function() {
             cur,
             dateSQL)
             .orderBy("time").read()
-            .done((function (results, call) {
-              helpers.handleGreaterThan(results, call)
-            }, callback), helpers.displayError);
+            .done(helpers.handleGreaterThan, helpers.displayError);
         }
         else {
           // results[0].date is the closest date before given date
@@ -77,9 +75,7 @@ window.CurrencyConverter.database = (function() {
         if (results.length === 0) {
           rates.where(helpers.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-            .done((function (results, call) {
-              helpers.handleLessThan(results, call)
-            }, callback), helpers.displayError);
+            .done(helpers.handleLessThan, helpers.displayError);
         }
         else {
           // results[0].date is the given date
