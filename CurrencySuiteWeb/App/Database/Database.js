@@ -58,11 +58,11 @@ window.CurrencyConverter.database = (function() {
         // Couldn't find currency data before given date
         if (results.length === 0) {
           // Check after given date
-          rates.where(this.getMatchingCurrencyGreaterThanDate,
+          rates.where(helpers.getMatchingCurrencyGreaterThanDate,
             cur,
             dateSQL)
             .orderBy("time").read()
-            .done(this.handleGreaterThan, this.displayError);
+            .done(helpers.handleGreaterThan, helpers.displayError);
         }
         else {
           // results[0].date is the closest date before given date
@@ -73,9 +73,9 @@ window.CurrencyConverter.database = (function() {
       handleCurrencyAtDate: function (results) {
         // No currency rate found on given date
         if (results.length === 0) {
-          rates.where(this.getMatchingCurrencyLessThanDate, cur, dateSQL)
+          rates.where(helpers.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-              .done(this.handelLessThan, this.displayError);
+            .done(helpers.handleLessThan, helpers.displayError);
         }
         else {
           // results[0].date is the given date
@@ -85,6 +85,7 @@ window.CurrencyConverter.database = (function() {
 
       displayError: function (err) {
         app.showNotification("Error: " + err);
+        que -= 1;
       }
     };
 
@@ -143,7 +144,7 @@ window.CurrencyConverter.database = (function() {
     queue += 1;
 
     // Disable button
-    $('#submit').prop('disabled', true);
+    $("#convert-button").prop("disabled", true);
 
     // TODO - Can we have a session where we go through this?
     
@@ -164,7 +165,7 @@ window.CurrencyConverter.database = (function() {
         cache[from + to + sqlDate] = 1 / rate;
       }
   
-      $('#submit').prop('disabled', false); //enable button
+      $("#convert-button").prop("disabled", false); //enable button
       // Cache weekends and fridays
       if (time.getDay() === 5) {
         saturday = new Date(time);
@@ -197,15 +198,19 @@ window.CurrencyConverter.database = (function() {
     };
 
     if (from === "EUR") {
-      retrieve(to, sqlDate, handleRetrieve);
+      retrieve(to, sqlDate, function (results) {
+        handleRetrieve(results);
+      });
 
     } else if (to === "EUR") {
-      retrieve(from, sqlDate, handleRetrieve);
+      retrieve(from, sqlDate, function (results) {
+        handleRetrieve(results);
+      });
 
     } else {
       // Neither currency is EUR
       retrieve(from, sqlDate, function(fromResults) {
-        retrieve(to, date, function (toResults) {
+        retrieve(to, sqlDate, function (toResults) {
           var toRate = toResults[0].rate,
             fromRate = fromResults[0].rate,
             saturday,
@@ -216,7 +221,7 @@ window.CurrencyConverter.database = (function() {
             fromRate / toRate;
           // app.showNotification("YAH!!", from + " to " + to +
           // "is " + (toRate / fromRate));
-          $('#submit').prop('disabled', false); //enable button
+          $('#convert-button').prop('disabled', false); //enable button
           // Cache weekends and fridays
           if (toResults[0].time.getDay() === 5) {
             saturday = new Date(toResults[0].time);
@@ -275,7 +280,7 @@ window.CurrencyConverter.database = (function() {
       //no currency rate found on given date range
       if (results.length === 0) {
         // Something went wrong
-        console.log("Something went wrong.");
+        throw new Error("retrieveRange(): No Currency found for that date.");
       }
       else {
         //results[0].date is the given date
@@ -305,7 +310,7 @@ window.CurrencyConverter.database = (function() {
       case to:
         isTo = 1;
         cur = from;
-        // TODO: Deliberate fall through? Yes, just is used to swap currency and 
+        // TODO: Deliberate fall through? Yes, just is used to swap currency and
         // it's isTo or not.
       case from:
         retrieve(cur, sqlDate, function(resultsDate) {

@@ -17,18 +17,9 @@
   refresh = function () {
     var from = $('#from-currency'),
       to = $('#to-currency');
-    database.updateRate(
-      from.val(),
-      to.val(),
-      datepicker.getSelectedDate()
-    );
-    database.updateGraph(
-      from.val(),
-      to.val(),
-      datepicker.getSelectedDate()
-    );
-    // TODO 
-    // graph.highlightDataPoint();
+
+    database.updateRate(from.val(), to.val(), datepicker.getSelectedDate());
+    database.updateGraph(from.val(), to.val(), datepicker.getSelectedDate());
   };
 
   noFinished = [];
@@ -70,17 +61,13 @@
       var from = $("#from-currency option:selected").index() + 1,
         to = $("#to-currency option:selected").index() + 1;
 
-      $("#to-currency :nth-child(" + to + ")")
-        .removeAttr('selected');
+      $("#to-currency :nth-child(" + to + ")").removeAttr('selected');
 
-      $("#from-currency:nth-child(" + from + ")")
-        .removeAttr('selected');
+      $("#from-currency:nth-child(" + from + ")").removeAttr('selected');
 
-      $("#from-currency :nth-child(" + to + ")")
-        .prop('selected', true);
+      $("#from-currency :nth-child(" + to + ")").prop('selected', true);
 
-      $("#to-currency :nth-child(" + from + ")")
-        .prop('selected', true);
+      $("#to-currency :nth-child(" + from + ")").prop('selected', true);
     },
 
     /**

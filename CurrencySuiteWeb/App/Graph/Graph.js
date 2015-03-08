@@ -1,52 +1,72 @@
 ﻿window.CurrencyConverter = window.CurrencyConverter || {};
 window.CurrencyConverter.graph = (function () {
   var updateGraph,
-    initialize,
-    highlightDataPoint,
-    graph,
-    numberOfTries = 10;
+    initialize;
 
   updateGraph = function(values) {
-    //if (graphItem != null) {
-    //graphItem.setData(values);
-    //return;
-    //}
+    
     var fromCur = $('#from-currency').val(),
       toCur = $('#to-currency').val(),
-      graphData;
+      graphData,
+      date = window.CurrencyConverter.datepicker.getSelectedDate(),
+      dateAtOne = new Date(date),
+      day = [],
+      i;
+    try {
+      if (! Array.isArray(values)) {
+        throw new Error("updateGraph(): Paramater [0] must be an instance of " +
+          "Array.");
+      }
+      dateAtOne.setHours(dateAtOne.getHours() + 1);
+      for (i = 0; i < values.length; i++) {
+        if (date.valueOf() === values[i][0].valueOf() ||
+            dateAtOne.valueOf() === values[i][0].valueOf()) {
+          day.push(values[i]);
+        }
+      }
+   
+      $('#graph-label').text(fromCur + " to " + toCur);
 
-    $('#graph-label').text(fromCur + " to " + toCur);
-    // Graph Data ##############################################
-    graphData = [{
-      // [Date, Value] 2010/08/17
-      data: values,
-      color: '#71c73e'
-    }];
-    // Lines Graph #############################################
-    graph = $.plot($('#graph-lines'), graphData, {
-      series: {
-        points: {
-          show: true,
-          radius: 5
+      // Graph Data ##############################################
+      graphData = [{
+        // [Date, Value] 2010/08/17
+        data: values,
+        color: '#71c73e'
+      },
+      {
+        data: day,
+        color: '#2a8dd4'
+      }];
+
+      // Lines Graph #############################################
+      $.plot($('#graph-lines'), graphData, {
+        series: {
+          points: {
+            show: true,
+            radius: 5
+          },
+          lines: {
+            show: true
+          },
+          shadowSize: 0
         },
-        lines: {
-          show: true
+        grid: {
+          color: '#646464',
+          borderColor: 'transparent',
+          borderWidth: 20,
+          hoverable: true
         },
-        shadowSize: 0
-      },
-      grid: {
-        color: '#646464',
-        borderColor: 'transparent',
-        borderWidth: 20,
-        hoverable: true
-      },
-      xaxis: {
-        tickColor: 'transparent',
-        mode: "time",
-        timeformat: "%d/%m"
-      },
-      yaxis: {}
-    });
+        xaxis: {
+          tickColor: 'transparent',
+          mode: "time",
+          timeformat: "%d/%m"
+        },
+        yaxis: {}
+      });
+    } catch (e) {
+      console.log("Exception: " + e.name + " - " + e.message);
+      return;
+    }
   };
 
   // Common initialization function (to be called from each page)
@@ -96,39 +116,8 @@ window.CurrencyConverter.graph = (function () {
     );
   };
 
-  highlightDataPoint = function () {
-    // TODO
-    var selectedDate = "03-03-2015",//$("#datepicker").val(),
-      correctFormat = window.CurrencyConverter.datepicker.correctFormat;
-    setTimeout(function () {
-      try {
-        if (!Array.isArray(graph.getData()[0].data[0])) {
-          throw new Error("Data didn't load in time");
-        }
-
-        graph.getData()[0].data.forEach(function (dataPoint) {
-          if (correctFormat(new Date(dataPoint[0])) === selectedDate) {
-            // DO SOMETHING TO THE DATA POINT THAT MATCHES THE SELECTED DATE
-            // i.e. give it a different colour
-            console.log("Found it");
-          }
-        });
-        numberOfTries = 10;
-      } catch (e) {
-        console.log(e);
-        numberOfTries -= 1;
-        if (numberOfTries <= 0) {
-          throw new Error("Couldn't get graph data after a number of tries.");
-        }
-        highlightDataPoint();
-      }
-    }, 5000);
-
-  };
-
   return {
     initialize: initialize,
-    update: updateGraph,
-    highlightDataPoint: highlightDataPoint
+    update: updateGraph
   };
 }());
