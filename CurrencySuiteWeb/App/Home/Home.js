@@ -107,8 +107,9 @@
      * @returns {number} The exchange rate based on the parameters
      */
     getExchangeRate: function(fromCurrency, toCurrency, date) {
-      return database.updateRate(fromCurrency, toCurrency, date);
-      // return rate;
+      var rate = 1;
+      rate = database.updateRate(fromCurrency, toCurrency, date);
+      return rate;
     },
 
     /**
