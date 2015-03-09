@@ -62,9 +62,9 @@ window.CurrencyConverter.database = (function() {
             cur,
             dateSQL)
             .orderBy("time").read()
-            .done((function (results, call) {
-              helpers.handleGreaterThan(results, call)
-            }, callback), helpers.displayError);
+            .done((function (results) {
+              helpers.handleGreaterThan(results, callback);
+            }), helpers.displayError);
         }
         else {
           // results[0].date is the closest date before given date
@@ -77,9 +77,9 @@ window.CurrencyConverter.database = (function() {
         if (results.length === 0) {
           rates.where(helpers.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-            .done((function (results, call) {
-              helpers.handleLessThan(results, call)
-            }, callback), helpers.displayError);
+            .done((function (results) {
+              helpers.handleLessThan(results, callback);
+            }), helpers.displayError);
         }
         else {
           // results[0].date is the given date
@@ -89,7 +89,7 @@ window.CurrencyConverter.database = (function() {
 
       displayError: function (err) {
         app.showNotification("Error: " + err);
-        que -= 1;
+        queue -= 1;
       }
     };
 
