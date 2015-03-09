@@ -1,6 +1,6 @@
-﻿/// <reference path="../App.js" />
-/// <reference path="../Scrapper.js" />
-/// <reference path="../Database.js" />
+﻿/// <reference path="../../App/App.js" />
+/// <reference path="../../App/Scrapper.js" />
+/// <reference path="../../App/Database/Database.js" />
 (function() {
   "use strict";
 
@@ -94,9 +94,7 @@
      * @returns {number} The exchange rate based on the parameters
      */
     getExchangeRate: function(fromCurrency, toCurrency, date) {
-      var rate = 1;
-      rate = database.updateRate(fromCurrency, toCurrency, date);
-      return rate;
+      return database.updateRate(fromCurrency, toCurrency, date);
     },
 
     /**
