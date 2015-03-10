@@ -61,6 +61,10 @@ hr {
 #content-header .container h1 {
   line-height: 2;
 }
+h1{
+    position: relative;
+    bottom: 30px;
+}
 
 #content-main {
   padding-top: 1em;
@@ -225,5 +229,52 @@ select, #datepicker {
         width: 100px;
     }
 }
+a{
+    font-family: "Segoe WP Light", "Segoe UI", "Arial", sans-serif;
+    color: black;
+    font-size:12px;
+    line-height: 26px;
+    font-weight: bold;
+    margin-left: 95%;
+    position: relative;
+    bottom: 20px;   
+
+}
+#container {
+            bottom: 0px;
+            display: none;
+            left: 20px;
+            position: fixed;
+            width: 90%;
+            height: 90%;
+
+            
+        }
+
+        #inner {
+            background-color: #F0F0F0;
+            border: 1px solid #666666;
+            border-bottom-width: 0px;
+            padding: 20px 20px 400px 20px;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

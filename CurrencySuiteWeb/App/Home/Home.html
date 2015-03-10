@@ -27,10 +27,33 @@
   <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="jquery-1.4.js"></script>
+    <script type="text/javascript">
+
+        jQuery(function ($) {
+            var container = $("#container");
+            $("a").click(
+            function (event) {
+                event.preventDefault();
+                if (container.is(":visible")) {
+                    container.slideUp(1000);
+                }
+                else {
+                    container.slideDown(1000);
+                }
+            }
+                );
+
+        });
+
+    </script>
 </head>
 <body>
   <section id="content-header">
     <div class="container">
+        <p>
+            <a href="#">tutorial</a>
+        </p>
       <h1>Currency Converter</h1>
     </div>
   </section>
@@ -114,6 +137,33 @@
             <option value="ZAR">ZAR - South African Rand</option>
           </select>
         </div>
+
+
+          <div id="container">
+              <div id="inner">
+
+                  <p>
+                      Select a cell with the currency which you want to
+                      be converted
+                  </p>
+
+                  <p>Select a date to use the conversion rate from that particular day</p>
+
+                  <p>
+                      Select the required currencies from and to categories from the drop downs or else
+                      use the currency codes displayed in the drop downs
+                  </p>
+
+                  <p>Example: "100 USD EUR" converts 100 US Dollars to Euro</p>
+
+                  <p>To select a date using the currency codes type the date after the codes</p>
+
+                  <p>Example: "100 USD EUR 10/4/2001" converts 100 US Dollars to Euro on the 10th of April 2001</p>
+
+
+
+              </div>
+          </div>
 
         <div class="button" id="more-link">
           <i class="fa fa-line-chart fa-2x"></i>
