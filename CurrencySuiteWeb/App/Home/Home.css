@@ -82,15 +82,17 @@ hr {
   font-weight: bold;
   font-style: inherit;
   font-size: 1.2em;
-  border-bottom: 1px solid #EF6C00;
+  border-bottom: 1px solid #217346;
   margin-bottom: 5px;
 }
 
 .button {
   margin-top: 10px;
-  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition-delay: 0.2s;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  width: 6px;
+  margin-left: auto;
+  margin-right: auto;
+  cursor:pointer;
 }
 
 .more,
@@ -112,19 +114,21 @@ hr {
   font-size: 1.2em;
 }
 
+
 .currency-form .primary {
-  width: 200px;
+  width: 150px;
   height: 50px;
-  background-color: #EF6C00;
+  background-color: #217346;
   color: #fff;
   vertical-align: middle;
   font-size: 2em;
   margin-top: 25px;
   margin-bottom: 20px;
+  margin-left: 25px;
 }
 
 #convert-button:hover {
-  background-color: #2a8dd4;
+  background-color: #66BB6A;
 }
 
 #convert-button[disabled] {
@@ -146,6 +150,80 @@ select, #datepicker {
 
 .hidden {
   display: none;
+}
+
+@media screen and (min-width:450px) {
+    .form-group {
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .currency-form .primary {
+        width: 225px;
+        height: 50px;
+        background-color: #217346;
+        color: #fff;
+        vertical-align:central;
+        font-size: 2em;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        margin-left: 37.5px;
+    }
+
+    select, #datepicker {
+        width: 300px;
+    }
+}
+
+@media screen and (min-width:650px) {
+    .form-group {
+        width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .currency-form .primary {
+        width: 300px;
+        height: 50px;
+        background-color: #217346;
+        color: #fff;
+        vertical-align:central;
+        font-size: 2em;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        margin-left: 50px;
+    }
+
+    select, #datepicker {
+        width: 400px;
+    }
+}
+
+@media screen and (max-width:250px) {
+    #content-header .container h1 {
+        line-height: 2;
+        font-size: large;
+    }
+    .form-group {
+        width: 100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .currency-form .primary {
+        width: 75px;
+        height: 50px;
+        background-color: #217346;
+        color: #fff;
+        vertical-align:central;
+        font-size: 2em;
+        margin-top: 25px;
+        margin-bottom: 20px;
+        margin-left: 12.5px;
+        font-size: medium;
+    }
+
+    select, #datepicker {
+        width: 100px;
+    }
 }
 
 
