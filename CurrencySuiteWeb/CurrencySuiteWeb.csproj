@@ -98,6 +98,7 @@
     <Content Include="App\jquery.xdomainajax.js" />
     <Content Include="App\junk.js" />
     <Content Include="App\Scrapper.js" />
+    <Content Include="Content\font-awesome\css\font-awesome.min.css" />
     <Content Include="Content\Office.css" />
     <Content Include="Images\1425852912_Money-Graph-32.png" />
     <Content Include="Images\1425852918_Money-Graph-64.png" />
