@@ -58,6 +58,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\History\History.css" />
+    <Content Include="App\History\History.js" />
     <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.woff" />

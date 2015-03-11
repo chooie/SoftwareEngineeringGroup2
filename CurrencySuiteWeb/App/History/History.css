@@ -1,0 +1,34 @@
+﻿#history-wrapper {
+    background-color: #ffffff;
+    color: #111111;
+    position: absolute;
+    width: 75%;
+    min-height: 90%;
+    margin-top: 80px;
+
+    z-index: 100;
+    display: none; /* Hidden until invoked */
+    font-size: medium;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 20px;
+     margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0
+}
+#history-title {
+    margin-top: -10px;
+}
+#history-wrapper #history-close {
+    background-image: url("../../Images/Close.png");
+    background-color: #cccccc;
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+        border-radius: 20px;
+    cursor: pointer;
+}
