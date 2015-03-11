@@ -58,6 +58,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\currencyConvert - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -103,6 +107,9 @@
     <Content Include="Images\1425852912_Money-Graph-32.png" />
     <Content Include="Images\1425852918_Money-Graph-64.png" />
     <Content Include="Images\Close.png" />
+    <Content Include="Other\Group Website\css\bootstrap.min.css" />
+    <Content Include="Other\Group Website\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Other\Group Website\index.html" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
