@@ -1,12 +1,35 @@
-﻿window.CurrencyConverter.graph = (function () {
+﻿window.CurrencyConverter = window.CurrencyConverter || {};
+window.CurrencyConverter.history = (function () {
   var allHistory = {},
     initialize,
     updateInput,
     updateOutput,
-    showHistory,
-    hideHistory,
+    fillHistory,
+    toggle,
     save,
     formatDate;
+
+  toggle = function () {
+    var history = $('#history-wrapper');
+    if (history.is(":visible")) {
+      fillHistory();
+      history.slideUp(1000);
+    }
+    else {
+      history.slideDown(1000);
+    }
+  };
+
+  fillHistory = function () {
+    var middle = '',
+      i;
+    for (i = 0; i < allHistory.length; i++) {
+      middle += '<li class="history-item">' +
+                  formatDate(allHistory[i][3]) +
+                '</li>';
+    }
+    $('#history-contents').html(middle);
+  };
 
   updateInput = function (input, currencyDetails, date) {
     if (allHistory.length >= 10) {
@@ -25,28 +48,12 @@
     Office.context.document.settings.saveAsync();
   };
 
-  showHistory = function () {
-    var middle = '',
-      i;
-    for (i = 0; i < allHistory.length; i++) {
-      middle += '<li class="history-item">' +
-                  formatDate(allHistory[i][3]) +
-                '</li>';
-    }
-    $('#history-contents').html(middle);
-    $('#history-wrapper').slideToggle("slow");
-  };
-
   formatDate = function (date) {
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
       'Sep', 'Oct', 'Nov', 'Dec'];
     date = new Date();
     return date.getDate() + "-" + monthNames[date.getMonth()] + "-" +
       date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
-  };
-
-  hideHistory = function () {
-    $('#history-wrapper').hide();
   };
 
   initialize = function () {
@@ -57,17 +64,24 @@
     else {
       allHistory = JSON.parse(allHistory);
     }
-    var top = '<div id="history-wrapper">' +
-        '<div class="padding">' +
-        '<div id="history-close"></div>' +
-            '<h1 id="history-title"> History </h1>' +
-                '<ul id="history-contents">',
-      bottom = '</ul>' +
-                    '</div>' +
-                '</div>';
-    $('body').append(top + bottom);
-    $('#history-close').click(function () {
-      $('#history-wrapper').slideToggle("slow");
+    $(document).mouseup(function (e) {
+      var container = $("#history-wrapper");
+      // if the target of the click isn't the container...
+      if (!container.is(e.target)
+        // ... nor a descendant of the container
+          && container.has(e.target).length === 0
+        // make sure its not the scroll bar
+          && (e.target !== $('html').get(0)))
+      {
+        container.slideUp(1000);
+      }
     });
+  };
+
+  return {
+    initialize: initialize,
+    toggle: toggle,
+    updateInput: updateInput,
+    updateOutput: updateOutput
   };
 }());

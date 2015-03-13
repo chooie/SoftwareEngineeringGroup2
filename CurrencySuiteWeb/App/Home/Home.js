@@ -1,7 +1,10 @@
 ﻿/// <reference path="../App.js" />
 /// <reference path="../Scrapper.js" />
 /// <reference path="../Database.js" />
-(function() {
+/// <reference path="../History.js" />
+
+
+(function () {
   "use strict";
 
   // Ensure Currency Converter is defined
@@ -12,6 +15,7 @@
     datepicker = cc.datepicker,
     database = cc.database,
     graph = cc.graph,
+    history = cc.history,
     refresh;
 
   refresh = function () {
@@ -321,9 +325,11 @@
   Office.initialize = function() {
     $(document).ready(function() {
       app.initialize();
+      history.initialize();
       $('#swap-button').click(cc.home.swap);
       $('#convert-button').click(cc.home.executeCellConversions);
       $('#more-link').click(cc.home.more);
+      $('#history-button').click(cc.history.toggle);
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();

@@ -9,6 +9,7 @@
   <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
   <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
   <link href="../App.css" rel="stylesheet" type="text/css" />
+  <link href="../History/History.css" rel="stylesheet" type="text/css" />
   <link href="Home.css" rel="stylesheet" type="text/css" />
 
  <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
@@ -30,29 +31,32 @@
     <script type="text/javascript" src="jquery-1.4.js"></script>
     <script type="text/javascript">
 
-        jQuery(function ($) {
-            var container = $("#container");
-            $("a").click(
-            function (event) {
-                event.preventDefault();
-                if (container.is(":visible")) {
-                    container.slideUp(1000);
-                }
-                else {
-                    container.slideDown(1000);
-                }
-            }
-                );
+      jQuery(function ($) {
+        var container = $("#container");
+        $("#tutorial").click(
+        function (event) {
+          event.preventDefault();
+          if (container.is(":visible")) {
+            container.slideUp(1000);
+          }
+          else {
+            container.slideDown(1000);
+          }
+        }
+            );
+        container.click(
+          function (event) {
+            container.slideUp(1000);
+          })
 
-        });
-
+      });
     </script>
 </head>
 <body>
   <section id="content-header">
     <div class="container">
         <p>
-            <a href="#">tutorial</a>
+            <a href="#" id="tutorial">tutorial</a>
         </p>
       <h1>Currency Converter</h1>
     </div>
@@ -164,23 +168,123 @@
 
               </div>
           </div>
+        <div id="history-wrapper">
+          <div id="history-inner-wrapper">
+            <div class="caption">History</div>
+            <div id="history-table">
+              <div class="header-row row">
+                <span class="cell primary-history">Time</span>
+                <span class="cell">From</span>
+                <span class="cell">To</span>
+                <span class="cell">Date</span>
+                <span class="cell">Input</span>
+                <span class="cell">Output</span>
+              </div>
+              <div class="row">
+                <input class="radio-input" type="radio" name="expand">
+                <span class="cell primary-history" data-label="Time">20th Jan 12:23:45</span>
+                <span class="cell" data-label="From">EUR</span>
+                <span class="cell" data-label="To">USD</span>
+                <span class="cell" data-label="Date">12-03-2015</span>
+                <span class="cell" data-label="Input">
+                  <table>
+                    <tr>
+                      <td>200</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>100.21</td>
+                      <td>21312</td>
+                    </tr>
+                    <tr>
+                      <td>21435413</td>
+                      <td>21312</td>
+                    </tr>
+                  </table>
+                </span>
+                <span class="cell" data-label="Output">
 
-        <div class="button" id="more-link">
-          <i class="fa fa-line-chart fa-2x"></i>
-        </div>
+                  <table>
+                    <tr>
+                      <td>200</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>100.21</td>
+                      <td>21312</td>
+                    </tr>
+                    <tr>
+                      <td>21435413</td>
+                      <td>21312</td>
+                    </tr>
+                  </table>
+                </span>
+              </div>
+              <div class="row">
+                <input class="radio-input" type="radio" name="expand">
+                <span class="cell primary-history" data-label="Time">20th Jan 12:23:45</span>
+                <span class="cell" data-label="From">EUR</span>
+                <span class="cell" data-label="To">USD</span>
+                <span class="cell" data-label="Date">12-03-2015</span>
+                <span class="cell" data-label="Input">
+                  <table>
+                    <tr>
+                      <td>200</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>100.21</td>
+                      <td>21312</td>
+                    </tr>
+                    <tr>
+                      <td>21435413</td>
+                      <td>21312</td>
+                    </tr>
+                  </table>
+                </span>
+                <span class="cell" data-label="Output">
 
-        <div id="date-wrapper" class="form-group hidden">
-          <div id="date">
-            <label for="datepicker">Date</label>
-            <input type="text" id="datepicker">
+                  <table>
+                    <tr>
+                      <td>200</td>
+                      <td>100</td>
+                    </tr>
+                    <tr>
+                      <td>100.21</td>
+                      <td>21312</td>
+                    </tr>
+                    <tr>
+                      <td>21435413</td>
+                      <td>21312</td>
+                    </tr>
+                  </table>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
-        
-        <div class="form-group">
-          <input id="convert-button" type="button" value="Convert"
-                 class="button primary" />
-        </div>
-      </section>
+
+            <div class="button" id="more-link">
+              <i class="fa fa-line-chart fa-2x"></i>
+            </div>
+
+            <div id="date-wrapper" class="form-group hidden">
+              <div id="date">
+                <label for="datepicker">Date</label>
+                <input type="text" id="datepicker">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input id="convert-button" type="button" value="Convert"
+                     class="button primary" />
+            </div>
+
+            <div class="form-group">
+              <input id="history-button" type="button" value="History"
+                     class="button primary" />
+            </div>
+</section>
 
       <!-- Graph HTML -->
       <section id="graph-section" class="graph hidden">
@@ -199,12 +303,12 @@
         </div>
         <!-- end Graph HTML -->
       </section>
-    </div>
   </section>
   <!-- Scripts executed once the DOM has initialized -->
   <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Database/Database.js" type="text/javascript"></script>
   <script src="../Graph/Graph.js" type="text/javascript"></script>
+  <script src="../History/History.js" type="text/javascript"></script>
   <script src="../App.js" type="text/javascript"></script>
   <script src="Home.js" type="text/javascript"></script>
 </body>

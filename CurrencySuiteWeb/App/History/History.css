@@ -1,34 +1,202 @@
 ﻿#history-wrapper {
-    background-color: #ffffff;
-    color: #111111;
-    position: absolute;
-    width: 75%;
-    min-height: 90%;
-    margin-top: 80px;
+		bottom: 0px;
+		display: none;
+		left: 20px;
+		position: fixed;
+		width: 90%;
+		height: 90%; 
+		
 
-    z-index: 100;
-    display: none; /* Hidden until invoked */
-    font-size: medium;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    border-radius: 20px;
-     margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0
+		overflow-y: initial;
 }
-#history-title {
-    margin-top: -10px;
+#history-inner-wrapper{
+	width: 100%;
+	height: 100%;
+	overflow-y: auto; 
+			background-color: #ffffff;
+		border: 1px solid #666666;
+		border-bottom-width: 0px;
 }
-#history-wrapper #history-close {
-    background-image: url("../../Images/Close.png");
-    background-color: #cccccc;
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-        border-radius: 20px;
-    cursor: pointer;
+
+	#table {
+		display: table;
+		
+		width: 100%; 
+		background: #fff;
+		margin: 0;
+		box-sizing: border-box;
+
+	 }
+
+	 .caption {
+		display: block;
+		width: 100%;
+		background: #217346; /*Top color*/
+		height: 55px;
+		padding-left: 10px;
+		color: #fff;
+		font-size: 20px;
+		line-height: 55px;
+		text-shadow: 1px 1px 1px rgba(0,0,0,.3);
+		box-sizing: border-box;
+	 }
+
+
+	 .header-row {
+		background: #8b8b8b;
+		color: #fff;
+
+	 }
+
+	.row {
+		display: table-row;
+	}
+
+	.cell {
+		display: table-cell;
+		
+		padding: 6px; 
+		border-bottom: 1px solid #e5e5e5;
+		text-align: center;
+	}
+
+	.primary-history {
+		text-align: left;
+	}
+
+
+	input[type="radio"],
+	input[type="checkbox"]{
+		display: none;
+	}
+
+	.cell>table{
+	padding-right: 20px;
 }
+	.cell>table, .cell>table td  {
+	border-style: solid;
+		border-collapse: collapse;
+		text-align: right;
+		min-width: 55px;
+		border-width: 1px;
+		line-height: 20px;
+	}
+
+
+	@media only screen and (max-width: 600px)  {
+
+
+
+		#history-table {
+			display: block;
+			/*margin: 44px 0 0 0;*/
+		}
+
+		.caption {
+			margin-bottom: 1px;
+		}
+
+		.row { 
+			position: relative;
+			display: block;
+			border-bottom: 1px solid #ccc; 
+
+		}
+
+		.header-row {
+			display: none;
+		}
+		
+		.cell { 
+			display: block;
+
+			border: none;
+			position: relative;
+			line-height: 45px;
+			text-align: left;
+		}
+
+		
+		.primary-history:after {
+			content: "";
+			display: block;
+			position: absolute;
+			right:20px;
+			top:18px;
+			z-index: 2;
+			width: 0; 
+			height: 0; 
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent; 
+			border-right:10px solid #ccc;
+
+		}
+
+		.cell:nth-of-type(n+2) { 
+			display: none; 
+		}
+
+
+		input[type="radio"] ,
+		input[type="checkbox"] {
+			display: block;
+			position: absolute;
+			z-index: 1;
+			width: 99%;
+			height: 100%;
+			opacity: 0;
+		}
+
+		input[type="radio"]:checked ~ .cell,
+		input[type="checkbox"]:checked ~ .cell {
+			display: block;
+
+			border-bottom: 1px solid #eee; 
+		}
+
+		input[type="radio"]:checked ~ .cell:nth-of-type(n+2),
+		input[type="checkbox"]:checked ~ .cell:nth-of-type(n+2) {
+			
+			background: #e0e0e0;
+		}
+
+		input[type="radio"]:checked ~ .cell:nth-of-type(n+2):before,
+		input[type="checkbox"]:checked ~ .cell:nth-of-type(n+2):before {
+			content: attr(data-label);
+
+			display: inline-block;
+			width: 60px;
+			background: #999;
+			border-radius: 10px;
+			height: 20px;
+			margin-right: 10px;
+			font-size: 12px;
+			line-height: 20px;
+			text-align: center;
+			color: white;
+
+		}
+
+		input[type="radio"]:checked ~ .primary-history,
+		input[type="checkbox"]:checked ~ .primary-history  {
+			border-bottom: 2px solid #999;
+		}
+
+		input[type="radio"]:checked ~ .primary-history:after,
+		input[type="checkbox"]:checked ~ .primary-history:after {
+			position: absolute;
+			right:18px;
+			top:22px;
+			border-right: 10px solid transparent;
+			border-left: 10px solid transparent; 
+			border-top:10px solid #ccc;
+			z-index: 2;
+		}
+		.primary-history{
+			background-color: #217346;
+			color: white;
+		}
+		.primary-history:hover, .radio-input:hover + .primary-history{
+			background-color: #66BB6A;
+		}
+	}
