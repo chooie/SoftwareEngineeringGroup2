@@ -76,6 +76,14 @@ window.CurrencyConverter.history = (function () {
         container.slideUp(1000);
       }
     });
+    $(".radio-input").click(function (e) {
+      if ($(this).attr('checked')) {
+        $(this).attr('checked', false);
+      }
+      else {
+        $(this).attr('checked', true);
+      }
+    });
   };
 
   return {
