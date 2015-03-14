@@ -217,6 +217,9 @@
             return valuesArray[0] * rate;
           }
         }
+        else {
+          throw new "Invalid Parsed Data";
+        }
       }
       catch(error) {
         console.log(error.message);
