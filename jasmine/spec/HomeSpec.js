@@ -1,33 +1,5 @@
 (function() {
   var home = window.CurrencyConverter.home;
-  /**
-   * getExchangeRateTest
-   * test for Home/getExchangeRate()
-   *
-   * @param {string} fromCurrency the currency being changed from
-   * @param {string} toCurrency the currency being changed to
-   * @param {string} date the date to get the rate for
-   * @returns {number} The exchange rate based on the parameters
-   */
-  describe("getExchangeRateTest", function() {
-    it("tests if returned exchange rate is correct from US Dollars " + 
-        "to Australian Dollars on the 26th of Febuary 2015", function() {
-      expect(home.getExchangeRate(
-        "USD", "AUD", new Date("2015/02/26"))).toEqual(1.450);
-    });
-    it("tests if returned exchange rate is correct for a date that is in " +
-        "the future", function() {
-      // TODO find out what happens if date is in the future
-      expect(home.getExchangeRate(
-        "USD", "AUD", new Date("2016/02/26"))).toEqual(-1);
-    });
-    it("tests if returned exchange rate is correct for a date that is " +
-        "out of scope in the past", function() {
-      // TODO find out what happens if date is out of scope
-      expect(home.getExchangeRate(
-        "USD", "AUD", new Date("1900/02/26"))).toEqual(-1);
-    });
-  });
 
   /**
    * validateCurrencyCodesTest
@@ -73,7 +45,7 @@
    * @returns {int}    the value based on the query
    * @returns {string} the cell query
    */
-  describe("validateCurrencyCodesTest", function() {
+  describe("convertValueTest", function() {
     /* valid queries */
 
     it("vaid test 1 for convertValue function for Case 1", function() {
@@ -97,13 +69,13 @@
     });   
 
     it("vaid test 1 for convertValue function for Case 3", function() {
-      expect(home.convertValue("100 USD EUR 21-08-2002", 0, 0)).toEqual(typeof "number");
+      expect(home.convertValue("100 USD EUR 21-08-2002", 0, 0)).toEqual(typeof "string");
     });
     it("vaid test 2 for convertValue function for Case 3", function() {
-      expect(home.convertValue("100 USD EUR 2-7-2010", 0, 0)).toEqual(typeof "number");
+      expect(home.convertValue("100 USD EUR 2-7-2010", 0, 0)).toEqual(typeof "string");
     });
     it("vaid test 3 for convertValue function for Case 3", function() {
-      expect(home.convertValue("   100   USD   EUR   2-7-2010  ", 0, 0)).toEqual(typeof "number");
+      expect(home.convertValue("   100   USD   EUR   2-6-2010  ", 0, 0)).toEqual(typeof "number");
     });
 
     /* Invalid queries */

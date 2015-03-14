@@ -28,7 +28,6 @@
    * Contains all methods used in the app
    */
   cc.home = {
-
     /**
      * databaseInit
      * Initiates and creates listeners for the database
@@ -93,7 +92,7 @@
      * @param {string} date the date to get the rate for
      * @returns {number} The exchange rate based on the parameters
      */
-    getExchangeRate: function(fromCurrency, toCurrency, date) {
+    getExchangeRate: function (fromCurrency, toCurrency, date) {
       return database.updateRate(fromCurrency, toCurrency, date);
     },
 
@@ -258,7 +257,6 @@
               "properly selected");
             return;
           }
-          noFinished = [];
           // iterate over 2D array converting each cell
           for (i = 0; i < asyncResult.value.length; i++) {
             for (j = 0; j < asyncResult.value[i].length; j++) {
