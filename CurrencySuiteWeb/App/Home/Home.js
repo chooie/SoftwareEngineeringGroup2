@@ -183,9 +183,15 @@
         valuesArray[2] = valuesArray[2].toUpperCase();
         // Case 2: Cell value is in the 'special' format (e.g. 100 USD
         // GBP)
-        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
+        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)
+          || /^\(\d+\.?\d*\)\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
           if (this.validateCurrencyCodes(valuesArray[1],
               valuesArray[2])) {
+            // deal with negative number (negative is surrounded with ( )
+            if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
+              valuesArray[0] = valuesArray[0].substring(1,
+                valuesArray[0].length - 1);
+            }
             rate = this.getExchangeRate(valuesArray[1],
               valuesArray[2], datepicker.getSelectedDate());
             if (typeof rate !== "number") {
@@ -198,11 +204,18 @@
         // Case 3 TODO correct date format
         // This is going to be broken, need to change date format into
         // YYYY/MM/DD and convert that into a date object
-        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/
+        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/i
+            .test(value)
+          || /^\(\d+\.?\d*\)\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/i
             .test(value)) {
           dateDetails = valuesArray[3].split("-");
           if (this.validateCurrencyCodes(valuesArray[1],
               valuesArray[2])) {
+            // deal with negative number (negative is surrounded with ( )
+            if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
+              valuesArray[0] = valuesArray[0].substring(1,
+                valuesArray[0].length - 1);
+            }
             rate = this.getExchangeRate(
               valuesArray[1],
               valuesArray[2],
