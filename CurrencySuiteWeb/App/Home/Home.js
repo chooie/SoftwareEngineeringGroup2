@@ -181,7 +181,6 @@
         valuesArray = value.split(/\s+/g);
         valuesArray[1] = valuesArray[1].toUpperCase();
         valuesArray[2] = valuesArray[2].toUpperCase();
-        app.showNotification("1" + valuesArray[0] + "1" + valuesArray[1] + "2" + valuesArray[2] + "3");
         // Case 2: Cell value is in the 'special' format (e.g. 100 USD
         // GBP)
         if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)
