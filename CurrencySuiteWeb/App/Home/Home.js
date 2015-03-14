@@ -273,6 +273,7 @@
               "properly selected");
             return;
           }
+          noFinished = [];
           // iterate over 2D array converting each cell
           for (i = 0; i < asyncResult.value.length; i++) {
             for (j = 0; j < asyncResult.value[i].length; j++) {
