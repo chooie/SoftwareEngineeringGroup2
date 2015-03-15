@@ -10,7 +10,8 @@ window.CurrencyConverter.history = (function () {
     formatDate,
     ordinal_suffix_of,
     formatData,
-    isAllHistoryUptoDate = false;
+    isAllHistoryUptoDate = false,
+      radioButtonClickBinding;
 
   toggle = function () {
     var history = $('#history-wrapper');
@@ -26,6 +27,9 @@ window.CurrencyConverter.history = (function () {
     }
   };
   formatDate = function (date) {
+    if (!(date instanceof Date)) {
+      date = new Date(date);
+    }
     var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
       'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -80,6 +84,16 @@ window.CurrencyConverter.history = (function () {
         '</div>';
     }
     $('#history-table').html(middle);
+    if (!radioButtonClickBinding) {
+      radioButtonClickBinding = $(".radio-input").click(function () {
+        if ($(this).attr('checked')) {
+          $(this).attr('checked', false);
+        }
+        else {
+          $(this).attr('checked', true);
+        }
+      });
+    }
   };
   //time, [from, to, dateSelected], input, output
   updateInput = function (currencyDetails, input) {
@@ -98,7 +112,8 @@ window.CurrencyConverter.history = (function () {
   };
 
   save = function () {
-    Office.context.document.settings.set('history', JSON.stringify(allHistory));
+    var string = JSON.stringify(allHistory);
+    Office.context.document.settings.set('history', string);
     Office.context.document.settings.saveAsync();
   };
   formatData = function (data) {
@@ -125,11 +140,15 @@ window.CurrencyConverter.history = (function () {
 
   initialize = function () {
     allHistory = Office.context.document.settings.get('history');
-    if (allHistory === null || allHistory === '') {
-      allHistory = [];
+    if (allHistory && allHistory.length) {
+      allHistory = JSON.parse(allHistory);
+      for (var i = 0; i < allHistory.length; i++) {
+        allHistory[i][0] = new Date(allHistory[i][0]);
+        allHistory[i][1][2] = new Date(allHistory[i][1][2]);
+      }
     }
     else {
-      allHistory = JSON.parse(allHistory);
+      allHistory = [];
     }
     $(document).mouseup(function (e) {
       var container = $("#history-wrapper");
@@ -143,14 +162,7 @@ window.CurrencyConverter.history = (function () {
         container.slideUp(1000);
       }
     });
-    $(".radio-input").click(function () {
-      if ($(this).attr('checked')) {
-        $(this).attr('checked', false);
-      }
-      else {
-        $(this).attr('checked', true);
-      }
-    });
+
   };
 
   return {
