@@ -80,12 +80,14 @@
 		min-width: 55px;
 		border-width: 1px;
 		line-height: 20px;
+    border-spacing: 3px;
+     
 	}
 
 
 	@media only screen and (max-width: 600px)  {
 
-
+		
 
 		#history-table {
 			display: block;
@@ -165,7 +167,7 @@
 			content: attr(data-label);
 
 			display: inline-block;
-			width: 60px;
+			width: 100%;
 			background: #999;
 			border-radius: 10px;
 			height: 20px;

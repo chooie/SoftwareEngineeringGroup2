@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/MobileServices.Web-1.2.5.min.js" />
+﻿/// <reference path="../../Scripts/MobileServices.Web-1.2.5.min.js" />
 window.CurrencyConverter = window.CurrencyConverter || {};
 window.CurrencyConverter.database = (function() {
 

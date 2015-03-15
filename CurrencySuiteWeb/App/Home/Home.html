@@ -31,25 +31,25 @@
     <script type="text/javascript" src="jquery-1.4.js"></script>
     <script type="text/javascript">
 
-      jQuery(function ($) {
-        var container = $("#container");
+        jQuery(function ($) {
+            var container = $("#container");
         $("#tutorial").click(
-        function (event) {
-          event.preventDefault();
-          if (container.is(":visible")) {
-            container.slideUp(1000);
-          }
-          else {
-            container.slideDown(1000);
-          }
-        }
-            );
+            function (event) {
+                event.preventDefault();
+                if (container.is(":visible")) {
+                    container.slideUp(1000);
+                }
+                else {
+                    container.slideDown(1000);
+                }
+            }
+                );
         container.click(
           function (event) {
             container.slideUp(1000);
           })
 
-      });
+        });
     </script>
 </head>
 <body>
@@ -143,84 +143,21 @@
         </div>
 
 
-        <div id="container">
-          <div id="inner">
-
-            <p>
-              Select a cell with the currency which you want to
-              be converted
-            </p>
-
-            <p>Select a date to use the conversion rate from that particular day</p>
-
-            <p>
-              Select the required currencies from and to categories from the drop downs or else
-              use the currency codes displayed in the drop downs
-            </p>
-
-            <p>Example: "100 USD EUR" converts 100 US Dollars to Euro</p>
-
-            <p>To select a date using the currency codes type the date after the codes</p>
-
-            <p>Example: "100 USD EUR 10/4/2001" converts 100 US Dollars to Euro on the 10th of April 2001</p>
-
-
-
+          <div id="container">
+              <div id="inner">
+                <p>Welcome to the <i><strong>Currency Suite Quick Tutorial</strong></i></p>
+                <p>There are <i>three</i> ways of performing a conversion</p>
+                <p>1: Type any number (eg. "100"). This will convert the typed value from the currency in the top drop down, to the currency in the bottom drop down</p>
+                <p>2: Type any number followed by two currency codes (eg. "100 USD EUR"). This will convert the typed value from the first currency code to the second currency code</p>
+                <p>3: Type any number followed by two currency codes and a date in the format dd-mm-yyyy (eg. "100 USD EUR 28-02-2014"). This will convert the typed value from the first currency code to the second currency code based on the date specified by your query</p>
+                <p>And there you have it, with this you're ready to get started converting!</p>
+              </div>
           </div>
-        </div>
         <div id="history-wrapper">
           <div id="history-inner-wrapper">
             <div class="caption">History</div>
             <div id="history-table">
-              <div class="header-row row">
-                <span class="cell primary-history">Time</span>
-                <span class="cell">From</span>
-                <span class="cell">To</span>
-                <span class="cell">Date</span>
-                <span class="cell">Input</span>
-                <span class="cell">Output</span>
-              </div>
-
-              <div class="row">
-                <input class="radio-input" type="radio" name="expand">
-                <span class="cell primary-history" data-label="Time">20th Jan 12:23:45</span>
-                <span class="cell" data-label="From">EUR</span>
-                <span class="cell" data-label="To">USD</span>
-                <span class="cell" data-label="Date">12-03-2015</span>
-                <span class="cell" data-label="Input">
-                  <table>
-                    <tr>
-                      <td>200</td>
-                      <td>100</td>
-                    </tr>
-                    <tr>
-                      <td>100.21</td>
-                      <td>21312</td>
-                    </tr>
-                    <tr>
-                      <td>21435413</td>
-                      <td>21312</td>
-                    </tr>
-                  </table>
-                </span>
-                <span class="cell" data-label="Output">
-
-                  <table>
-                    <tr>
-                      <td>200</td>
-                      <td>100</td>
-                    </tr>
-                    <tr>
-                      <td>100.21</td>
-                      <td>21312</td>
-                    </tr>
-                    <tr>
-                      <td>21435413</td>
-                      <td>21312</td>
-                    </tr>
-                  </table>
-                </span>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -235,7 +172,7 @@
             <input type="text" id="datepicker">
           </div>
         </div>
-
+        
         <div class="form-group">
           <input id="convert-button" type="button" value="Convert"
                  class="button primary" />

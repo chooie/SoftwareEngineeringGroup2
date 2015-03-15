@@ -66,7 +66,7 @@ window.CurrencyConverter.history = (function () {
                 '<span class="cell">Input</span>' +
                 '<span class="cell">Output</span>' +
               '</div>'
-    for (i = 0; i < allHistory.length; i++) {
+    for (i = allHistory.length-1; i >= 0; i--) {
       middle += '<div class="row">' +
         '<input class="radio-input" type="radio" name="expand">' +
         '<span class="cell primary-history" data-label="Time">' +
@@ -84,16 +84,16 @@ window.CurrencyConverter.history = (function () {
         '</div>';
     }
     $('#history-table').html(middle);
-    if (!radioButtonClickBinding) {
-      radioButtonClickBinding = $(".radio-input").click(function () {
-        if ($(this).attr('checked')) {
-          $(this).attr('checked', false);
-        }
-        else {
-          $(this).attr('checked', true);
-        }
-      });
-    }
+    radioButtonClickBinding = $(".radio-input").click(
+      function () {
+      if ($(this).attr('checked')) {
+        $(this).attr('checked', false);
+      }
+      else {
+        $(this).attr('checked', true);
+      }
+    });
+    
   };
   //time, [from, to, dateSelected], input, output
   updateInput = function (currencyDetails, input) {
