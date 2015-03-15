@@ -7,39 +7,93 @@ window.CurrencyConverter.history = (function () {
     fillHistory,
     toggle,
     save,
-    formatDate;
+    formatDate,
+    ordinal_suffix_of,
+    formatData,
+    isAllHistoryUptoDate = false;
 
   toggle = function () {
     var history = $('#history-wrapper');
     if (history.is(":visible")) {
-      fillHistory();
       history.slideUp(1000);
     }
     else {
+      if (!isAllHistoryUptoDate) {
+        fillHistory();
+        isAllHistoryUptoDate = true;
+      }
       history.slideDown(1000);
     }
   };
+  formatDate = function (date) {
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec'];
 
+    return ordinal_suffix_of(date.getDate()) + " " +
+      monthNames[date.getMonth()] + " " +
+      date.getFullYear();
+  };
+  formatTime = function (date) {
+    return date.getHours() + ":" + date.getMinutes() +
+      ":" + date.getSeconds();
+  }
+  ordinal_suffix_of = function (i) {
+    var j = i % 10,
+        k = i % 100;
+    if (j === 1 && k !== 11) {
+      return i + "st";
+    }
+    if (j === 2 && k !== 12) {
+      return i + "nd";
+    }
+    if (j === 3 && k !== 13) {
+      return i + "rd";
+    }
+    return i + "th";
+  };
   fillHistory = function () {
     var middle = '',
       i;
+    middle += '<div class="header-row row">' +
+                '<span class="cell primary-history">Time</span>' +
+                '<span class="cell">From</span>' +
+                '<span class="cell">To</span>' +
+                '<span class="cell">Date</span>' +
+                '<span class="cell">Input</span>' +
+                '<span class="cell">Output</span>' +
+              '</div>'
     for (i = 0; i < allHistory.length; i++) {
-      middle += '<li class="history-item">' +
-                  formatDate(allHistory[i][3]) +
-                '</li>';
+      middle += '<div class="row">' +
+        '<input class="radio-input" type="radio" name="expand">' +
+        '<span class="cell primary-history" data-label="Time">' +
+        formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
+        + '</span>' +  '<span class="cell" data-label="From">' + 
+        allHistory[i][1][0] + '</span>' +
+        '<span class="cell" data-label="To">' + allHistory[i][1][1]
+        + '</span>' +
+        '<span class="cell" data-label="Date">' +
+        formatDate(allHistory[i][1][2]) + '</span>' +
+        '<span class="cell" data-label="Input">' + formatData(allHistory[i][2])
+        + '</span>' +
+        '<span class="cell" data-label="Output">' + formatData(allHistory[i][3])
+        + '</span>' +
+        '</div>';
     }
-    $('#history-contents').html(middle);
+    $('#history-table').html(middle);
   };
-
-  updateInput = function (input, currencyDetails, date) {
-    if (allHistory.length >= 10) {
+  //time, [from, to, dateSelected], input, output
+  updateInput = function (currencyDetails, input) {
+    isAllHistoryUptoDate = false;
+    if (allHistory.length >= 30) {
       allHistory.shift();
     }
-    allHistory.push([input, [], currencyDetails, date]);
+    allHistory.push([new Date(), currencyDetails, input, []]);
+    
   };
 
   updateOutput = function (output) {
-    allHistory[allHistory.length - 1][1] = output;
+    isAllHistoryUptoDate = false;
+    allHistory[allHistory.length - 1][3] = output;
     save();
   };
 
@@ -47,14 +101,27 @@ window.CurrencyConverter.history = (function () {
     Office.context.document.settings.set('history', JSON.stringify(allHistory));
     Office.context.document.settings.saveAsync();
   };
-
-  formatDate = function (date) {
-    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
-      'Sep', 'Oct', 'Nov', 'Dec'];
-    date = new Date();
-    return date.getDate() + "-" + monthNames[date.getMonth()] + "-" +
-      date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+  formatData = function (data) {
+    var i,
+      j,
+      output = '';
+    if (data instanceof Array) {
+      output += '<table>';
+      for (i = 0; i < data.length; i++) {
+        output += '<tr>';
+        for (j = 0; j < data[i].length; j++) {
+          output += '<td>' + data[i][j] + '</td>';
+        }
+        output += '</tr>';
+      }
+      output += '</table>';
+    }
+    else {
+      output = data;
+    }
+    return output;
   };
+
 
   initialize = function () {
     allHistory = Office.context.document.settings.get('history');
@@ -76,7 +143,7 @@ window.CurrencyConverter.history = (function () {
         container.slideUp(1000);
       }
     });
-    $(".radio-input").click(function (e) {
+    $(".radio-input").click(function () {
       if ($(this).attr('checked')) {
         $(this).attr('checked', false);
       }

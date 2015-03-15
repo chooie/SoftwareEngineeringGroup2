@@ -225,7 +225,7 @@
           }
         }
         else {
-          throw new "Invalid Parsed Data";
+          throw "Invalid Parsed Data";
         }
       }
       catch(error) {
@@ -267,6 +267,11 @@
               "properly selected");
             return;
           }
+          cc.history.updateInput(
+            [$('#from-currency').val(),
+            $('#to-currency').val(),
+            datepicker.getSelectedDate()],
+            $.extend(true, [], asyncResult.value));
           noFinished = [];
           // iterate over 2D array converting each cell
           for (i = 0; i < asyncResult.value.length; i++) {
@@ -305,6 +310,7 @@
               noFinished[i][0], noFinished[i][1]
             );
         }
+        cc.history.updateOutput(array.value);
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
           array.value
