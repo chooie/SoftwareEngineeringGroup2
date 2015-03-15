@@ -189,7 +189,7 @@
               valuesArray[2])) {
             // deal with negative number (negative is surrounded with ( )
             if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
-              valuesArray[0] = valuesArray[0].substring(1,
+              valuesArray[0] = (-1) * valuesArray[0].substring(1,
                 valuesArray[0].length - 1);
             }
             rate = this.getExchangeRate(valuesArray[1],
@@ -213,7 +213,7 @@
               valuesArray[2])) {
             // deal with negative number (negative is surrounded with ( )
             if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
-              valuesArray[0] = valuesArray[0].substring(1,
+              valuesArray[0] = (-1) * valuesArray[0].substring(1,
                 valuesArray[0].length - 1);
             }
             rate = this.getExchangeRate(
