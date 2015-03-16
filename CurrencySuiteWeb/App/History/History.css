@@ -5,7 +5,7 @@
 		position: fixed;
 		width: 90%;
 		height: 90%; 
-		
+		z-index: 20;
 
 		overflow-y: initial;
 }
@@ -80,8 +80,8 @@
 		min-width: 55px;
 		border-width: 1px;
 		line-height: 20px;
-    border-spacing: 3px;
-     
+		border-spacing: 3px;
+		 
 	}
 
 

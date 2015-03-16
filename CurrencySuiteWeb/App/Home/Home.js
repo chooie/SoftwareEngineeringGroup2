@@ -167,7 +167,7 @@
         rate,
         dateDetails;
       // Case 1: Just a single value in the cell
-      if (typeof value === "number") {
+      if (typeof value === "number" || $.isNumeric(value)) {
         rate = this.getExchangeRate($('#from-currency').val(),
           $('#to-currency').val(),
           datepicker.getSelectedDate());
