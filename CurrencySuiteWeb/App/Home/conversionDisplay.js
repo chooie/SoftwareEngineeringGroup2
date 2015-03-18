@@ -3,24 +3,20 @@
 
   window.CurrencyConverter.conversionDisplay = {};
 
-  var conversionDisplay = window.CurrencyConverter.conversionDisplay;
+  var conversionDisplay = window.CurrencyConverter.conversionDisplay,
+    NO_DECIMAL_PLACES = 4;
 
   conversionDisplay.model = {
     getRate: function() {
       var currencySymbols = conversionDisplay.controller.getCurrencySymbols();
       if (typeof this.home === 'object' && this.home) {
-        console.log(this.home.getExchangeRate(currencySymbols[0], currencySymbols[1],
-          this.getSelectedDate()));
         return this.home.getExchangeRate(currencySymbols[0], currencySymbols[1],
           this.getSelectedDate());
       }
     },
 
     getSelectedDate: function() {
-      var datePicker = $('#datepicker'),
-        db = window.CurrencyConverter.database;
-      console.log(datePicker.val());
-      return new Date(datePicker.val());
+      return window.CurrencyConverter.datepicker.getSelectedDate();
     },
 
     update: function () {
@@ -62,7 +58,7 @@
         this.conversionDisplay.text('Loading Conversion Text...');
       } else {
         this.conversionDisplay.text('1 ' + currencySymbols[0] + ' = ' +
-          rate.toFixed(4) + ' ' + currencySymbols[1]);
+          rate.toFixed(NO_DECIMAL_PLACES) + ' ' + currencySymbols[1]);
       }
     },
 
