@@ -47,6 +47,7 @@
     <Content Include="CurrencySuiteManifest\CurrencySuite.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
     </Content>
+    <None Include="test.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CurrencySuiteWeb\CurrencySuiteWeb.csproj">

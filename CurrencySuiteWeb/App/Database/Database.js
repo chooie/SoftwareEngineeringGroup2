@@ -1,4 +1,4 @@
-﻿/// <reference path="../Scripts/MobileServices.Web-1.2.5.min.js" />
+﻿/// <reference path="../../Scripts/MobileServices.Web-1.2.5.min.js" />
 window.CurrencyConverter = window.CurrencyConverter || {};
 window.CurrencyConverter.database = (function() {
 
@@ -43,7 +43,7 @@ window.CurrencyConverter.database = (function() {
         return this.currency === cur && this.time > date;
       },
 
-      handleGreaterThan: function (results) {
+      handleGreaterThan: function (results, callback) {
         if (results.length === 0) {
           // Couldn't find currency in database
           throw new Error("retrieve(): Could not find a matching currency in " +
@@ -54,7 +54,7 @@ window.CurrencyConverter.database = (function() {
         callback(results);
       },
 
-      handleLessThan: function (results) {
+      handleLessThan: function (results, callback) {
         // Couldn't find currency data before given date
         if (results.length === 0) {
           // Check after given date
@@ -62,7 +62,9 @@ window.CurrencyConverter.database = (function() {
             cur,
             dateSQL)
             .orderBy("time").read()
-            .done(helpers.handleGreaterThan, helpers.displayError);
+            .done((function (results) {
+              helpers.handleGreaterThan(results, callback);
+            }), helpers.displayError);
         }
         else {
           // results[0].date is the closest date before given date
@@ -75,7 +77,9 @@ window.CurrencyConverter.database = (function() {
         if (results.length === 0) {
           rates.where(helpers.getMatchingCurrencyLessThanDate, cur, dateSQL)
             .orderByDescending("time").read()
-            .done(helpers.handleLessThan, helpers.displayError);
+            .done((function (results) {
+              helpers.handleLessThan(results, callback);
+            }), helpers.displayError);
         }
         else {
           // results[0].date is the given date
@@ -108,7 +112,8 @@ window.CurrencyConverter.database = (function() {
           "object instance of Date.");
       }
     } catch (e) {
-      // console.log("Invalid date object given. Assuming date today.");
+      console.log(date);
+      console.log("Invalid date object given. Assuming date today.");
       date = new Date();
     }
     //2015-02-20T00:00:00+00:00

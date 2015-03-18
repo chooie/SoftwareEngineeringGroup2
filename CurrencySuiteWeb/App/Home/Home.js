@@ -1,6 +1,6 @@
-﻿/// <reference path="../App.js" />
-/// <reference path="../Scrapper.js" />
-/// <reference path="../Database.js" />
+﻿/// <reference path="../../App/App.js" />
+/// <reference path="../../App/Scrapper.js" />
+/// <reference path="../../App/Database/Database.js" />
 (function() {
   "use strict";
 
@@ -12,6 +12,7 @@
     datepicker = cc.datepicker,
     database = cc.database,
     graph = cc.graph,
+    history = cc.history,
     refresh;
 
   refresh = function () {
@@ -29,7 +30,6 @@
    * Contains all methods used in the app
    */
   cc.home = {
-
     /**
      * databaseInit
      * Initiates and creates listeners for the database
@@ -91,13 +91,11 @@
      *
      * @param {string} fromCurrency the currency being changed from
      * @param {string} toCurrency the currency being changed to
-     * @param {string} date the date to get the rate for
+     * @param {Date} date the date to get the rate for
      * @returns {number} The exchange rate based on the parameters
      */
-    getExchangeRate: function(fromCurrency, toCurrency, date) {
-      var rate = 1;
-      rate = database.updateRate(fromCurrency, toCurrency, date);
-      return rate;
+    getExchangeRate: function (fromCurrency, toCurrency, date) {
+      return database.updateRate(fromCurrency, toCurrency, date);
     },
 
     /**
@@ -170,7 +168,7 @@
         rate,
         dateDetails;
       // Case 1: Just a single value in the cell
-      if (typeof value === "number") {
+      if (typeof value === "number" || $.isNumeric(value)) {
         rate = this.getExchangeRate($('#from-currency').val(),
           $('#to-currency').val(),
           datepicker.getSelectedDate());
@@ -182,17 +180,23 @@
       }
       try {
         value = value.trim();
-        valuesArray = value.split(" ");
+        valuesArray = value.split(/\s+/g);
         valuesArray[1] = valuesArray[1].toUpperCase();
         valuesArray[2] = valuesArray[2].toUpperCase();
         // Case 2: Cell value is in the 'special' format (e.g. 100 USD
         // GBP)
-        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
+        if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)
+          || /^\(\d+\.?\d*\)\s+[A-Z]{3}\s+[A-Z]{3}$/i.test(value)) {
           if (this.validateCurrencyCodes(valuesArray[1],
               valuesArray[2])) {
+            // deal with negative number (negative is surrounded with ( )
+            if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
+              valuesArray[0] = (-1) * valuesArray[0].substring(1,
+                valuesArray[0].length - 1);
+            }
             rate = this.getExchangeRate(valuesArray[1],
               valuesArray[2], datepicker.getSelectedDate());
-            if (rate === null) {
+            if (typeof rate !== "number") {
               noFinished.push([i, j]);
               return value;
             }
@@ -202,11 +206,18 @@
         // Case 3 TODO correct date format
         // This is going to be broken, need to change date format into
         // YYYY/MM/DD and convert that into a date object
-        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/
+        else if (/^\d+\.?\d*\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/i
+            .test(value)
+          || /^\(\d+\.?\d*\)\s+[A-Z]{3}\s+[A-Z]{3}\s+\d?\d-\d?\d-\d{4}$/i
             .test(value)) {
           dateDetails = valuesArray[3].split("-");
           if (this.validateCurrencyCodes(valuesArray[1],
               valuesArray[2])) {
+            // deal with negative number (negative is surrounded with ( )
+            if (/^\(\d+\.?\d*\)$/.test(valuesArray[0])) {
+              valuesArray[0] = (-1) * valuesArray[0].substring(1,
+                valuesArray[0].length - 1);
+            }
             rate = this.getExchangeRate(
               valuesArray[1],
               valuesArray[2],
@@ -214,12 +225,15 @@
               dateDetails[1] + "/" +
               dateDetails[0])
             );
-            if (rate === null) {
+            if (typeof rate !== "number") {
               noFinished.push([i, j]);
               return value;
             }
             return valuesArray[0] * rate;
           }
+        }
+        else {
+          throw "Invalid Parsed Data";
         }
       }
       catch(error) {
@@ -261,8 +275,12 @@
               "properly selected");
             return;
           }
+          cc.history.updateInput(
+            [$('#from-currency').val(),
+            $('#to-currency').val(),
+            datepicker.getSelectedDate()],
+            $.extend(true, [], asyncResult.value));
           noFinished = [];
-          database.setQueue(0);
           // iterate over 2D array converting each cell
           for (i = 0; i < asyncResult.value.length; i++) {
             for (j = 0; j < asyncResult.value[i].length; j++) {
@@ -300,6 +318,7 @@
               noFinished[i][0], noFinished[i][1]
             );
         }
+        cc.history.updateOutput(array.value);
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
           array.value
@@ -320,9 +339,11 @@
   Office.initialize = function() {
     $(document).ready(function() {
       app.initialize();
+      history.initialize();
       $('#swap-button').click(cc.home.swap);
       $('#convert-button').click(cc.home.executeCellConversions);
       $('#more-link').click(cc.home.more);
+      $('#history-button').click(cc.history.toggle);
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();

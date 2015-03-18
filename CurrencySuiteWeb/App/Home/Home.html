@@ -6,13 +6,14 @@
   <title>Main</title>
 
   <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
   <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
   <link href="../App.css" rel="stylesheet" type="text/css" />
-  <link href="Home.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="../History/History.css" rel="stylesheet" type="text/css" />
+  <link href="Home.css" rel="stylesheet" type="text/css" />
 
-
+ <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
+  <link href="../../Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
   <!-- SCRIPTS (Dependencies) -->
   <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"
           type="text/javascript"></script>
@@ -27,10 +28,31 @@
   <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="jquery-1.4.js"></script>
+  <script type="text/javascript">
+
+    jQuery(function ($) {
+      var container = $("#tutorial-container");
+      $("#tutorial-link").click(function (event) {
+        event.preventDefault();
+        if (container.is(":visible")) {
+          container.slideUp(1000);
+        } else {
+          container.slideDown(1000);
+        }
+      });
+      container.click(function (event) {
+        container.slideUp(1000);
+      });
+    });
+  </script>
 </head>
 <body>
   <section id="content-header">
     <div class="container">
+      <p>
+        <a href="#" id="tutorial-link" class="tutorial-link">Help</a>
+      </p>
       <h1>Currency Converter</h1>
     </div>
   </section>
@@ -75,9 +97,8 @@
         </div>
       </section>
 
-      <div class="button" id="swap-button">      
-        <!--<input id="swap-button">-->
-        <i class="fa fa-arrows-v fa-lg"></i>
+      <div class="button" id="swap-button">
+        <i class="fa fa-exchange fa-lg fa-rotate-90"></i>
       </div>
 
       <section class="currency-form">
@@ -119,9 +140,27 @@
         </div>
       </section>
 
+      <div id="tutorial-container">
+        <div class="inner">
+          <p>Welcome to the <i><strong>Currency Suite Quick Tutorial</strong></i></p>
+          <p>There are <i>three</i> ways of performing a conversion</p>
+          <p>1: Type any number (eg. "100"). This will convert the typed value from the currency in the top drop down, to the currency in the bottom drop down</p>
+          <p>2: Type any number followed by two currency codes (eg. "100 USD EUR"). This will convert the typed value from the first currency code to the second currency code</p>
+          <p>3: Type any number followed by two currency codes and a date in the format dd-mm-yyyy (eg. "100 USD EUR 28-02-2014"). This will convert the typed value from the first currency code to the second currency code based on the date specified by your query</p>
+          <p>And there you have it, with this you're ready to get started converting!</p>
+        </div>
+      </div>
+      <div id="history-wrapper">
+        <div id="history-inner-wrapper">
+          <div class="caption">History</div>
+          <div id="history-table">
+              
+          </div>
+        </div>
+      </div>
+
       <div class="button" id="more-link">
-        <!--<input id="swap-button">-->
-        <i class="fa fa-area-chart fa-2x"></i>
+        <i class="fa fa-line-chart fa-2x"></i>
       </div>
 
       <div id="date-wrapper" class="form-group hidden">
@@ -130,13 +169,18 @@
           <input type="text" id="datepicker">
         </div>
       </div>
-
+        
       <div class="form-group">
         <input id="convert-button" type="button" value="Convert"
                 class="button primary" />
-        <p id="conversion-display" class="conversion-display">
-          Loading Conversion Text...
-        </p>
+      <p id="conversion-display" class="conversion-display">
+        Loading Conversion Text...
+      </p>
+      </div>
+
+      <div class="form-group">
+        <input id="history-button" type="button" value="History"
+                class="button primary" />
       </div>
 
       <!-- Graph HTML -->
@@ -155,6 +199,7 @@
           </div>
         </div>
         <!-- end Graph HTML -->
+
       </section>
     </div>
   </section>
@@ -162,6 +207,7 @@
   <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Database/Database.js" type="text/javascript"></script>
   <script src="../Graph/Graph.js" type="text/javascript"></script>
+  <script src="../History/History.js" type="text/javascript"></script>
   <script src="../App.js" type="text/javascript"></script>
   <script src="ConversionDisplay.js"></script> 
   <script src="Home.js" type="text/javascript"></script>

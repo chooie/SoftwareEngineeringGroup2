@@ -9,15 +9,18 @@
     getRate: function() {
       var currencySymbols = conversionDisplay.controller.getCurrencySymbols();
       if (typeof this.home === 'object' && this.home) {
+        console.log(this.home.getExchangeRate(currencySymbols[0], currencySymbols[1],
+          this.getSelectedDate()));
         return this.home.getExchangeRate(currencySymbols[0], currencySymbols[1],
           this.getSelectedDate());
       }
     },
 
     getSelectedDate: function() {
-      var datePicker = $('#datepicker');
-
-      return datePicker.val();
+      var datePicker = $('#datepicker'),
+        db = window.CurrencyConverter.database;
+      console.log(datePicker.val());
+      return new Date(datePicker.val());
     },
 
     update: function () {
