@@ -6,7 +6,7 @@
   <title>Main</title>
 
   <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
   <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
   <link href="../App.css" rel="stylesheet" type="text/css" />
@@ -73,66 +73,68 @@
             <option value="ZAR">ZAR - South African Rand</option>
           </select>
         </div>
+      </section>
 
-          <div class="button" id="swap-button">
-              
-              <!--<input id="swap-button">-->
-              <i class="fa fa-arrows-v fa-lg"></i></div>
-              <div class="form-group">
-                  <label for="to-currency">To</label>
-                  <select id="to-currency" class="currency-selections">
-                      <option value="AUD">AUD - Australian Dollar</option>
-                      <option value="BGN">BGN - Bulgarian Lev</option>
-                      <option value="BRL">BRL - Brazilian Real</option>
-                      <option value="CAD">CAD - Canadian Dollar</option>
-                      <option value="CHF">CHF - Swiss Franc</option>
-                      <option value="CNY">CNY - Chinese Yuan Renminbi</option>
-                      <option value="CZK">CZK - Czech Koruna</option>
-                      <option value="DKK">DKK - Danish Krone</option>
-                      <option value="EUR" selected>EUR - Euro</option>
-                      <option value="GBP">GBP - UK Pound Sterling</option>
-                      <option value="HRK">HRK - Croatian Kuna</option>
-                      <option value="HUF">HUF - Hungarian Forint</option>
-                      <option value="IDR">IDR - Indonesian Rupiah</option>
-                      <option value="ILS">ILS - Israeli Shekel</option>
-                      <option value="INR">INR - Indian Rupee</option>
-                      <option value="JPY">JPY - Japanese Yen</option>
-                      <option value="KRW">KRW - Korean Won (Republic)</option>
-                      <option value="MXN">MXN - Mexican Peso</option>
-                      <option value="MYR">MYR - Malaysian Ringgit</option>
-                      <option value="NOK">NOK - Norwegian Krone</option>
-                      <option value="NZD">NZD - New Zealand Dollar</option>
-                      <option value="PHP">PHP - Philippine Peso</option>
-                      <option value="PLN">PLN - Polish Zloty</option>
-                      <option value="RON">RON - Romanian Leu</option>
-                      <option value="RUB">RUB - Rouble</option>
-                      <option value="SGD">SGD - Singapore Dollar</option>
-                      <option value="SEK">SEK - Swedish Krona</option>
-                      <option value="THB">THB - Thai Bhat</option>
-                      <option value="TRY">TRY - Turkish Lira</option>
-                      <option value="USD">USD - US Dollar</option>
-                      <option value="ZAR">ZAR - South African Rand</option>
-                  </select>
-              </div>
+      <div class="button" id="swap-button">      
+        <!--<input id="swap-button">-->
+        <i class="fa fa-arrows-v fa-lg"></i>
+      </div>
 
-          <div class="button" id="more-link">
+      <section class="currency-form">
+        <div class="form-group">
+          <label for="to-currency">To</label>
+          <select id="to-currency" class="currency-selections">
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CHF">CHF - Swiss Franc</option>
+            <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="DKK">DKK - Danish Krone</option>
+            <option value="EUR" selected>EUR - Euro</option>
+            <option value="GBP">GBP - UK Pound Sterling</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="IDR">IDR - Indonesian Rupiah</option>
+            <option value="ILS">ILS - Israeli Shekel</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="KRW">KRW - Korean Won (Republic)</option>
+            <option value="MXN">MXN - Mexican Peso</option>
+            <option value="MYR">MYR - Malaysian Ringgit</option>
+            <option value="NOK">NOK - Norwegian Krone</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="PHP">PHP - Philippine Peso</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
+            <option value="RUB">RUB - Rouble</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+            <option value="SEK">SEK - Swedish Krona</option>
+            <option value="THB">THB - Thai Bhat</option>
+            <option value="TRY">TRY - Turkish Lira</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+          </select>
+        </div>
+      </section>
 
-              <!--<input id="swap-button">-->
-              <i class="fa fa-area-chart fa-2x"></i>
-          </div>
+      <div class="button" id="more-link">
+        <!--<input id="swap-button">-->
+        <i class="fa fa-area-chart fa-2x"></i>
+      </div>
 
-              <div id="date-wrapper" class="form-group hidden">
-                  <div id="date">
-                      <label for="datepicker">Date</label>
-                      <input type="text" id="datepicker">
-                  </div>
-              </div>
+      <div id="date-wrapper" class="form-group hidden">
+        <div id="date">
+          <label for="datepicker">Date</label>
+          <input type="text" id="datepicker">
+        </div>
+      </div>
 
-              <div class="form-group">
-                  <input id="convert-button" type="button" value="Convert"
-                         class="button primary" />
-              </div>
-</section>
+      <div class="form-group">
+        <input id="convert-button" type="button" value="Convert"
+                class="button primary" />
+      </div>
 
       <!-- Graph HTML -->
       <section id="graph-section" class="graph hidden">
