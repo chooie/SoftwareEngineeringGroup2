@@ -85,7 +85,7 @@ window.CurrencyConverter.database = (function() {
 
       displayError: function (err) {
         app.showNotification("Error: " + err);
-        que -= 1;
+        queue -= 1;
       }
     };
 
@@ -108,7 +108,7 @@ window.CurrencyConverter.database = (function() {
           "object instance of Date.");
       }
     } catch (e) {
-      console.log("Invalid date object given. Assuming date today.");
+      // console.log("Invalid date object given. Assuming date today.");
       date = new Date();
     }
     //2015-02-20T00:00:00+00:00
@@ -310,8 +310,7 @@ window.CurrencyConverter.database = (function() {
       case to:
         isTo = 1;
         cur = from;
-        // TODO: Deliberate fall through? Yes, just is used to swap currency and
-        // it's isTo or not.
+        /* falls through */
       case from:
         retrieve(cur, sqlDate, function(resultsDate) {
           var upperLimit = dateDiffInDays(
@@ -427,8 +426,6 @@ window.CurrencyConverter.database = (function() {
       // default
     }
   };
-
-  //TODO
 
   return {
 

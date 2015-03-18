@@ -20,6 +20,7 @@
 
     database.updateRate(from.val(), to.val(), datepicker.getSelectedDate());
     database.updateGraph(from.val(), to.val(), datepicker.getSelectedDate());
+    cc.conversionDisplay.controller.update();
   };
 
   noFinished = [];

@@ -74,7 +74,7 @@
     <Content Include="App\Graph\img\lines.png" />
     <Content Include="App\Graph\img\lines_active.png" />
     <Content Include="App\Graph\jquery.flot.min.js" />
-    <Content Include="App\Home\conversionDisplay.js" />
+    <Content Include="App\Home\ConversionDisplay.js" />
     <Content Include="App\Home\Datepicker.js" />
     <Content Include="App\Graph\Graph.js" />
     <Content Include="App\Home\Home.css" />
