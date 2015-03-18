@@ -29,23 +29,6 @@
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="jquery-1.4.js"></script>
-  <script type="text/javascript">
-
-    jQuery(function ($) {
-      var container = $("#tutorial-container");
-      $("#tutorial-link").click(function (event) {
-        event.preventDefault();
-        if (container.is(":visible")) {
-          container.slideUp(1000);
-        } else {
-          container.slideDown(1000);
-        }
-      });
-      container.click(function (event) {
-        container.slideUp(1000);
-      });
-    });
-  </script>
 </head>
 <body>
   <section id="content-header">
@@ -142,12 +125,21 @@
 
       <div id="tutorial-container">
         <div class="inner">
-          <p>Welcome to the <i><strong>Currency Suite Quick Tutorial</strong></i></p>
+          <p>Welcome to the <i><strong>Currency Suite Quick Tutorial</strong>
+            </i></p>
           <p>There are <i>three</i> ways of performing a conversion</p>
-          <p>1: Type any number (eg. "100"). This will convert the typed value from the currency in the top drop down, to the currency in the bottom drop down</p>
-          <p>2: Type any number followed by two currency codes (eg. "100 USD EUR"). This will convert the typed value from the first currency code to the second currency code</p>
-          <p>3: Type any number followed by two currency codes and a date in the format dd-mm-yyyy (eg. "100 USD EUR 28-02-2014"). This will convert the typed value from the first currency code to the second currency code based on the date specified by your query</p>
-          <p>And there you have it, with this you're ready to get started converting!</p>
+          <p>1: Type any number (eg. "100"). This will convert the typed value 
+          from the currency in the top drop down, to the currency in the bottom 
+          drop down</p>
+          <p>2: Type any number followed by two currency codes 
+          (eg. "100 USD EUR"). This will convert the typed value from the first 
+          currency code to the second currency code</p>
+          <p>3: Type any number followed by two currency codes and a date in the
+          format <strong>dd-mm-yyyy</strong> (eg. "100 USD EUR 28-02-2014"). 
+          This will convert the typed value from the first currency code to the 
+          second currency code based on the date specified by your query</p>
+          <p>And there you have it, with this you're ready to get started 
+          converting!</p>
         </div>
       </div>
       <div id="history-wrapper">
@@ -204,6 +196,22 @@
     </div>
   </section>
   <!-- Scripts executed once the DOM has initialized -->
+  <script type="text/javascript">
+    jQuery(function ($) {
+      var container = $("#tutorial-container");
+      $("#tutorial-link").click(function (event) {
+        event.preventDefault();
+        if (container.is(":visible")) {
+          container.slideUp(1000);
+        } else {
+          container.slideDown(1000);
+        }
+      });
+      container.click(function (event) {
+        container.slideUp(1000);
+      });
+    });
+  </script>
   <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Database/Database.js" type="text/javascript"></script>
   <script src="../Graph/Graph.js" type="text/javascript"></script>

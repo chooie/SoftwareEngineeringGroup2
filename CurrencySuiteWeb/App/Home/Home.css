@@ -176,6 +176,7 @@ select, #datepicker {
   border-bottom-width: 0px;
   padding: 0px 15px 400px 15px;
   font-size: 100%;
+  text-align: left;
 }
 
 /* ==========================================================================
