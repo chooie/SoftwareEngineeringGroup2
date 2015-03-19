@@ -29,7 +29,6 @@ html {
 /*
  * A better looking default horizontal rule
  */
-
 hr {
   display: block;
   height: 1px;
@@ -39,11 +38,15 @@ hr {
   padding: 0;
 }
 
+/* Hide the element */
+.hidden {
+  display: none;
+}
+
 /* ==========================================================================
-   Author's custom styles
+   Default Stuff
    ========================================================================== */
 
-/* Default Stuff */
 *,
 *:before,
 *:after {
@@ -51,25 +54,9 @@ hr {
 }
 
 .container {
-  width: 80%;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-}
-
-/* Top Header */
-#content-header .container h1 {
-  line-height: 2;
-}
-
-#content-main {
-  padding-top: 1em;
-}
-
-.form-group {
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* All elements of the currency-form take up their own line */
@@ -77,95 +64,37 @@ hr {
   display: block;
 }
 
-.form-group label {
-  text-align: left;
+/* ==========================================================================
+   Top Header
+   ========================================================================== */
+
+#content-header .container h1 {
+  margin-top: 5px;
   font-weight: bold;
-  font-style: inherit;
-  font-size: 1.2em;
-  border-bottom: 1px solid #217346;
-  margin-bottom: 5px;
 }
 
-.button {
-  margin-top: 10px;
-  transition-delay: 0.2s;
-  width: 6px;
-  margin-left: auto;
-  margin-right: auto;
-  cursor:pointer;
+/* Helper Buttons */
+
+.helper-buttons {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 5px;
 }
 
-.color1 {
-    background: #b3d4fc;
-}
-
-.color2 {
-    background: #66BB6A;
-}
-
-.more,
-.more:focus,
-.more:active {
-  /* Remove all decorations to look like normal text */
-  background: none;
-  border: none;
-  display: inline;
-  font: inherit;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  outline-offset: 0;
-  /* Additional styles to look like a link */
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: 1.2em;
-}
-
-.form-group .primary {
-  width: 150px;
-  height: 50px;
-  background-color: #217346;
-  color: #fff;
-  vertical-align: middle;
+.helper-button {
+  color: #FFFFFF;
   font-size: 2em;
-  margin-top: 25px;
-  margin-bottom: 20px;
-  margin-left: 25px;
-}
-
-#convert-button:hover {
-  background-color: #66BB6A;
-}
-
-#convert-button[disabled] {
-  background-color: grey;
-}
-
-select, #datepicker {
-  width: 200px;
-}
-
-.graph {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#graph-wrapper {
+  margin: 1px 2px;
   display: inline-block;
+  cursor: pointer;
+  background-color: #2979FF;
+  width: 40px;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
-.hidden {
-  display: none;
-}
-
-.tutorial-link {
-  font-family: "Segoe WP Light", "Segoe UI", "Arial", sans-serif;
-  color: white;
-  font-size: 16px;
-  position: fixed;
-  right: 0;
-  top: 50px;
+.helper-button:hover {
+  color: black;
 }
 
 #tutorial-container {
@@ -178,26 +107,6 @@ select, #datepicker {
   z-index: 20;
 }
 
-.graph-link {
-  color: white;
-  position: fixed;
-  right: 25px;
-  top: 53px;
-  cursor: pointer;
-}
-
-.history-link {
-  font-size: 16px;
-  position: fixed;
-  right: 50px;
-  top: 50px;
-  cursor: pointer;
-}
-.history-link:checked {
-  color: yellow;
-}
-
-
 .inner {
   background-color: #F0F0F0;
   border: 1px solid #666666;
@@ -207,155 +116,121 @@ select, #datepicker {
   text-align: left;
 }
 
+
+/* ==========================================================================
+   Main Content
+   ========================================================================== */
+
+#content-main {
+  padding-top: 1em;
+}
+
+.conversion-main {
+  display: inline-block;
+  width: 90%;
+  margin: auto;
+}
+
+.form-group {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.currency-selections {
+  width: 100%;
+} 
+
+.swap-button {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+#datepicker {
+  width: 100%;
+}
+
+.form-group label {
+  text-align: left;
+  font-weight: bold;
+  font-style: inherit;
+  font-size: 1.2em;
+  border-bottom: 1px solid #217346;
+  margin-bottom: 5px;
+}
+
+.color1 {
+  background: #b3d4fc;
+}
+
+.color2 {
+  background: #66BB6A;
+}
+
+#convert-button {
+  width: 150px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #2979FF;
+  color: #fff;
+  font-size: 2em;
+  margin: 25px auto 0 auto;
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+
+#convert-button:hover {
+  background-color: #66BB6A;
+}
+
+#convert-button[disabled] {
+  background-color: grey;
+}
+
+.graph {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#graph-wrapper {
+  display: inline-block;
+}
+
+
 /* ==========================================================================
    Media Queries
    ========================================================================== */
 
-@media screen and (min-width:450px) {
-  .form-group {
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .currency-form .primary {
-    width: 225px;
-    height: 50px;
-    background-color: #217346;
-    color: #fff;
-    vertical-align:central;
-    font-size: 2em;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 37.5px;
-  }
+@media screen and (max-width: 200px) {
 
-  select, #datepicker {
-    width: 300px;
-  }
-}
-
-@media screen and (min-width:650px) {
-  .form-group {
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .currency-form .primary {
-    width: 300px;
-    height: 50px;
-    background-color: #217346;
-    color: #fff;
-    vertical-align:central;
-    font-size: 2em;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 50px;
-  }
-
-  select, #datepicker {
-    width: 400px;
-  }
-}
-
-@media screen and (max-width:250px) {
   #content-header .container h1 {
-    line-height: 2;
-    font-size: large;
+    font-size: 1em;
   }
-  .form-group {
-    width: 100px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .currency-form .primary {
-    width: 75px;
-    height: 50px;
-    background-color: #217346;
-    color: #fff;
-    vertical-align:central;
-    font-size: 2em;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 12.5px;
-    font-size: medium;
+  .helper-button {
+    font-size: 1em;
+    width: 20px;
+    margin: 0px 1px;
   }
 
-  select, #datepicker {
-    width: 100px;
+  #convert-button {
+    width: 60%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #2979FF;
+    color: #fff;
+    font-size: 1em;
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
   }
 }
 
-@media screen and (min-width:450px) {
-  .form-group {
-    width: 300px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .currency-form .primary {
-    width: 225px;
-    height: 50px;
-    background-color: #217346;
-    color: #fff;
-    vertical-align:central;
-    font-size: 2em;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 37.5px;
-  }
-
-  select, #datepicker {
-    width: 300px;
-  }
-}
-
-@media screen and (min-width:650px) {
-  .form-group {
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .currency-form .primary {
-    width: 300px;
-    height: 50px;
-    background-color: #217346;
-    color: #fff;
-    vertical-align:central;
-    font-size: 2em;
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 50px;
-  }
-
-  select, #datepicker {
+@media screen and (min-width: 445px) {
+  .conversion-main {
     width: 400px;
   }
 }
 
-@media screen and (max-width:250px) {
-  #content-header .container h1 {
-      line-height: 2;
-      font-size: large;
-  }
-  .form-group {
-      width: 100px;
-      margin-left: auto;
-      margin-right: auto;
-  }
-  .currency-form .primary {
-      width: 75px;
-      height: 50px;
-      background-color: #217346;
-      color: #fff;
-      vertical-align:central;
-      font-size: 2em;
-      margin-top: 25px;
-      margin-bottom: 20px;
-      margin-left: 12.5px;
-      font-size: medium;
-  }
-
-  select, #datepicker {
-      width: 100px;
+@media screen and (min-width:960px) {
+  .container {
+    width: 960px;
   }
 }
 

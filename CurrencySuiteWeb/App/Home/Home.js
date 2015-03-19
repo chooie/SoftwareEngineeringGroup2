@@ -84,6 +84,16 @@
 
     },
 
+    tutorial: function() {
+      var container = $("#tutorial-container");
+      event.preventDefault();
+      if (container.is(":visible")) {
+        container.slideUp(1000);
+      } else {
+        container.slideDown(1000);
+      }
+    },
+
     /**
      * getExchangeRate
      * Determine the exchange rate between two currencies for
@@ -343,8 +353,9 @@
       history.initialize();
       $('#swap-button').click(cc.home.swap);
       $('#convert-button').click(cc.home.executeCellConversions);
-      $('#more-link').click(cc.home.more);
+      $('#graph-button').click(cc.home.more);
       $('#history-button').click(cc.history.toggle);
+      $('#tutorial-button').click(cc.home.tutorial);
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();
