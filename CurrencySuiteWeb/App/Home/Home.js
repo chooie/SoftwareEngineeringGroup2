@@ -77,7 +77,7 @@
      * elements depending on whether or not they have a 'hidden' class.
      */
     more: function() {
-      $("#graph-section, #date-wrapper, #more-link")
+      $("#graph-section")
         .each(function() {
           $(this).toggleClass("hidden");
       });
@@ -132,6 +132,7 @@
       }
       return false;
     },
+
 
     /**
      * convertValue
