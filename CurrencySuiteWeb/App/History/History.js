@@ -61,8 +61,7 @@ window.CurrencyConverter.history = (function () {
     middle += '<div class="header-row row">' +
                 '<span class="cell primary-history">Time</span>' +
                 '<span class="cell">From</span>' +
-                '<span class="cell">To</span>' +
-                '<span class="cell">Date</span>' +
+
                 '<span class="cell">Input</span>' +
                 '<span class="cell">Output</span>' +
               '</div>'
@@ -71,11 +70,11 @@ window.CurrencyConverter.history = (function () {
         '<input class="radio-input" type="radio" name="expand">' +
         '<span class="cell primary-history" data-label="Time">' +
         formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
-        + '</span>' +  '<span class="cell" data-label="From">' + 
-        allHistory[i][1][0] + '</span>' +
-        '<span class="cell" data-label="To">' + allHistory[i][1][1]
-        + '</span>' +
-        '<span class="cell" data-label="Date">' +
+        + '</span>' +  '<span class="cell" data-label="Details">' + " from: " +
+        allHistory[i][1][0]  +
+         "\t\t\tTo: " + allHistory[i][1][1]
+        +
+        "\t\t\t\tDate: " +
         formatDate(allHistory[i][1][2]) + '</span>' +
         '<span class="cell" data-label="Input">' + formatData(allHistory[i][2])
         + '</span>' +

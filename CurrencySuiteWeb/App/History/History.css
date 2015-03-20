@@ -85,7 +85,7 @@
 	}
 
 
-	@media only screen and (max-width: 600px)  {
+	@media only screen and (max-width: 400px)  {
 
 		
 
@@ -114,7 +114,7 @@
 
 			border: none;
 			position: relative;
-			line-height: 45px;
+			line-height: 30px;
 			text-align: left;
 		}
 
@@ -181,6 +181,11 @@
 
 		input[type="radio"]:checked ~ .primary-history,
 		input[type="checkbox"]:checked ~ .primary-history  {
+           
+            content: attr(data-type);
+            font:bold;
+
+
 			border-bottom: 2px solid #999;
 		}
 
