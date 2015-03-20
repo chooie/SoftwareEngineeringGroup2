@@ -20,6 +20,8 @@
     <CspkgPartId>{1bbb1e80-df26-44ab-87c4-7973dcf6d6b8}</CspkgPartId>
     <SqlPackagePartId>{4c973a53-0454-4c64-94b1-9aafde2172cb}</SqlPackagePartId>
     <ProjectMode>OfficeApp</ProjectMode>
+    <IsAutoDeployedWebApplication>False</IsAutoDeployedWebApplication>
+    <AutohostedOfficeAppProductId>{7e54b71c-b695-47e0-93c8-685b42d6a178}</AutohostedOfficeAppProductId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
