@@ -179,13 +179,21 @@
 
 		}
 
+		input[type="radio"]:checked ~ .history-basic-data,
+		input[type="checkbox"]:checked ~ .history-basic-data {
+			display: inline-block;
+			border-right: 1px solid #eee; 
+			width: 33%;
+
+		}
+
+		input[type="radio"]:checked ~ .history-basic-data:last-child,
+		input[type="checkbox"]:checked ~ .history-basic-data:last-child {
+			border-right: 0px solid #eee; 
+		}
+
 		input[type="radio"]:checked ~ .primary-history,
 		input[type="checkbox"]:checked ~ .primary-history  {
-           
-            content: attr(data-type);
-            font:bold;
-
-
 			border-bottom: 2px solid #999;
 		}
 
@@ -206,4 +214,6 @@
 		.primary-history:hover, .radio-input:hover + .primary-history{
 			background-color: #66BB6A;
 		}
+
+
 	}
