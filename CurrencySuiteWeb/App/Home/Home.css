@@ -153,6 +153,7 @@ select, #datepicker {
 
 #graph-wrapper {
   display: inline-block;
+  width: 100%;
 }
 
 .hidden {
