@@ -37,15 +37,24 @@
     <div class="container">
       <h1>Currency Converter</h1>
       <p>
-        <a href="#" id="tutorial-link" class="tutorial-link">
-          <i class="fa fa-info-circle" style="color:white"></i>
-        </a>
-        <div class="graph-link" id="more-link">
-          <i class="fa fa-line-chart"></i>
-        </div>
-        <div class="history-link">
-          <i class="fa fa-history" id="history-button"></i>
-        </div>
+          <span title="tutorial">
+              <a href="#" id="tutorial-link" class="tutorial-link">
+                  <i class="fa fa-info-circle" style="color:white"></i>
+              </a>
+          </span>
+
+          <div class="graph-link" id="more-link">
+              <span title="graph">
+                  <i class="fa fa-line-chart"></i>
+              </span>
+          </div>
+
+
+          <div class="history-link">
+              <span title="history">
+                  <i class="fa fa-history" id="history-button"></i>
+              </span>
+          </div>
 </p>
     </div>
   </section>
@@ -90,9 +99,11 @@
         </div>
       </section>
 
-      <div class="button" id="swap-button">
-        <i class="fa fa-exchange fa-lg fa-rotate-90"></i>
-      </div>
+        <div class="button" id="swap-button">
+            <span title="swap">
+                <i class="fa fa-exchange fa-lg fa-rotate-90"></i>
+            </span>
+        </div>
 
       <section class="currency-form">
         <div class="form-group">
