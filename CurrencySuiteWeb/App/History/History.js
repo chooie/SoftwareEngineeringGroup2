@@ -126,7 +126,12 @@ window.CurrencyConverter.history = (function () {
       for (i = 0; i < data.length; i++) {
         output += '<tr>';
         for (j = 0; j < data[i].length; j++) {
-          output += '<td>' + data[i][j] + '</td>';
+          //if ($.isNumeric(data[i][j])) {
+          //  output += '<td>' + parseFloat(data[i][j].toFixed(4)) + '</td>';
+          //}
+          //else {
+            output += '<td>' + data[i][j] + '</td>';
+          //}
         }
         output += '</tr>';
       }
