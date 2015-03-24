@@ -72,6 +72,7 @@
 
 	.cell>table{
 	padding-right: 20px;
+	border-collapse: collapse;
 }
 	.cell>table, .cell>table td  {
 	border-style: solid;
@@ -81,7 +82,12 @@
 		border-width: 1px;
 		line-height: 20px;
 		border-spacing: 3px;
+		border-color: #666666;
 		 
+	}
+	.cell>table td{
+		padding-right: 6px;
+		padding-left: 1px;
 	}
 
 
@@ -168,8 +174,8 @@
 
 			display: inline-block;
 			width: 100%;
-			background: #999;
-			border-radius: 10px;
+			background: #217346;
+			/*border-radius: 10px;*/
 			height: 20px;
 			margin-right: 10px;
 			font-size: 12px;
@@ -184,7 +190,6 @@
 			display: inline-block;
 			border-right: 1px solid #eee; 
 			width: 33%;
-
 		}
 
 		input[type="radio"]:checked ~ .history-basic-data:last-child,
