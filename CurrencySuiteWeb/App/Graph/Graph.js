@@ -114,6 +114,7 @@ window.CurrencyConverter.graph = (function () {
         }
       }
     );
+    $('#graph-container').resize();
   };
 
   return {

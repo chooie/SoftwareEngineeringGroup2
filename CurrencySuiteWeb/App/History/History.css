@@ -72,6 +72,7 @@
 
 	.cell>table{
 	padding-right: 20px;
+	border-collapse: collapse;
 }
 	.cell>table, .cell>table td  {
 	border-style: solid;
@@ -81,11 +82,16 @@
 		border-width: 1px;
 		line-height: 20px;
 		border-spacing: 3px;
+		border-color: #666666;
 		 
+	}
+	.cell>table td{
+		padding-right: 6px;
+		padding-left: 1px;
 	}
 
 
-	@media only screen and (max-width: 600px)  {
+	@media only screen and (max-width: 400px)  {
 
 		
 
@@ -114,7 +120,7 @@
 
 			border: none;
 			position: relative;
-			line-height: 45px;
+			line-height: 25px;
 			text-align: left;
 		}
 
@@ -131,7 +137,6 @@
 			border-top: 10px solid transparent;
 			border-bottom: 10px solid transparent; 
 			border-right:10px solid #ccc;
-
 		}
 
 		.cell:nth-of-type(n+2) { 
@@ -168,8 +173,8 @@
 
 			display: inline-block;
 			width: 100%;
-			background: #999;
-			border-radius: 10px;
+			background: #217346;
+			/*border-radius: 10px;*/
 			height: 20px;
 			margin-right: 10px;
 			font-size: 12px;
@@ -177,6 +182,18 @@
 			text-align: center;
 			color: white;
 
+		}
+
+		input[type="radio"]:checked ~ .history-basic-data,
+		input[type="checkbox"]:checked ~ .history-basic-data {
+			display: inline-block;
+			border-right: 1px solid #eee; 
+			width: 33%;
+		}
+
+		input[type="radio"]:checked ~ .history-basic-data:last-child,
+		input[type="checkbox"]:checked ~ .history-basic-data:last-child {
+			border-right: 0px solid #eee; 
 		}
 
 		input[type="radio"]:checked ~ .primary-history,
@@ -197,8 +214,10 @@
 		.primary-history{
 			background-color: #217346;
 			color: white;
+      line-height: 45px;
 		}
 		.primary-history:hover, .radio-input:hover + .primary-history{
 			background-color: #66BB6A;
 		}
+
 	}

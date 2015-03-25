@@ -92,6 +92,7 @@
       } else {
         container.slideDown(1000);
       }
+
     },
 
     /**

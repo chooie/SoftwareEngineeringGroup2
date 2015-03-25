@@ -71,11 +71,12 @@ window.CurrencyConverter.history = (function () {
         '<input class="radio-input" type="radio" name="expand">' +
         '<span class="cell primary-history" data-label="Time">' +
         formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
-        + '</span>' +  '<span class="cell" data-label="From">' + 
-        allHistory[i][1][0] + '</span>' +
-        '<span class="cell" data-label="To">' + allHistory[i][1][1]
         + '</span>' +
-        '<span class="cell" data-label="Date">' +
+        '<span class="cell history-basic-data" data-label="From">' +
+        allHistory[i][1][0] + '</span>' +
+        '<span class="cell history-basic-data" data-label="To">' +
+        allHistory[i][1][1] + '</span>' +
+        '<span class="cell history-basic-data" data-label="Date">' +
         formatDate(allHistory[i][1][2]) + '</span>' +
         '<span class="cell" data-label="Input">' + formatData(allHistory[i][2])
         + '</span>' +
@@ -125,7 +126,12 @@ window.CurrencyConverter.history = (function () {
       for (i = 0; i < data.length; i++) {
         output += '<tr>';
         for (j = 0; j < data[i].length; j++) {
-          output += '<td>' + data[i][j] + '</td>';
+          //if ($.isNumeric(data[i][j])) {
+          //  output += '<td>' + parseFloat(data[i][j].toFixed(4)) + '</td>';
+          //}
+          //else {
+            output += '<td>' + data[i][j] + '</td>';
+          //}
         }
         output += '</tr>';
       }

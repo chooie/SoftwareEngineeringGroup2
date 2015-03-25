@@ -10,6 +10,7 @@
   height: 80px; /* Fixed header height */
   overflow: hidden; /* Disable scrollbars for header */
   box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.26);
+
 }
 
 #content-main {
@@ -20,7 +21,7 @@
   right: 0;
   bottom: 0;
   overflow: auto; /* Enable scrollbars within main content section */
-  z-index: -1;
+  /*z-index: -1;*/
 }
 
 #notification-message {

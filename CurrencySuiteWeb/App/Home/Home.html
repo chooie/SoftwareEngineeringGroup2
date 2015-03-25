@@ -28,6 +28,9 @@
   <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
+  <script src="../Graph/jquery.flot.resize.min.js" type="text/javascript">
+
+  </script>
 </head>
 <body>
   <section id="content-header">
@@ -49,141 +52,141 @@
   <section id="content-main">
     <div class="container">
       <section class="conversion-main">
-        <section class="currency-form">
-          <div class="form-group">
-            <label for="from-currency">From</label>
-            <select id="from-currency" class="currency-selections">
-              <option value="AUD">AUD - Australian Dollar</option>
-              <option value="BGN">BGN - Bulgarian Lev</option>
-              <option value="BRL">BRL - Brazilian Real</option>
-              <option value="CAD">CAD - Canadian Dollar</option>
-              <option value="CHF">CHF - Swiss Franc</option>
-              <option value="CNY">CNY - Chinese Yuan Renminbi</option>
-              <option value="CZK">CZK - Czech Koruna</option>
-              <option value="DKK">DKK - Danish Krone</option>
-              <option value="EUR">EUR - Euro</option>
-              <option value="GBP" selected>GBP - UK Pound Sterling</option>
-              <option value="HRK">HRK - Croatian Kuna</option>
-              <option value="HUF">HUF - Hungarian Forint</option>
-              <option value="IDR">IDR - Indonesian Rupiah</option>
-              <option value="ILS">ILS - Israeli Shekel</option>
-              <option value="INR">INR - Indian Rupee</option>
-              <option value="JPY">JPY - Japanese Yen</option>
-              <option value="KRW">KRW - Korean Won (Republic)</option>
-              <option value="MXN">MXN - Mexican Peso</option>
-              <option value="MYR">MYR - Malaysian Ringgit</option>
-              <option value="NOK">NOK - Norwegian Krone</option>
-              <option value="NZD">NZD - New Zealand Dollar</option>
-              <option value="PHP">PHP - Philippine Peso</option>
-              <option value="PLN">PLN - Polish Zloty</option>
-              <option value="RON">RON - Romanian Leu</option>
-              <option value="RUB">RUB - Rouble</option>
-              <option value="SGD">SGD - Singapore Dollar</option>
-              <option value="SEK">SEK - Swedish Krona</option>
-              <option value="THB">THB - Thai Bhat</option>
-              <option value="TRY">TRY - Turkish Lira</option>
-              <option value="USD">USD - US Dollar</option>
-              <option value="ZAR">ZAR - South African Rand</option>
-            </select>
-          </div>
-        </section>
+      <section class="currency-form">
+        <div class="form-group">
+          <label for="from-currency">From</label>
+          <select id="from-currency" class="currency-selections">
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CHF">CHF - Swiss Franc</option>
+            <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="DKK">DKK - Danish Krone</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="GBP" selected>GBP - UK Pound Sterling</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="IDR">IDR - Indonesian Rupiah</option>
+            <option value="ILS">ILS - Israeli Shekel</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="KRW">KRW - Korean Won (Republic)</option>
+            <option value="MXN">MXN - Mexican Peso</option>
+            <option value="MYR">MYR - Malaysian Ringgit</option>
+            <option value="NOK">NOK - Norwegian Krone</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="PHP">PHP - Philippine Peso</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
+            <option value="RUB">RUB - Rouble</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+            <option value="SEK">SEK - Swedish Krona</option>
+            <option value="THB">THB - Thai Bhat</option>
+            <option value="TRY">TRY - Turkish Lira</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+          </select>
+        </div>
+      </section>
 
         <div id="swap-button" class="helper-button" style="padding-left: 0.1em;">
           <i class="fa fa-exchange fa-rotate-90"></i>
+      </div>
+
+      <section class="currency-form">
+        <div class="form-group">
+          <label for="to-currency">To</label>
+          <select id="to-currency" class="currency-selections">
+            <option value="AUD">AUD - Australian Dollar</option>
+            <option value="BGN">BGN - Bulgarian Lev</option>
+            <option value="BRL">BRL - Brazilian Real</option>
+            <option value="CAD">CAD - Canadian Dollar</option>
+            <option value="CHF">CHF - Swiss Franc</option>
+            <option value="CNY">CNY - Chinese Yuan Renminbi</option>
+            <option value="CZK">CZK - Czech Koruna</option>
+            <option value="DKK">DKK - Danish Krone</option>
+            <option value="EUR" selected>EUR - Euro</option>
+            <option value="GBP">GBP - UK Pound Sterling</option>
+            <option value="HRK">HRK - Croatian Kuna</option>
+            <option value="HUF">HUF - Hungarian Forint</option>
+            <option value="IDR">IDR - Indonesian Rupiah</option>
+            <option value="ILS">ILS - Israeli Shekel</option>
+            <option value="INR">INR - Indian Rupee</option>
+            <option value="JPY">JPY - Japanese Yen</option>
+            <option value="KRW">KRW - Korean Won (Republic)</option>
+            <option value="MXN">MXN - Mexican Peso</option>
+            <option value="MYR">MYR - Malaysian Ringgit</option>
+            <option value="NOK">NOK - Norwegian Krone</option>
+            <option value="NZD">NZD - New Zealand Dollar</option>
+            <option value="PHP">PHP - Philippine Peso</option>
+            <option value="PLN">PLN - Polish Zloty</option>
+            <option value="RON">RON - Romanian Leu</option>
+            <option value="RUB">RUB - Rouble</option>
+            <option value="SGD">SGD - Singapore Dollar</option>
+            <option value="SEK">SEK - Swedish Krona</option>
+            <option value="THB">THB - Thai Bhat</option>
+            <option value="TRY">TRY - Turkish Lira</option>
+            <option value="USD">USD - US Dollar</option>
+            <option value="ZAR">ZAR - South African Rand</option>
+          </select>
         </div>
+      </section>
 
-        <section class="currency-form">
-          <div class="form-group">
-            <label for="to-currency">To</label>
-            <select id="to-currency" class="currency-selections">
-              <option value="AUD">AUD - Australian Dollar</option>
-              <option value="BGN">BGN - Bulgarian Lev</option>
-              <option value="BRL">BRL - Brazilian Real</option>
-              <option value="CAD">CAD - Canadian Dollar</option>
-              <option value="CHF">CHF - Swiss Franc</option>
-              <option value="CNY">CNY - Chinese Yuan Renminbi</option>
-              <option value="CZK">CZK - Czech Koruna</option>
-              <option value="DKK">DKK - Danish Krone</option>
-              <option value="EUR" selected>EUR - Euro</option>
-              <option value="GBP">GBP - UK Pound Sterling</option>
-              <option value="HRK">HRK - Croatian Kuna</option>
-              <option value="HUF">HUF - Hungarian Forint</option>
-              <option value="IDR">IDR - Indonesian Rupiah</option>
-              <option value="ILS">ILS - Israeli Shekel</option>
-              <option value="INR">INR - Indian Rupee</option>
-              <option value="JPY">JPY - Japanese Yen</option>
-              <option value="KRW">KRW - Korean Won (Republic)</option>
-              <option value="MXN">MXN - Mexican Peso</option>
-              <option value="MYR">MYR - Malaysian Ringgit</option>
-              <option value="NOK">NOK - Norwegian Krone</option>
-              <option value="NZD">NZD - New Zealand Dollar</option>
-              <option value="PHP">PHP - Philippine Peso</option>
-              <option value="PLN">PLN - Polish Zloty</option>
-              <option value="RON">RON - Romanian Leu</option>
-              <option value="RUB">RUB - Rouble</option>
-              <option value="SGD">SGD - Singapore Dollar</option>
-              <option value="SEK">SEK - Swedish Krona</option>
-              <option value="THB">THB - Thai Bhat</option>
-              <option value="TRY">TRY - Turkish Lira</option>
-              <option value="USD">USD - US Dollar</option>
-              <option value="ZAR">ZAR - South African Rand</option>
-            </select>
-          </div>
-        </section>
-
-        <div id="tutorial-container">
-          <div class="inner">
+      <div id="tutorial-container">
+        <div class="inner">
             <p>
               Welcome to the <i>
                 <strong>Currency Suite Quick Tutorial</strong>
               </i>
             </p>
-            <p>There are <i>three</i> ways of performing a conversion</p>
+          <p>There are <i>three</i> ways of performing a conversion</p>
             <p>
               1: Type any number (eg. "100"). This will convert the typed value
-              from the currency in the top drop down, to the currency in the bottom
+          from the currency in the top drop down, to the currency in the bottom 
               drop down
             </p>
             <p>
               2: Type any number followed by two currency codes
-              (eg. "100 USD EUR"). This will convert the typed value from the first
+          (eg. "100 USD EUR"). This will convert the typed value from the first 
               currency code to the second currency code
             </p>
             <p>
               3: Type any number followed by two currency codes and a date in the
-              format <strong>dd-mm-yyyy</strong> (eg. "100 USD EUR 28-02-2014").
-              This will convert the typed value from the first currency code to the
+          format <strong>dd-mm-yyyy</strong> (eg. "100 USD EUR 28-02-2014"). 
+          This will convert the typed value from the first currency code to the 
               second currency code based on the date specified by your query
             </p>
             <p>
               And there you have it, with this you're ready to get started
               converting!
             </p>
+        </div>
+      </div>
+      <div id="history-wrapper">
+        <div id="history-inner-wrapper">
+          <div class="caption">History</div>
+          <div id="history-table">
+              
           </div>
         </div>
-        <div id="history-wrapper">
-          <div id="history-inner-wrapper">
-            <div class="caption">History</div>
-            <div id="history-table">
+      </div>
 
-            </div>
-          </div>
+      <div id="date-wrapper" class="form-group">
+        <div id="date">
+          <label for="datepicker">Date</label>
+          <input type="text" id="datepicker">
         </div>
-
-        <div id="date-wrapper" class="form-group">
-          <div id="date">
-            <label for="datepicker">Date</label>
-            <input type="text" id="datepicker">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <input id="convert-button" type="button" value="Convert"
+      </div>
+        
+      <div class="form-group">
+        <input id="convert-button" type="button" value="Convert"
                  class="primary-button" />
-          <p id="conversion-display" class="conversion-display">
-            Loading Conversion Text...
-          </p>
-        </div>
+      <p id="conversion-display" class="conversion-display">
+        Loading Conversion Text...
+      </p>
+      </div>
       </section class="conversion-main">
 
       <!-- Graph HTML -->
