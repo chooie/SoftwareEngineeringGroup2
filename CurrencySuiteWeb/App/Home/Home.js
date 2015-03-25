@@ -273,7 +273,7 @@
         function(asyncResult) {
           var i,
             j;
-
+          app.hideNotification();
           if (asyncResult.status === "failed") {
             app.showNotification("Whoops",asyncResult.error.message);
             return;
