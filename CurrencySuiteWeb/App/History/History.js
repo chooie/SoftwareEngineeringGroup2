@@ -16,14 +16,14 @@ window.CurrencyConverter.history = (function () {
   toggle = function () {
     var history = $('#history-wrapper');
     if (history.is(":visible")) {
-      history.slideUp(1000);
+      history.slideUp(500);
     }
     else {
       if (!isAllHistoryUptoDate) {
         fillHistory();
         isAllHistoryUptoDate = true;
       }
-      history.slideDown(1000);
+      history.slideDown(500);
     }
   };
   formatDate = function (date) {
@@ -68,8 +68,8 @@ window.CurrencyConverter.history = (function () {
               '</div>'
     for (i = allHistory.length-1; i >= 0; i--) {
       middle += '<div class="row">' +
-        '<input class="radio-input" type="radio" name="expand">' +
         '<span class="cell primary-history" data-label="Time">' +
+        '<input class="radio-input" type="radio" name="expand">' +
         formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
         + '</span>' +
         '<span class="cell history-basic-data" data-label="From">' +
@@ -78,9 +78,9 @@ window.CurrencyConverter.history = (function () {
         allHistory[i][1][1] + '</span>' +
         '<span class="cell history-basic-data" data-label="Date">' +
         formatDate(allHistory[i][1][2]) + '</span>' +
-        '<span class="cell" data-label="Input">' + formatData(allHistory[i][2])
+        '<span class="cell content" data-label="Input">' + formatData(allHistory[i][2])
         + '</span>' +
-        '<span class="cell" data-label="Output">' + formatData(allHistory[i][3])
+        '<span class="cell content" data-label="Output">' + formatData(allHistory[i][3])
         + '</span>' +
         '</div>';
     }
@@ -165,7 +165,7 @@ window.CurrencyConverter.history = (function () {
         // make sure its not the scroll bar
           && (e.target !== $('html').get(0)))
       {
-        container.slideUp(1000);
+        container.slideUp(500);
       }
     });
 

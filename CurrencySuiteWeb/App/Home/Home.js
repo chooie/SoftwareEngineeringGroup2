@@ -88,9 +88,9 @@
       var container = $("#tutorial-container");
       event.preventDefault();
       if (container.is(":visible")) {
-        container.slideUp(1000);
+        container.slideUp(500);
       } else {
-        container.slideDown(1000);
+        container.slideDown(500);
       }
 
     },
