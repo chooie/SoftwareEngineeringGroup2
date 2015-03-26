@@ -86,7 +86,6 @@
 
     tutorial: function() {
       var container = $("#tutorial-container");
-      event.preventDefault();
       if (container.is(":visible")) {
         container.slideUp(1000);
       } else {
@@ -333,7 +332,13 @@
         cc.history.updateOutput(array.value);
         // Return values to excel
         Office.context.document.setSelectedDataAsync(
-          array.value
+          array.value,
+          function (result) {
+            var error = result.error
+            if (result.status === "failed") {
+              app.showNotification(error.name,error.message);
+            }
+          }
         );
       }
       else {

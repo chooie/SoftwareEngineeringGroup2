@@ -3,13 +3,17 @@
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
   <Id>1ebe1a92-b922-44d0-a74f-d2f073b7c82b</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>[Provider name]</ProviderName>
+  <ProviderName>&gt;Mighty Morphin Apps</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="CurrencySuite" />
   <Description DefaultValue="CurrencySuite"/>
+  <IconUrl DefaultValue="https://currencyconvert.azurewebsites.net/Images/1425852912_Money-Graph-32.png" />
+  <!--The HighResolutionIcon element is commented because it is valid only for 1.1 (or above) versions of the manifest.
+      To use this property, convert this manifest to version 1.1 by adding an API set in the Activation tab of the manifest editor.-->
+  <!--<HighResolutionIconUrl DefaultValue="https://currencyconvert.azurewebsites.net/Images/1425852918_Money-Graph-64.png" />-->
+  <SupportUrl DefaultValue="https://www.facebook.com/mightymorphinapps" />
   <Capabilities>
     <Capability Name="Workbook" />
-    <Capability Name="Document" />
   </Capabilities>
   <DefaultSettings>
     <SourceLocation DefaultValue="~remoteAppUrl/App/Home/Home.html" />
