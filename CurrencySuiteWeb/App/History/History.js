@@ -68,8 +68,8 @@ window.CurrencyConverter.history = (function () {
               '</div>'
     for (i = allHistory.length-1; i >= 0; i--) {
       middle += '<div class="row">' +
-        '<span class="cell primary-history" data-label="Time">' +
         '<input class="radio-input" type="radio" name="expand">' +
+        '<span class="cell primary-history" data-label="Time">' +
         formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
         + '</span>' +
         '<span class="cell history-basic-data" data-label="From">' +
