@@ -134,45 +134,6 @@
         </div>
       </section>
 
-      <div id="tutorial-container" class="modal-container">
-        <div class="inner">
-            <p>
-              Welcome to the <i>
-                <strong>Currency Suite Quick Tutorial</strong>
-              </i>
-            </p>
-          <p>There are <i>three</i> ways of performing a conversion</p>
-            <p>
-              1: Type any number (eg. "100"). This will convert the typed value
-          from the currency in the top drop down, to the currency in the bottom 
-              drop down
-            </p>
-            <p>
-              2: Type any number followed by two currency codes
-          (eg. "100 USD EUR"). This will convert the typed value from the first 
-              currency code to the second currency code
-            </p>
-            <p>
-              3: Type any number followed by two currency codes and a date in the
-          format <strong>dd-mm-yyyy</strong> (eg. "100 USD EUR 28-02-2014"). 
-          This will convert the typed value from the first currency code to the 
-              second currency code based on the date specified by your query
-            </p>
-            <p>
-              And there you have it, with this you're ready to get started
-              converting!
-            </p>
-        </div>
-      </div>
-      <div id="history-wrapper" class="modal-container">
-        <div class="history-inner-wrapper">
-          <div class="caption">History</div>
-          <div id="history-table" class="history-table">
-              
-          </div>
-        </div>
-      </div>
-
       <div id="date-wrapper" class="form-group">
         <div id="date">
           <label for="datepicker">Date</label>
@@ -205,10 +166,49 @@
           </div>
         </div>
         <!-- end Graph HTML -->
-
       </section>
     </div>
   </section>
+
+  <!-- Tutorial and History section -->
+  <div id="tutorial-container" class="modal-container">
+    <div class="inner">
+      <p>
+        Welcome to the <i>
+          <strong>Currency Suite Quick Tutorial</strong>
+        </i>
+      </p>
+      <p>There are <i>three</i> ways of performing a conversion</p>
+      <p>
+        1: Type any number (eg. "100"). This will convert the typed value
+        from the currency in the top drop down, to the currency in the bottom
+        drop down
+      </p>
+      <p>
+        2: Type any number followed by two currency codes
+        (eg. "100 USD EUR"). This will convert the typed value from the first
+        currency code to the second currency code
+      </p>
+      <p>
+        3: Type any number followed by two currency codes and a date in the
+        format <strong>dd-mm-yyyy</strong> (eg. "100 USD EUR 28-02-2014").
+        This will convert the typed value from the first currency code to the
+        second currency code based on the date specified by your query
+      </p>
+      <p>
+        And there you have it, with this you're ready to get started
+        converting!
+      </p>
+    </div>
+  </div>
+  <div id="history-wrapper" class="modal-container">
+    <div class="history-inner-wrapper">
+      <div class="caption">History</div>
+      <div id="history-table" class="history-table">
+
+      </div>
+    </div>
+  </div>
   <!-- Scripts executed once the DOM has initialized -->
   <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Database/Database.js" type="text/javascript"></script>

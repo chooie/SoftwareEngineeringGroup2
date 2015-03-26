@@ -18,6 +18,7 @@
 
 .caption {
   display: block;
+  text-align: center;
   width: 100%;
   background: #217346; /*Top color*/
   height: 55px;

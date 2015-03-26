@@ -13,18 +13,23 @@ window.CurrencyConverter.history = (function () {
     isAllHistoryUptoDate = false,
       radioButtonClickBinding;
 
-  toggle = function () {
-    var history = $('#history-wrapper');
-    if (history.is(":visible")) {
-      history.slideUp(500);
+  toggle = function (event) {
+    var container = document.querySelector('#history-wrapper'),
+        modals = document.querySelectorAll('.modal-container');
+
+    // Update History
+    if (!isAllHistoryUptoDate) {
+      fillHistory();
+      isAllHistoryUptoDate = true;
     }
-    else {
-      if (!isAllHistoryUptoDate) {
-        fillHistory();
-        isAllHistoryUptoDate = true;
+
+    Array.prototype.forEach.call(modals, function (modal) {
+      if (modal.id !== container.id) {
+        modal.classList.remove('open');
       }
-      history.slideDown(500);
-    }
+    });
+    container.classList.toggle("open");
+    event.stopPropagation();
   };
   formatDate = function (date) {
     if (!(date instanceof Date)) {
@@ -156,19 +161,6 @@ window.CurrencyConverter.history = (function () {
     else {
       allHistory = [];
     }
-    $(document).mouseup(function (e) {
-      var container = $("#history-wrapper");
-      // if the target of the click isn't the container...
-      if (!container.is(e.target)
-        // ... nor a descendant of the container
-          && container.has(e.target).length === 0
-        // make sure its not the scroll bar
-          && (e.target !== $('html').get(0)))
-      {
-        container.slideUp(500);
-      }
-    });
-
   };
 
   return {

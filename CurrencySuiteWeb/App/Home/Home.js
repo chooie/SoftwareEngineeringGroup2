@@ -84,15 +84,16 @@
 
     },
 
-    tutorial: function() {
-      var container = $("#tutorial-container");
-      event.preventDefault();
-      if (container.is(":visible")) {
-        container.slideUp(500);
-      } else {
-        container.slideDown(500);
-      }
-
+    tutorial: function(event) {
+      var container = document.querySelector('#tutorial-container'),
+        modals = document.querySelectorAll('.modal-container');
+      Array.prototype.forEach.call(modals, function (modal) {
+        if (modal.id !== container.id) {
+          modal.classList.remove('open');
+        }
+      });
+      container.classList.toggle("open");
+      event.stopPropagation();
     },
 
     /**
@@ -360,6 +361,22 @@
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();
+      
+      var body = document.querySelector('body'),
+        modals = document.querySelectorAll('.modal-container');
+
+      Array.prototype.forEach.call(modals, function (modal) {
+        modal.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+      });
+
+      body.addEventListener('click', function (event) {
+        Array.prototype.forEach.call(modals, function (modal) {
+          modal.classList.remove('open');
+        });
+      });
+
       // Update the rates and graph for the first time
       refresh();
     });

@@ -98,14 +98,27 @@ hr {
 
 .modal-container {
   position: fixed;
-  display: none; /* Hide before button is clicked */
   top: 90px;
-  left: 10px;
-  right: 10px;
-  height: calc(100% - 100px);
+  z-index: 10;
   background-color: #FFFFFF;
+  width: 95%;
+  /* Margin-left is determined by how much space the container takes up.
+    E.g. If the width is 95%, then the remainder is 5%, which is then split
+    evenly between the left and right sides. */
+  margin-left: calc(5% / 2);
+  height: calc(100% - 100px);
+  /* This transform moves the drawer off canvas. */
+  -webkit-transform: translate(-110%, 0);
+  transform: translate(-110%, 0);
+  /* Optionally, we animate the drawer. */
+  transition: transform 0.3s ease;
   box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.26);
-  z-index: 20;
+}
+
+.modal-container.open {
+  /* This transform moves the drawer off canvas. */
+  -webkit-transform: translate(0px, 0);
+  transform: translate(0px, 0);
 }
 
 .inner {
