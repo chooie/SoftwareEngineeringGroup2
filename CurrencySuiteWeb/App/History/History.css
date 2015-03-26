@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   border: 1px solid #666666;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 }
 
@@ -48,9 +48,8 @@
 
 /* Elements that have a class of cell and content*/
 .content {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
-
 .primary-history {
   text-align: left;
 }
@@ -83,7 +82,15 @@ input[type="checkbox"]{
 
 
 @media only screen and (max-width: 400px)  {
-
+  .content {
+  overflow-x: hidden;
+  }
+  .content:hover {
+    overflow-x: scroll;
+  }
+  .history-inner-wrapper {
+    overflow-x: hidden;
+  }
   .row { 
     position: relative;
     display: block;
