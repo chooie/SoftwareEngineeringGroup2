@@ -2,6 +2,8 @@
   width: 100%;
   height: 100%;
   border: 1px solid #666666;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 
@@ -12,10 +14,6 @@
   background: #fff;
   margin: 0;
   box-sizing: border-box;
-}
-
-.history-table {
-  overflow: auto;
 }
 
 .caption {
@@ -50,8 +48,7 @@
 
 /* Elements that have a class of cell and content*/
 .content {
-  overflow: scroll;
-  height: 100px;
+  overflow-x: scroll;
 }
 
 .primary-history {
@@ -154,7 +151,6 @@ input[type="checkbox"]{
     display: inline-block;
     width: 100%;
     background: #217346;
-    /*border-radius: 10px;*/
     height: 20px;
     margin-right: 10px;
     font-size: 12px;
@@ -168,7 +164,7 @@ input[type="checkbox"]{
   input[type="checkbox"]:checked ~ .history-basic-data {
     display: inline-block;
     border-right: 1px solid #eee; 
-    width: 33%;
+    width: 33.333%;
   }
 
   input[type="radio"]:checked ~ .history-basic-data:last-child,
@@ -188,7 +184,7 @@ input[type="checkbox"]{
     top:22px;
     border-right: 10px solid transparent;
     border-left: 10px solid transparent; 
-    border-top:10px solid #ccc;
+    border-top: 10px solid #ccc;
     z-index: 2;
   }
   .primary-history{
