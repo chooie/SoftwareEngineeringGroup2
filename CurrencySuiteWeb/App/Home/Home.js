@@ -80,25 +80,32 @@
       $("#graph-section")
         .each(function() {
           $(this).toggleClass("hidden");
-      });
-
+        });
+      // Highlight clicked button
+      $(this).toggleClass('highlight');
     },
 
     tutorial: function(event) {
       var container = document.querySelector('#tutorial-container'),
+        historyButton = document.querySelector('#history-button'),
         modals = document.querySelectorAll('.modal-container');
       Array.prototype.forEach.call(modals, function (modal) {
         if (modal.id !== container.id) {
           modal.classList.remove('open');
         }
       });
+      historyButton.classList.remove('highlight');
+      // Highlight clicked button
+      $(this).toggleClass('highlight');
       container.classList.toggle("open");
       event.stopPropagation();
     },
 
     addModalListeners: function() {
       var body = document.querySelector('body'),
-        modals = document.querySelectorAll('.modal-container');
+        modals = document.querySelectorAll('.modal-container'),
+        historyButton = document.querySelector('#history-button'),
+        tutorialButton = document.querySelector('#tutorial-button');
 
       Array.prototype.forEach.call(modals, function (modal) {
         modal.addEventListener('click', function (event) {
@@ -110,6 +117,8 @@
         Array.prototype.forEach.call(modals, function (modal) {
           modal.classList.remove('open');
         });
+        historyButton.classList.remove('highlight');
+        tutorialButton.classList.remove('highlight');
       });
     },
 

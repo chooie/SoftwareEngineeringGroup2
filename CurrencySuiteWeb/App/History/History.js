@@ -17,7 +17,8 @@ window.CurrencyConverter.history = (function () {
 
   toggle = function (event) {
     var container = document.querySelector('#history-wrapper'),
-        modals = document.querySelectorAll('.modal-container');
+      tutorialButton = document.querySelector('#tutorial-button'),
+      modals = document.querySelectorAll('.modal-container');
 
     // Update History
     if (!isAllHistoryUptoDate) {
@@ -30,6 +31,9 @@ window.CurrencyConverter.history = (function () {
         modal.classList.remove('open');
       }
     });
+    tutorialButton.classList.remove('highlight');
+    // Highlight clicked button
+    $(this).toggleClass('highlight');
     container.classList.toggle("open");
     event.stopPropagation();
   };

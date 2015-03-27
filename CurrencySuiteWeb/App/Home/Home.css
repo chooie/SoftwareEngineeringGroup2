@@ -96,6 +96,10 @@ hr {
   color: black;
 }
 
+.highlight {
+  color: #82B1FF;
+}
+
 .modal-container {
   position: fixed;
   top: 90px;
