@@ -96,6 +96,23 @@
       event.stopPropagation();
     },
 
+    addModalListeners: function() {
+      var body = document.querySelector('body'),
+        modals = document.querySelectorAll('.modal-container');
+
+      Array.prototype.forEach.call(modals, function (modal) {
+        modal.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+      });
+
+      body.addEventListener('click', function (event) {
+        Array.prototype.forEach.call(modals, function (modal) {
+          modal.classList.remove('open');
+        });
+      });
+    },
+
     /**
      * getExchangeRate
      * Determine the exchange rate between two currencies for
@@ -361,21 +378,7 @@
       datepicker.initialize();
       cc.home.databaseInit();
       graph.initialize();
-      
-      var body = document.querySelector('body'),
-        modals = document.querySelectorAll('.modal-container');
-
-      Array.prototype.forEach.call(modals, function (modal) {
-        modal.addEventListener('click', function (event) {
-          event.stopPropagation();
-        });
-      });
-
-      body.addEventListener('click', function (event) {
-        Array.prototype.forEach.call(modals, function (modal) {
-          modal.classList.remove('open');
-        });
-      });
+      cc.home.addModalListeners();
 
       // Update the rates and graph for the first time
       refresh();
