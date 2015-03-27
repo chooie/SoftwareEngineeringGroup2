@@ -334,9 +334,16 @@
         Office.context.document.setSelectedDataAsync(
           array.value,
           function (result) {
-            var error = result.error
+            var error = result.error;
             if (result.status === "failed") {
-              app.showNotification(error.name,error.message);
+              if (error.code === 2003) {
+                app.showNotification("Whoops", "This version of Excel " +
+                  "doesn't support single cell conversions." +
+                  " Only multiple cell conversions are supported..");
+              }
+              else {
+                app.showNotification(error.name, error.message);
+              }
             }
           }
         );
