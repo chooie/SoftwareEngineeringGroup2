@@ -8,6 +8,8 @@ window.CurrencyConverter.history = (function () {
     toggle,
     save,
     formatDate,
+    formatTime,
+    addZero,
     ordinal_suffix_of,
     formatData,
     isAllHistoryUptoDate = false,
@@ -43,9 +45,17 @@ window.CurrencyConverter.history = (function () {
       date.getFullYear();
   };
   formatTime = function (date) {
-    return date.getHours() + ":" + date.getMinutes() +
-      ":" + date.getSeconds();
-  }
+    return addZero(date.getHours()) + ":" + addZero(date.getMinutes()) +
+      ":" + addZero(date.getSeconds());
+  };
+  addZero = function (n) {
+    if (n <= 9) {
+      return "0" + n;
+    }
+    else {
+      return n;
+    }
+  };
   ordinal_suffix_of = function (i) {
     var j = i % 10,
         k = i % 100;
