@@ -8,23 +8,34 @@ window.CurrencyConverter.history = (function () {
     toggle,
     save,
     formatDate,
+    formatTime,
+    addZero,
     ordinal_suffix_of,
     formatData,
     isAllHistoryUptoDate = false,
       radioButtonClickBinding;
 
-  toggle = function () {
-    var history = $('#history-wrapper');
-    if (history.is(":visible")) {
-      history.slideUp(1000);
+  toggle = function (event) {
+    var container = document.querySelector('#history-wrapper'),
+      tutorialButton = document.querySelector('#tutorial-button'),
+      modals = document.querySelectorAll('.modal-container');
+
+    // Update History
+    if (!isAllHistoryUptoDate) {
+      fillHistory();
+      isAllHistoryUptoDate = true;
     }
-    else {
-      if (!isAllHistoryUptoDate) {
-        fillHistory();
-        isAllHistoryUptoDate = true;
+
+    Array.prototype.forEach.call(modals, function (modal) {
+      if (modal.id !== container.id) {
+        modal.classList.remove('open');
       }
-      history.slideDown(1000);
-    }
+    });
+    tutorialButton.classList.remove('highlight');
+    // Highlight clicked button
+    $(this).toggleClass('highlight');
+    container.classList.toggle("open");
+    event.stopPropagation();
   };
   formatDate = function (date) {
     if (!(date instanceof Date)) {
@@ -38,9 +49,17 @@ window.CurrencyConverter.history = (function () {
       date.getFullYear();
   };
   formatTime = function (date) {
-    return date.getHours() + ":" + date.getMinutes() +
-      ":" + date.getSeconds();
-  }
+    return addZero(date.getHours()) + ":" + addZero(date.getMinutes()) +
+      ":" + addZero(date.getSeconds());
+  };
+  addZero = function (n) {
+    if (n <= 9) {
+      return "0" + n;
+    }
+    else {
+      return n;
+    }
+  };
   ordinal_suffix_of = function (i) {
     var j = i % 10,
         k = i % 100;
@@ -58,31 +77,40 @@ window.CurrencyConverter.history = (function () {
   fillHistory = function () {
     var middle = '',
       i;
-    middle += '<div class="header-row row">' +
-                '<span class="cell primary-history">Time</span>' +
-                '<span class="cell">From</span>' +
-                '<span class="cell">To</span>' +
-                '<span class="cell">Date</span>' +
-                '<span class="cell">Input</span>' +
-                '<span class="cell">Output</span>' +
-              '</div>'
-    for (i = allHistory.length-1; i >= 0; i--) {
-      middle += '<div class="row">' +
-        '<input class="radio-input" type="radio" name="expand">' +
-        '<span class="cell primary-history" data-label="Time">' +
-        formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0]) 
-        + '</span>' +
-        '<span class="cell history-basic-data" data-label="From">' +
-        allHistory[i][1][0] + '</span>' +
-        '<span class="cell history-basic-data" data-label="To">' +
-        allHistory[i][1][1] + '</span>' +
-        '<span class="cell history-basic-data" data-label="Date">' +
-        formatDate(allHistory[i][1][2]) + '</span>' +
-        '<span class="cell" data-label="Input">' + formatData(allHistory[i][2])
-        + '</span>' +
-        '<span class="cell" data-label="Output">' + formatData(allHistory[i][3])
-        + '</span>' +
-        '</div>';
+    if (allHistory.length === 0) {
+      middle += '<div class="history-center-text">' +
+              '<h2>You haven\'t converted anything yet!</h2>' +
+              '<p>Once you have converted a value, ' +
+              'the conversion will appear here.</p>' +
+              '<div>';
+    }
+    else {
+      middle += '<div class="header-row row">' +
+                  '<span class="cell primary-history">Time</span>' +
+                  '<span class="cell">From</span>' +
+                  '<span class="cell">To</span>' +
+                  '<span class="cell">Date</span>' +
+                  '<span class="cell">Input</span>' +
+                  '<span class="cell">Output</span>' +
+                '</div>'
+      for (i = allHistory.length - 1; i >= 0; i--) {
+        middle += '<div class="row">' +
+          '<input class="radio-input" type="radio" name="expand">' +
+          '<span class="cell primary-history" data-label="Time">' +
+          formatDate(allHistory[i][0]) + " " + formatTime(allHistory[i][0])
+          + '</span>' +
+          '<span class="cell history-basic-data" data-label="From">' +
+          allHistory[i][1][0] + '</span>' +
+          '<span class="cell history-basic-data" data-label="To">' +
+          allHistory[i][1][1] + '</span>' +
+          '<span class="cell history-basic-data" data-label="Date">' +
+          formatDate(allHistory[i][1][2]) + '</span>' +
+          '<span class="cell content" data-label="Input">' + formatData(allHistory[i][2])
+          + '</span>' +
+          '<span class="cell content" data-label="Output">' + formatData(allHistory[i][3])
+          + '</span>' +
+          '</div>';
+      }
     }
     $('#history-table').html(middle);
     radioButtonClickBinding = $(".radio-input").click(
@@ -156,19 +184,6 @@ window.CurrencyConverter.history = (function () {
     else {
       allHistory = [];
     }
-    $(document).mouseup(function (e) {
-      var container = $("#history-wrapper");
-      // if the target of the click isn't the container...
-      if (!container.is(e.target)
-        // ... nor a descendant of the container
-          && container.has(e.target).length === 0
-        // make sure its not the scroll bar
-          && (e.target !== $('html').get(0)))
-      {
-        container.slideUp(1000);
-      }
-    });
-
   };
 
   return {

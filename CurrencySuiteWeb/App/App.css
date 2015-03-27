@@ -20,8 +20,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: auto; /* Enable scrollbars within main content section */
-  /*z-index: -1;*/
+  overflow-y: auto; /* Enable scrollbars within main content section */
+  overflow-x: hidden;
+  z-index: -1;
 }
 
 #notification-message {

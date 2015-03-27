@@ -8,7 +8,7 @@
   <link href="../../Content/Office.css" rel="stylesheet" type="text/css" />
   <link href="../jqueryui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
   <link href="../Graph/Graph.css" rel="stylesheet" type="text/css" />
-  <link href="../App.css" rel="stylesheet" type="text/css" /> 
+  <link href="../App.css" rel="stylesheet" type="text/css" />
   <link href="../History/History.css" rel="stylesheet" type="text/css" />
   <link href="Home.css" rel="stylesheet" type="text/css" />
   <link href="../../Content/font-awesome/css/font-awesome.min.css" 
@@ -28,31 +28,27 @@
   <script src="../../Scripts/jquery-1.9.1.js" type="text/javascript"></script>
   <script src="../jqueryui/jquery-ui.min.js" type="text/javascript"></script>
   <script src="../Graph/jquery.flot.min.js" type="text/javascript"></script>
-  <script src="../Graph/jquery.flot.resize.min.js" type="text/javascript">
-
-  </script>
+  <script src="../Graph/jquery.flot.resize.min.js" 
+          type="text/javascript"></script>
 </head>
 <body>
   <section id="content-header">
     <div class="container">
       <h1>Currency Converter</h1>
       <section class="helper-buttons">
-        
-
-        <div id="tutorial-button" class="helper-button" >
+        <div id="tutorial-button" class="helper-button">
           <span title="Tutorial">
-            <i class="fa fa-info-circle"></i>
+          <i class="fa fa-info-circle"></i>
           </span>
         </div>
-        <div id="graph-button" class="helper-button" >
-          <span title="Graph">
-            <i class="fa fa-line-chart"></i>
+        <div id="graph-button" class="helper-button">
+          <span title="Toggle Graph">
+          <i class="fa fa-line-chart"></i>
           </span>
-         
         </div>
-        <div id="history-button" class="helper-button" >
+        <div id="history-button" class="helper-button">
           <span title="History">
-            <i class="fa fa-history"></i>
+          <i class="fa fa-history"></i>
           </span>
         </div>
       </section>
@@ -100,9 +96,10 @@
         </div>
       </section>
 
-        <div id="swap-button" class="helper-button" style="padding-left: 0.1em;">
+        <div id="swap-button" class="helper-button">
+          <span title="Swap Currencies">
           <i class="fa fa-exchange fa-rotate-90"></i>
-            </span>
+          </span>
       </div>
 
       <section class="currency-form">
@@ -144,7 +141,44 @@
         </div>
       </section>
 
-      <div id="tutorial-container">
+        <div id="date-wrapper" class="form-group">
+          <div id="date">
+            <label for="datepicker">Date</label>
+            <input type="text" id="datepicker">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <input id="convert-button" type="button" value="Convert"
+                   class="primary-button" />
+          <p id="conversion-display" class="conversion-display">
+            Loading Conversion Text...
+          </p>
+        </div>
+      </section> <!-- End of conversion-main -->
+
+      <!-- Graph HTML -->
+      <section id="graph-section" class="graph hidden">
+        <div id="graph-wrapper">
+          <hr>
+          <div class="graph-info">
+            <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
+            <!--<a href="javascript:void(0)" class="returning"></a>-->
+            <!--<a href="#" id="bars"><span></span></a>-->
+            <!--<a href="#" id="lines"class="active"><span></span></a>-->
+          </div>
+
+          <div class="graph-container" id="graph-container">
+            <div id="graph-lines"></div>
+          </div>
+        </div>
+        <!-- end Graph HTML -->
+      </section>
+    </div>
+  </section>
+
+  <!-- Tutorial and History section -->
+  <div id="tutorial-container" class="modal-container">
         <div class="inner">
             <p>
               Welcome to the <i>
@@ -174,51 +208,14 @@
             </p>
         </div>
       </div>
-      <div id="history-wrapper">
-        <div id="history-inner-wrapper">
+  <div id="history-wrapper" class="modal-container">
+    <div class="history-inner-wrapper">
           <div class="caption">History</div>
-          <div id="history-table">
-              
+      <div id="history-table" class="history-table">
+
           </div>
         </div>
-      </div>
-
-      <div id="date-wrapper" class="form-group">
-        <div id="date">
-          <label for="datepicker">Date</label>
-          <input type="text" id="datepicker">
-        </div>
-      </div>
-        
-      <div class="form-group">
-        <input id="convert-button" type="button" value="Convert"
-                 class="primary-button" />
-      <p id="conversion-display" class="conversion-display">
-        Loading Conversion Text...
-      </p>
-      </div>
-      </section class="conversion-main">
-
-      <!-- Graph HTML -->
-      <section id="graph-section" class="graph hidden">
-        <div id="graph-wrapper">
-          <hr />
-          <div class="graph-info">
-            <a href="javascript:void(0)" class="visitors" id="graph-label"></a>
-            <!--<a href="javascript:void(0)" class="returning"></a>-->
-            <!--<a href="#" id="bars"><span></span></a>-->
-            <!--<a href="#" id="lines"class="active"><span></span></a>-->
-          </div>
-
-          <div class="graph-container" id="graph-container">
-            <div id="graph-lines"></div>
-          </div>
-        </div>
-        <!-- end Graph HTML -->
-
-      </section>
     </div>
-  </section>
   <!-- Scripts executed once the DOM has initialized -->
   <script src="Datepicker.js" type="text/javascript"></script>
   <script src="../Database/Database.js" type="text/javascript"></script>
