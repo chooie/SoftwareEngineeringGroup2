@@ -206,6 +206,7 @@ width: 100%;
 .graph {
     margin-left: auto;
     margin-right: auto;
+    width: 90%;
  }
 
 #graph-wrapper {
