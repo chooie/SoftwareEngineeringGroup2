@@ -33,6 +33,7 @@ window.CurrencyConverter.datepicker = (function() {
     dp.datepicker("option", "showAnim", "slideDown");
     dp.datepicker("option", "dateFormat", "dd-mm-yy");
     dp.datepicker("option", "maxDate", "0");
+    dp.datepicker("option", "minDate", new Date("1999/01/4"));
     dp.datepicker("setDate", getToday());
     dp.datepicker("option", "showButtonPanel", true);
   };
